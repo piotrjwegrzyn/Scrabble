@@ -11,8 +11,8 @@ class StatisticsWindow(QMainWindow):
         loadUi('src/gui/accounts/statistics_window/statistics_window.ui', self)
 
         self.set_column_sizes()
-        self.dropdownListSortingOrder.SelectedIndex = 1
-        self.dropdownListSortingOrder.currentIndexChanged.connect(self.change_sorting_order)
+        self.insert_data()
+        self.dropdownListSortingOrder.currentIndexChanged.connect(self.insert_data)
         self.insert_users_statistics_into_table()
 
         self.buttonBack.clicked.connect(self.close)
@@ -26,7 +26,7 @@ class StatisticsWindow(QMainWindow):
         self.table.setColumnWidth(5, 260)
         self.table.setColumnWidth(6, 320)
 
-    def change_sorting_order(self):
+    def insert_data(self):  # TODO
         index = self.dropdownListSortingOrder.currentIndex()
 
         # index: 0: a->Z; 1: games count 2: wins count
@@ -52,31 +52,3 @@ class StatisticsWindow(QMainWindow):
 
         else:
         """
-
-    def insert_users_statistics_into_table(self):
-
-        connection = sqlite3.connect('data/Accounts_Statistics.db')
-        cursor = connection.cursor()
-
-        # TODO
-        query_users = "SELECT username FROM users ORDER BY username" # ID, username
-        cursor.execute(query_users)
-        users = cursor.fetchall()
-        query_statistics = "SELECT ID, matches, wins, points, max_points FROM statistics" # ID, matches, wins, points, max_points
-        cursor.execute(query_statistics)
-        statistics = cursor.fetchall()
-        """
-        row = 0
-        for user in users:
-            self.table.setItem(row, 0, QTableWidgetItem(user[])) # matches
-            self.table.setItem(row, 0 ) # won_matches
-            self.table.setItem(row, 0 ) # won_matches_%
-            self.table.setItem(row, 0 ) # points
-            self.table.setItem(row, 0 ) # max_points
-            self.table.setItem(row, 0 ) # points / max_points
-            row = row + 1
-        """
-        print('TODO')
-
-        cursor.close()
-        connection.close()
