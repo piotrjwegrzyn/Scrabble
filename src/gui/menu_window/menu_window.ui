@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1440</width>
+    <height>900</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -231,7 +231,7 @@ padding: 4px;</string>
          <number>10</number>
         </property>
         <item>
-         <widget class="QPushButton" name="buttonLogoutExit">
+         <widget class="QPushButton" name="buttonExit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -252,7 +252,7 @@ border-color: black;
 padding: 4px;</string>
           </property>
           <property name="text">
-           <string>Wyloguj i wyjdź</string>
+           <string>Wyjdź</string>
           </property>
          </widget>
         </item>

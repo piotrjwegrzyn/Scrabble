@@ -36,7 +36,8 @@ class WindowManager(QMainWindow):
         registerWindow.show()
 
     def goto_menu(self):
-        if self.welcomeWindow.loginWindow.errorMessage.text() == "Passed":
+        # TODO
+        # if self.welcomeWindow.loginWindow.errorMessage.text() == "Passed":
             self.welcomeWindow.loginWindow.hide()
             if self.menuWindow is None:
                 self.menuWindow = gui.menu_window.MenuWindow()
@@ -45,7 +46,7 @@ class WindowManager(QMainWindow):
                 self.menuWindow.buttonGameSetting.clicked.connect(self.goto_game_setting)
                 self.menuWindow.buttonAccountStatistics.clicked.connect(self.goto_account_statistics)
                 self.menuWindow.buttonSettings.clicked.connect(self.goto_settings)
-                self.menuWindow.buttonLogoutExit.clicked.connect(self.logout)
+                self.menuWindow.buttonExit.clicked.connect(widget.close)
             widget.addWidget(self.menuWindow)
             self.menuWindow.show()
 
@@ -95,10 +96,6 @@ class WindowManager(QMainWindow):
         widget.addWidget(settingsWindow)
         settingsWindow.show()
 
-    def logout(self):
-        # TODO singleton delete
-        widget.close()
-
     def initialize_database_tables(self):
         connection = sqlite3.connect('data/Accounts_Statistics.db')
         cursor = connection.cursor()
@@ -122,8 +119,8 @@ application = QApplication(sys.argv)
 widget = QStackedWidget()
 window = WindowManager()
 widget.addWidget(window.welcomeWindow)
-widget.setMinimumWidth(800)
-widget.setMinimumHeight(600)
+widget.setFixedWidth(1440)
+widget.setFixedHeight(900)
 
 widget.show()
 
