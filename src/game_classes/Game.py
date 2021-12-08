@@ -41,4 +41,3 @@ class Game():
         min = czas_gry%60
         godz = czas_gry//60
         print('Czas gry to {}H {}M {}S'.format(godz, min, sec))
-        

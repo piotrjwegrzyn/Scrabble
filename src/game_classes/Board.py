@@ -12,5 +12,5 @@ class Board():
 
     # TODO("gigaproblem todo")
 
-    def losuj():
+    def losuj(self):
         return (chr(random.randint(97,122)))

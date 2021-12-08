@@ -81,4 +81,3 @@ class RegisterWindow(QMainWindow):
         except:
             query_statistics_create = "CREATE TABLE statistics (ID INTEGER PRIMARY KEY AUTOINCREMENT, matches int4, points int4)"
             cursor.execute(query_statistics_create)
-

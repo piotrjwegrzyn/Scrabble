@@ -11,4 +11,4 @@ class PlayerHuman(PlayerAbstract):
 
     def put_letter(self, position_x, position_y):
         # TODO("todo")
-        
+        pass

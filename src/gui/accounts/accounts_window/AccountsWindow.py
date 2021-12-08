@@ -9,5 +9,3 @@ class AccountsWindow(QMainWindow):
         loadUi("src/gui/accounts/accounts_window/accounts_window.ui", self)
 
         self.buttonBack.clicked.connect(self.close)
-
-

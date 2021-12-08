@@ -12,3 +12,4 @@ class PlayerAI(PlayerAbstract):
     def move(self):
         # TODO("todo")
         print('!!! ALGORYTMY W ZALEZNOŚCI OD POZIOMU') # LOG
+        pass

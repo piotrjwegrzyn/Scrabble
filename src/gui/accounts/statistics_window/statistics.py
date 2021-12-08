@@ -8,6 +8,4 @@ class StatisticsWindow(QMainWindow):
 
     def __init__(self):
         super(StatisticsWindow, self).__init__()
-
         # TODO("ToDo")
-
