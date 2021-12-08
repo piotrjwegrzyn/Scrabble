@@ -1,3 +1,4 @@
+import hashlib
 import sqlite3
 
 from PyQt5.QtWidgets import QMainWindow, QLineEdit
@@ -23,11 +24,22 @@ class LoginWindow(QMainWindow):
         password = self.enterPassword.text()
 
         if len(username) == 0 or len(password) == 0:
-            self.errorMessage.setText('Input is missing. Please fill both boxes')
+            self.errorMessage.setStyleSheet("background-color: rgb(0,0,0,0); color: red")
+            self.errorMessage.setText('Przynajmniej jedno pole jest puste, wypełnij wszystkie pola')
         else:
-            connection = sqlite3.connect("AppData/Accounts_Statistics.db")
+            connection = sqlite3.connect("data/Accounts_Statistics.db")
             cursor = connection.cursor()
-            # TODO
+            hashedPass = hashlib.sha512(password.encode('utf-8')).hexdigest()
+            queryCheckLoginAttempt = "SELECT EXISTS (SELECT 1 FROM 'users' WHERE username = '{0}' AND password = '{1}')".format(
+                username, hashedPass)
+            cursor.execute(queryCheckLoginAttempt)
+            if cursor.fetchone()[0]:
+                self.errorMessage.setStyleSheet("background-color: rgb(0,0,0,0); color: green")
+                self.errorMessage.setText("Passed")
+            else:
+                self.errorMessage.setStyleSheet("background-color: rgb(0,0,0,0); color: red")
+                self.errorMessage.setText("Przynajmniej jedno pole jest nieprawidłowe")
+            connection.close()
 
         self.clear_data()
 

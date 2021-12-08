@@ -28,7 +28,7 @@ class SettingsWindow(QMainWindow):
         self.buttonBoardTwo.clicked.connect(self.action_board_two)
 
         self.buttonConfirm.clicked.connect(self.action_change_parameters)
-        self.buttonCancel.clicked.connect(self.action_go_back)
+        self.buttonBack.clicked.connect(self.close)
 
     def load_data(self):
         try:
@@ -54,8 +54,3 @@ class SettingsWindow(QMainWindow):
     def action_change_parameters(self):
         self.settings["sortingOrder"] = self.dropdownListSortTiles.currentText()
         save_app_data(self.settings)
-        self.action_go_back()
-
-    def action_go_back(self):
-        self.dropdownListSortTiles.setCurrentText(self.settings["sortingOrder"])
-        self.close()

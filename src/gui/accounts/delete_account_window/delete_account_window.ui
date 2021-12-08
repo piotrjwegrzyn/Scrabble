@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
- <widget class="QMainWindow" name="DeleteWindow">
+ <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -10,8 +10,17 @@
     <height>600</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>600</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 150, 0, 255), stop:1 rgba(0, 0, 0, 220))</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -73,8 +82,11 @@
          <widget class="QLabel" name="label">
           <property name="font">
            <font>
-            <pointsize>22</pointsize>
+            <pointsize>30</pointsize>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background: rgb(0,0,0,0)</string>
           </property>
           <property name="text">
            <string>Usuwanie konta</string>
@@ -140,11 +152,14 @@
          <widget class="QLabel" name="label_2">
           <property name="font">
            <font>
-            <pointsize>10</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
+          <property name="styleSheet">
+           <string notr="true">background: rgb(0,0,0,0)</string>
+          </property>
           <property name="text">
-           <string>Nazwa Użytkownika</string>
+           <string>Hasło</string>
           </property>
          </widget>
         </item>
@@ -204,11 +219,19 @@
          </spacer>
         </item>
         <item>
-         <widget class="QLineEdit" name="enterUsername">
+         <widget class="QLineEdit" name="enterPassword">
           <property name="font">
            <font>
-            <pointsize>14</pointsize>
+            <pointsize>16</pointsize>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(90, 180, 0);
+border-style: outset;
+border-width: 2px;
+border-radius: 15px;
+border-color: black;
+padding: 4px;</string>
           </property>
          </widget>
         </item>
@@ -271,11 +294,14 @@
          <widget class="QLabel" name="label_3">
           <property name="font">
            <font>
-            <pointsize>10</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
+          <property name="styleSheet">
+           <string notr="true">background: rgb(0,0,0,0)</string>
+          </property>
           <property name="text">
-           <string>Hasło</string>
+           <string>Powtórz hasło</string>
           </property>
          </widget>
         </item>
@@ -335,11 +361,19 @@
          </spacer>
         </item>
         <item>
-         <widget class="QLineEdit" name="enterPassword">
+         <widget class="QLineEdit" name="enterPassword_2">
           <property name="font">
            <font>
-            <pointsize>14</pointsize>
+            <pointsize>16</pointsize>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(90, 180, 0);
+border-style: outset;
+border-width: 2px;
+border-radius: 15px;
+border-color: black;
+padding: 4px;</string>
           </property>
          </widget>
         </item>
@@ -406,7 +440,7 @@
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">color : red;</string>
+           <string notr="true">background: rgb(0,0,0,0)</string>
           </property>
           <property name="text">
            <string/>
@@ -442,7 +476,7 @@
        </spacer>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="3,1,1,1,3">
+       <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="3,2,1,1,3">
         <property name="leftMargin">
          <number>10</number>
         </property>
@@ -475,6 +509,14 @@
             <pointsize>22</pointsize>
            </font>
           </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(230, 170, 80);
+border-style: outset;
+border-width: 2px;
+border-radius: 15px;
+border-color: black;
+padding: 4px;</string>
+          </property>
           <property name="text">
            <string>Powrót</string>
           </property>
@@ -499,6 +541,14 @@
            <font>
             <pointsize>22</pointsize>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(230, 170, 80);
+border-style: outset;
+border-width: 2px;
+border-radius: 15px;
+border-color: black;
+padding: 4px;</string>
           </property>
           <property name="text">
            <string>Usuń konto</string>
