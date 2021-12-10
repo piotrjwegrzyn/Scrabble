@@ -4,6 +4,8 @@ import sqlite3
 from PyQt5.QtWidgets import QMainWindow, QLineEdit
 from PyQt5.uic import loadUi
 
+from src.gui.accounts.LoggedUser import LoggedUser
+
 
 class ChangePasswordWindow(QMainWindow):
 
@@ -29,22 +31,25 @@ class ChangePasswordWindow(QMainWindow):
 
         if len(password) != 0 or len(newPass) != 0 or len(newPass2) != 0:
             if newPass == newPass2:
+                oldHashedPassword = hashlib.sha512(password.encode('utf-8')).hexdigest()
+                newHashedPass = hashlib.sha512(newPass.encode('utf-8')).hexdigest()
+                id = LoggedUser.getInstance().uid
+
                 connection = sqlite3.connect('data/Accounts_Statistics.db')
                 cursor = connection.cursor()
-
-                hashedPass = hashlib.sha512(password.encode('utf-8')).hexdigest()
-                query_check_password = "SELECT EXISTS (SELECT 1 FROM users WHERE ID='{}' AND password='{}')".format(
-                    singleton.id, hashedPass)
-                cursor.execute(query_check_password)
-                if cursor.fetchone()[0]:
-                    newHashedPass = hashlib.sha512(newPass.encode('utf-8')).hexdigest()
-                    query_change_password = "UPDATE users SET password='{1}' WHERE ID='{0}'".format(singleton.id, newHashedPass)
-                    cursor.execute(query_change_password)
+                queryCheckPassword = "SELECT EXISTS (SELECT 1 FROM users WHERE ID='{}' AND password='{}')"\
+                    .format(id, oldHashedPassword)
+                if cursor.execute(queryCheckPassword).fetchone()[0] == 1:
+                    queryChangePassword = "UPDATE users SET password = '{1}' WHERE ID = '{0}'"\
+                        .format(id, newHashedPass)
+                    cursor.execute(queryChangePassword)
+                    connection.commit()
+                    self.errorMessage.setStyleSheet("background-color: rgb(0,0,0,0); color: green")
+                    self.errorMessage.setText('Zmieniono haslo')
                 else:
-                    self.errorMessage.setStyleSheet("background-color: rgb(0,0,0,0); color: red")
-                    self.errorMessage('Nieprawidłowe hasło')
+                    self.errorMessage.setStyleSheet("background: rgb(0,0,0,0); color: red")
+                    self.errorMessage.setText('Nieprawidłowe hasło')
                 cursor.close()
-                connection.commit()
                 connection.close()
             else:
                 self.errorMessage.setStyleSheet("background: rgb(0,0,0,0); color: red")
@@ -53,8 +58,4 @@ class ChangePasswordWindow(QMainWindow):
             self.errorMessage.setStyleSheet("background: rgb(0,0,0,0); color: red")
             self.errorMessage.setText('Przynajmniej jedno z pól jest puste')
 
-
-        cursor.close()
-        connection.commit()
-        connection.close()
         self.clear_data()

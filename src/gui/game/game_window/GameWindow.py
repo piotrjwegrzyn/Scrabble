@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QMainWindow
 from PyQt5.uic import loadUi
 
 
+# TODO
 class GameWindow(QMainWindow):
 
     def __init__(self):

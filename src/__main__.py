@@ -4,6 +4,7 @@ import sqlite3
 from PyQt5.QtWidgets import QMainWindow, QApplication, QStackedWidget
 
 import gui
+from src.gui.accounts.LoggedUser import LoggedUser
 
 
 class WindowManager(QMainWindow):
@@ -11,92 +12,92 @@ class WindowManager(QMainWindow):
         super(WindowManager, self).__init__()
         self.initialize_database_tables()
 
-        self.welcomeWindow = gui.welcome_window.WelcomeWindow()
-        self.menuWindow = None
+        self.show_welcome_window()
 
-        self.welcomeWindow.loginWindow = None
-        self.welcomeWindow.buttonLogin.clicked.connect(self.goto_login)
-        self.welcomeWindow.buttonRegister.clicked.connect(self.goto_register)
-        self.welcomeWindow.buttonExit.clicked.connect(widget.close)
+    def show_welcome_window(self):
+        welcomeWindow = gui.welcome_window.WelcomeWindow()
+        welcomeWindow.buttonLogin.clicked.connect(self.show_login_window)
+        welcomeWindow.buttonRegister.clicked.connect(self.show_register_window)
+        welcomeWindow.buttonExit.clicked.connect(widget.close)
+        widget.addWidget(welcomeWindow)
+        welcomeWindow.show()
 
-    def goto_login(self):
-        self.welcomeWindow.hide()
-        if self.welcomeWindow.loginWindow is None:
-            self.welcomeWindow.loginWindow = gui.login_window.LoginWindow()
-            self.welcomeWindow.loginWindow.buttonBack.clicked.connect(self.welcomeWindow.show)
-            self.welcomeWindow.loginWindow.buttonLogin.clicked.connect(self.goto_menu)
-        widget.addWidget(self.welcomeWindow.loginWindow)
-        self.welcomeWindow.loginWindow.show()
-
-    def goto_register(self):
-        self.welcomeWindow.hide()
+    def show_register_window(self):
         registerWindow = gui.register_window.RegisterWindow()
-        registerWindow.buttonBack.clicked.connect(self.welcomeWindow.show)
+        registerWindow.buttonBack.clicked.connect(self.show_welcome_window)
         widget.addWidget(registerWindow)
         registerWindow.show()
 
-    def goto_menu(self):
-        # TODO
-        # if self.welcomeWindow.loginWindow.errorMessage.text() == "Passed":
-            self.welcomeWindow.loginWindow.hide()
-            if self.menuWindow is None:
-                self.menuWindow = gui.menu_window.MenuWindow()
-                self.menuWindow.gameSettingWindow = None
-                self.menuWindow.accountWindow = None
-                self.menuWindow.buttonGameSetting.clicked.connect(self.goto_game_setting)
-                self.menuWindow.buttonAccountStatistics.clicked.connect(self.goto_account_statistics)
-                self.menuWindow.buttonSettings.clicked.connect(self.goto_settings)
-                self.menuWindow.buttonExit.clicked.connect(widget.close)
-            widget.addWidget(self.menuWindow)
-            self.menuWindow.show()
+    def show_login_window(self):
+        loginWindow = gui.login_window.LoginWindow()
+        loginWindow.buttonLogin.clicked.connect(self.show_menu_window)
+        loginWindow.buttonBack.clicked.connect(self.show_welcome_window)
+        widget.addWidget(loginWindow)
+        loginWindow.show()
 
-    def goto_game_setting(self):
-        self.menuWindow.hide()
-        if self.menuWindow.gameSettingWindow is None:
-            self.menuWindow.gameSettingWindow = gui.game_setting_window.GameSettingWindow()
-        widget.addWidget(self.menuWindow.gameSettingWindow)
-        self.menuWindow.gameSettingWindow.show()
+    def show_menu_window(self):
+        if LoggedUser.getInstance().uid is not None:
+            menuWindow = gui.menu_window.MenuWindow()
+            menuWindow.buttonGameSetting.clicked.connect(self.show_game_setting_window)
+            menuWindow.buttonAccountStatistics.clicked.connect(self.show_account_window)
+            menuWindow.buttonSettings.clicked.connect(self.show_settings_window)
+            menuWindow.buttonLogout.clicked.connect(self.show_login_window)
+            menuWindow.buttonExit.clicked.connect(widget.close)
+            widget.addWidget(menuWindow)
+            menuWindow.show()
 
-    def goto_account_statistics(self):
-        self.menuWindow.hide()
-        if self.menuWindow.accountWindow is None:
-            self.menuWindow.accountWindow = gui.account_window.AccountWindow()
-            self.menuWindow.accountWindow.buttonChangePassword.clicked.connect(self.goto_change_password)
-            self.menuWindow.accountWindow.buttonDeleteAccount.clicked.connect(self.goto_delete_account)
-            self.menuWindow.accountWindow.buttonStatistics.clicked.connect(self.goto_statistics)
-            self.menuWindow.accountWindow.buttonBack.clicked.connect(self.menuWindow.show)
-        widget.addWidget(self.menuWindow.accountWindow)
-        self.menuWindow.accountWindow.show()
+    def show_game_setting_window(self):
+        gameSettingWindow = gui.game_setting_window.GameSettingWindow()
+        gameSettingWindow.buttonGame.clicked.conenct(self.show_game_window)
+        gameSettingWindow.buttonBack.clicked.connect(self.show_menu_window)
+        widget.addWidget(gameSettingWindow)
+        gameSettingWindow.show()
 
-    def goto_change_password(self):
-        self.menuWindow.accountWindow.hide()
+    def show_game_window(self):  # TODO
+        gameWindow = gui.game_window.GameWindow()
+        # gameWindow.buttonResign.clicked.connect(self.show_menu_window)
+        # gameWindow.buttonJoke =
+        widget.addWidget(gameWindow)
+        gameWindow.show()
+
+    def show_account_window(self):
+        if LoggedUser.getInstance().uid is not None:
+            accountWindow = gui.account_window.AccountWindow()
+            accountWindow.buttonChangePassword.clicked.connect(self.show_change_password_window)
+            accountWindow.buttonDeleteAccount.clicked.connect(self.show_delete_account_window)
+            accountWindow.buttonStatistics.clicked.connect(self.show_statistics_window)
+            accountWindow.buttonBack.clicked.connect(self.show_menu_window)
+            widget.addWidget(accountWindow)
+            accountWindow.show()
+        else:
+            self.show_welcome_window()
+
+    def show_change_password_window(self):
         changePasswordWindow = gui.change_password_window.ChangePasswordWindow()
-        changePasswordWindow.buttonBack.clicked.connect(self.menuWindow.accountWindow.show)
+        changePasswordWindow.buttonBack.clicked.connect(self.show_account_window)
         widget.addWidget(changePasswordWindow)
         changePasswordWindow.show()
 
-    def goto_delete_account(self):
-        self.menuWindow.accountWindow.hide()
+    def show_delete_account_window(self):
         deleteAccountWindow = gui.delete_account_window.DeleteAccountWindow()
-        deleteAccountWindow.buttonBack.clicked.connect(self.menuWindow.accountWindow.show)
+        deleteAccountWindow.buttonBack.clicked.connect(self.show_account_window)
         widget.addWidget(deleteAccountWindow)
         deleteAccountWindow.show()
 
-    def goto_statistics(self):
-        self.menuWindow.accountWindow.hide()
+    def show_statistics_window(self):
         statisticsWindow = gui.statistics_window.StatisticsWindow()
-        statisticsWindow.buttonBack.clicked.connect(self.menuWindow.accountWindow.show)
+        statisticsWindow.buttonBack.clicked.connect(self.show_account_window)
         widget.addWidget(statisticsWindow)
         statisticsWindow.show()
 
-    def goto_settings(self):
-        self.menuWindow.hide()
+    def show_settings_window(self):
         settingsWindow = gui.settings_window.SettingsWindow()
-        settingsWindow.buttonBack.clicked.connect(self.menuWindow.show)
+        settingsWindow.buttonBack.clicked.connect(self.show_menu_window)
         widget.addWidget(settingsWindow)
         settingsWindow.show()
 
     def initialize_database_tables(self):
+
         connection = sqlite3.connect('data/Accounts_Statistics.db')
         cursor = connection.cursor()
 
@@ -118,7 +119,6 @@ class WindowManager(QMainWindow):
 application = QApplication(sys.argv)
 widget = QStackedWidget()
 window = WindowManager()
-widget.addWidget(window.welcomeWindow)
 widget.setFixedWidth(1440)
 widget.setFixedHeight(900)
 

@@ -1,6 +1,7 @@
 import sqlite3
 
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 from PyQt5.uic import loadUi
 
 
@@ -11,9 +12,8 @@ class StatisticsWindow(QMainWindow):
         loadUi('src/gui/accounts/statistics_window/statistics_window.ui', self)
 
         self.set_column_sizes()
-        self.insert_data()
-        self.dropdownListSortingOrder.currentIndexChanged.connect(self.insert_data)
-        self.insert_users_statistics_into_table()
+        self.initialize_table_data()
+        self.table.setSortingEnabled(True)
 
         self.buttonBack.clicked.connect(self.close)
 
@@ -21,34 +21,60 @@ class StatisticsWindow(QMainWindow):
         self.table.setColumnWidth(0, 120)
         self.table.setColumnWidth(1, 110)
         self.table.setColumnWidth(2, 160)
-        self.table.setColumnWidth(3, 190)
-        self.table.setColumnWidth(4, 190)
+        self.table.setColumnWidth(3, 210)
+        self.table.setColumnWidth(4, 150)
         self.table.setColumnWidth(5, 260)
-        self.table.setColumnWidth(6, 320)
+        self.table.setColumnWidth(6, 340)
 
-    def insert_data(self):  # TODO
-        index = self.dropdownListSortingOrder.currentIndex()
-
-        # index: 0: a->Z; 1: games count 2: wins count
-        # 3: win% 4: pts_gained 5: theoretical_max 6: points% (idx4/idx5)
-
+    def initialize_table_data(self):
         connection = sqlite3.connect('data/Accounts_Statistics.db')
         cursor = connection.cursor()
-        query_get_users = "SELECT FROM users"
+        query_get_users = "SELECT username FROM users ORDER BY ID"
+        users_data = cursor.execute(query_get_users).fetchall()
+        query_get_users_statistics = "SELECT matches, wins, points, max_points FROM statistics ORDER BY ID"
+        users_statistics = cursor.execute(query_get_users_statistics).fetchall()
+        cursor.close()
+        connection.close()
 
-        query_get_users_statistics = "SELECT FROM statistics"
-        """
-        if index == 1:
+        self.table.setRowCount(len(users_data))
 
-        elif index == 2:
+        row = 0
+        for user in users_data:
+            self.table.setItem(row, 0, QTableWidgetItem(str(user[0])))
+            row = row + 1
+        row = 0
+        for user_stats in users_statistics:
+            item = QTableWidgetItem()
+            item.setData(Qt.DisplayRole, user_stats[0])
+            self.table.setItem(row, 1, item)  # matches
 
-        elif index == 3:
+            item = QTableWidgetItem()
+            item.setData(Qt.DisplayRole, user_stats[1])
+            self.table.setItem(row, 2, item)  # wins
 
-        elif index == 4:
+            item = QTableWidgetItem()
+            if user_stats[0] != 0:
+                won_percentage = user_stats[1] / user_stats[0] * 100
+            else:
+                won_percentage = 0
+            item.setData(Qt.DisplayRole, won_percentage)
+            self.table.setItem(row, 3, item)  # calculated win%
 
-        elif index == 5:
+            item = QTableWidgetItem()
+            item.setData(Qt.DisplayRole, user_stats[2])
+            self.table.setItem(row, 4, item)  # points gained
 
-        elif index == 6:
+            item = QTableWidgetItem()
+            item.setData(Qt.DisplayRole, user_stats[3])
+            self.table.setItem(row, 5, item)  # theoretical max points
 
-        else:
-        """
+            item = QTableWidgetItem()
+            if user_stats[3] != 0:
+                points_percentage = user_stats[2] / user_stats[3] * 100
+            else:
+                points_percentage = 0
+            item.setData(Qt.DisplayRole, points_percentage)
+            self.table.setItem(row, 6, item)  # calculated efficiency
+            row = row + 1
+
+        self.table.sortItems(0)

@@ -10,27 +10,33 @@
     <height>900</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 150, 0, 255), stop:1 rgba(0, 0, 0, 220))</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <layout class="QVBoxLayout" name="verticalLayout" stretch="1,10,1">
       <property name="leftMargin">
-       <number>20</number>
+       <number>5</number>
       </property>
       <property name="topMargin">
-       <number>20</number>
+       <number>5</number>
       </property>
       <property name="rightMargin">
-       <number>20</number>
+       <number>5</number>
       </property>
       <property name="bottomMargin">
-       <number>20</number>
+       <number>5</number>
       </property>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
@@ -69,97 +75,39 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <property name="leftMargin">
-         <number>20</number>
+         <number>5</number>
         </property>
         <property name="topMargin">
-         <number>20</number>
+         <number>5</number>
         </property>
         <property name="rightMargin">
-         <number>20</number>
+         <number>5</number>
         </property>
         <property name="bottomMargin">
-         <number>20</number>
+         <number>5</number>
         </property>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <property name="leftMargin">
-           <number>20</number>
-          </property>
-          <property name="topMargin">
-           <number>20</number>
-          </property>
-          <property name="rightMargin">
-           <number>20</number>
-          </property>
-          <property name="bottomMargin">
-           <number>20</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="label_2">
-            <property name="font">
-             <font>
-              <pointsize>22</pointsize>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background: rgb(0,0,0,0)</string>
-            </property>
-            <property name="text">
-             <string>Sortuj:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="dropdownListSortingOrder">
-            <property name="font">
-             <font>
-              <pointsize>22</pointsize>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <item>
-             <property name="text">
-              <string>Alfabetycznie</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>L. gier</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>L. zwycięstw</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>% zwycięstw</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>L. zdobytych pkt</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Zdobyte / Max z płytek</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-         </layout>
-        </item>
         <item>
          <widget class="QTableWidget" name="table">
           <property name="styleSheet">
-           <string notr="true">background: rgb(0,0,0,0)</string>
+           <string notr="true"/>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="tabKeyNavigation">
+           <bool>true</bool>
+          </property>
+          <property name="dragDropOverwriteMode">
+           <bool>false</bool>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::NoSelection</enum>
+          </property>
+          <property name="gridStyle">
+           <enum>Qt::DashLine</enum>
           </property>
           <column>
            <property name="text">
@@ -199,7 +147,7 @@
           </column>
           <column>
            <property name="text">
-            <string>Stosunek zwycięstw</string>
+            <string>Stosunek zwycięstw [%]</string>
            </property>
            <property name="font">
             <font>
@@ -236,7 +184,7 @@
           </column>
           <column>
            <property name="text">
-            <string>Stosunek zdobyte / max możliwych</string>
+            <string>Stosunek zdobyte / max możliwych [%]</string>
            </property>
            <property name="font">
             <font>
