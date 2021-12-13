@@ -3,6 +3,7 @@ import sqlite3
 
 from PyQt5.QtWidgets import QMainWindow, QLineEdit
 from PyQt5.uic import loadUi
+
 from src.gui.accounts.LoggedUser import LoggedUser
 
 
@@ -37,7 +38,9 @@ class LoginWindow(QMainWindow):
                 queryGetUserID = "SELECT ID FROM 'users' WHERE username = '{0}' AND password = '{1}'"\
                     .format(username, hashedPass)
                 id = cursor.execute(queryGetUserID).fetchone()[0]
-                LoggedUser(id)
+
+                LoggedUser(id, username)
+
                 self.errorMessage.setText("Passed")
                 connection.close()
                 self.close()

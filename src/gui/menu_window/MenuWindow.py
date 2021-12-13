@@ -16,5 +16,5 @@ class MenuWindow(QMainWindow):
         self.buttonLogout.clicked.connect(self.logout)
 
     def logout(self):
-        LoggedUser.getInstance().uid = None
+        LoggedUser.delete_instance()
         self.close()

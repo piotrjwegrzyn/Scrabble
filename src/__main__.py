@@ -36,7 +36,7 @@ class WindowManager(QMainWindow):
         loginWindow.show()
 
     def show_menu_window(self):
-        if LoggedUser.getInstance().uid is not None:
+        if LoggedUser.get_instance() is not None:
             menuWindow = gui.menu_window.MenuWindow()
             menuWindow.buttonGameSetting.clicked.connect(self.show_game_setting_window)
             menuWindow.buttonAccountStatistics.clicked.connect(self.show_account_window)
@@ -61,7 +61,7 @@ class WindowManager(QMainWindow):
         gameWindow.show()
 
     def show_account_window(self):
-        if LoggedUser.getInstance().uid is not None:
+        if LoggedUser.get_instance() is not None:
             accountWindow = gui.account_window.AccountWindow()
             accountWindow.buttonChangePassword.clicked.connect(self.show_change_password_window)
             accountWindow.buttonDeleteAccount.clicked.connect(self.show_delete_account_window)
@@ -97,7 +97,6 @@ class WindowManager(QMainWindow):
         settingsWindow.show()
 
     def initialize_database_tables(self):
-
         connection = sqlite3.connect('data/Accounts_Statistics.db')
         cursor = connection.cursor()
 
@@ -114,6 +113,8 @@ class WindowManager(QMainWindow):
         except:
             query_statistics_create = "CREATE TABLE statistics (ID INTEGER PRIMARY KEY AUTOINCREMENT, matches int4, wins int4, points int4, max_points int4)"
             cursor.execute(query_statistics_create)
+        cursor.close()
+        connection.close()
 
 
 application = QApplication(sys.argv)
