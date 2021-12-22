@@ -36,7 +36,7 @@ class WindowManager(QMainWindow):
         loginWindow.show()
 
     def show_menu_window(self):
-        # TODO odkomentowac
+        # TODO odkomentowac -> +loginWindow.py x2 TODO
         # if LoggedUser.get_instance() is not None:
             menuWindow = gui.menu_window.MenuWindow()
             menuWindow.buttonGameSetting.clicked.connect(self.show_game_setting_window)

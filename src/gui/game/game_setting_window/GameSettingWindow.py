@@ -117,8 +117,8 @@ class GameSettingWindow(QMainWindow):
         self.show_p1()
 
     # TODO
-    # Pozmieniac po finalnym ogarniaciu p1 -> aktualna wersja -> za stara xD, ale chyba bez bledow uniemozliwiajacych odpalenie
-    # odkementowujac """ ponizej odkomentuj tez w set_buttons_actions()
+    # Pozmieniac po finalnym ogarnieciu p1 -> aktualna wersja -> za stara xD, ale chyba bez bledow uniemozliwiajacych odpalenie
+    # odkomentowujac ->"""<- ponizej odkomentuj tez w set_buttons_actions()
     """
     # General function to call p2 elements
     def set_p2_buttons(self):
