@@ -1,11 +1,10 @@
 import hashlib
 import sqlite3
-from time import sleep
 
 from PyQt5.QtWidgets import QMainWindow, QLineEdit
 from PyQt5.uic import loadUi
 
-from src.gui.accounts.LoggedUser import LoggedUser
+from ..LoggedUser import LoggedUser
 
 
 class DeleteAccountWindow(QMainWindow):

@@ -4,7 +4,7 @@ import sqlite3
 from PyQt5.QtWidgets import QMainWindow, QLineEdit
 from PyQt5.uic import loadUi
 
-from src.gui.accounts.LoggedUser import LoggedUser
+from ..LoggedUser import LoggedUser
 
 
 class ChangePasswordWindow(QMainWindow):

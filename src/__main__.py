@@ -4,7 +4,6 @@ import sqlite3
 from PyQt5.QtWidgets import QMainWindow, QApplication, QStackedWidget
 
 import gui
-from src.gui.accounts.LoggedUser import LoggedUser
 
 
 class WindowManager(QMainWindow):
@@ -37,7 +36,7 @@ class WindowManager(QMainWindow):
 
     def show_menu_window(self):
         # TODO odkomentowac -> +loginWindow.py x2 TODO
-        # if LoggedUser.get_instance() is not None:
+        # if gui.LoggedUser.get_instance() is not None:
             menuWindow = gui.menu_window.MenuWindow()
             menuWindow.buttonGameSetting.clicked.connect(self.show_game_setting_window)
             menuWindow.buttonAccountStatistics.clicked.connect(self.show_account_window)
@@ -62,7 +61,7 @@ class WindowManager(QMainWindow):
         gameWindow.show()
 
     def show_account_window(self):
-        if LoggedUser.get_instance() is not None:
+        if gui.LoggedUser.get_instance() is not None:
             accountWindow = gui.account_window.AccountWindow()
             accountWindow.buttonChangePassword.clicked.connect(self.show_change_password_window)
             accountWindow.buttonDeleteAccount.clicked.connect(self.show_delete_account_window)

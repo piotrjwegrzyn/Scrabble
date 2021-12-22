@@ -1,8 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.uic import loadUi
 
-from src.gui.accounts.LoggedUser import LoggedUser
-
+from ..accounts.LoggedUser import LoggedUser
 
 class MenuWindow(QMainWindow):
 

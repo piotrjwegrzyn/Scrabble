@@ -100,14 +100,16 @@ class GameSettingWindow(QMainWindow):
     def login_p1(self):
         # TODO -> mini-okno do logowania
         # if login_success
+        self.buttonGameP1.setEnabled(False)
         self.player1.id = 10  # TODO pobrac z mini-okna
         # self.player1.name =  #TODO pobrac z mini-okna
         self.enterNameP1.setEnabled(False)
-        # else jakis warning screen <- nieudana operacja czy cosiek
+        # else moze jakis warning screen <- nieudana operacja czy cosiek
         self.show_p1()
 
     def logout_p1(self):
         self.player1.id = None
+        self.buttonGameP1.setEnabled(True)
         self.enterNameP1.setEnabled(True)
         self.show_p1()
 
@@ -290,7 +292,7 @@ class GameSettingWindow(QMainWindow):
 
     def show_p4(self):
         if self.player4 is None:
-            self.player4 = GamePlayer("Gracz3")
+            self.player4 = GamePlayer("Gracz4")
         if self.player4.real_player:
             self.buttonGameP4.setText("Gracz")
             if self.player4.id is None:
