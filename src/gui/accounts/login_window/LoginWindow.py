@@ -43,11 +43,13 @@ class LoginWindow(QMainWindow):
 
                 self.errorMessage.setText("Passed")
                 connection.close()
-                self.close()
+                # TODO odkomentowac
+                # self.close()
             except:
 
                 self.errorMessage.setStyleSheet("background-color: rgb(0,0,0,0); color: red")
                 self.errorMessage.setText("Przynajmniej jedno pole jest nieprawidłowe")
                 connection.close()
-
+        # TODO usunac linijke nizej
+        self.close()
         self.clear_data()
