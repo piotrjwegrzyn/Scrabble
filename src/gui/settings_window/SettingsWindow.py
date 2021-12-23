@@ -35,21 +35,21 @@ class SettingsWindow(QMainWindow):
             with open('data/settings.json', 'r') as f:
                 self.settings = json.load(f)
         except:
-            self.settings = {"tileAppearance": "Set_1", "boardAppearance": "Board_1", "sortingOrder": "Alfabetycznie"}
+            self.settings = {"tileAppearance": "set_1", "boardAppearance": "set_1", "sortingOrder": "Alfabetycznie"}
             print('error occurred, cannot load data, restoring default values')
         self.dropdownListSortTiles.setCurrentText(self.settings["sortingOrder"])
 
     def action_tiles_one(self):
-        self.settings["tileAppearance"] = 'Set_1'
+        self.settings["tileAppearance"] = 'set_1'
 
     def action_tiles_two(self):
-        self.settings["tileAppearance"] = 'Set_2'
+        self.settings["tileAppearance"] = 'set_2'
 
     def action_board_one(self):
-        self.settings["boardAppearance"] = 'Board_1'
+        self.settings["boardAppearance"] = 'set_1'
 
     def action_board_two(self):
-        self.settings["boardAppearance"] = 'Board_2'
+        self.settings["boardAppearance"] = 'set_2'
 
     def action_change_parameters(self):
         self.settings["sortingOrder"] = self.dropdownListSortTiles.currentText()

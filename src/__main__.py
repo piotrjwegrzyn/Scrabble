@@ -55,8 +55,7 @@ class WindowManager(QMainWindow):
 
     def show_game_window(self):  # TODO
         gameWindow = gui.game_window.GameWindow()
-        # gameWindow.buttonResign.clicked.connect(self.show_menu_window)
-        # gameWindow.buttonJoke =
+        gameWindow.buttonResign.clicked.connect(self.show_menu_window)
         widget.addWidget(gameWindow)
         gameWindow.show()
 
