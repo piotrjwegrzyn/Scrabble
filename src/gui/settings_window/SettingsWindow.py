@@ -28,34 +28,29 @@ class SettingsWindow(QMainWindow):
         self.buttonBoardTwo.clicked.connect(self.action_board_two)
 
         self.buttonConfirm.clicked.connect(self.action_change_parameters)
-        self.buttonCancel.clicked.connect(self.action_go_back)
+        self.buttonBack.clicked.connect(self.close)
 
     def load_data(self):
         try:
             with open('data/settings.json', 'r') as f:
                 self.settings = json.load(f)
         except:
-            self.settings = {"tileAppearance": "Set_1", "boardAppearance": "Board_1", "sortingOrder": "Alfabetycznie"}
+            self.settings = {"tileAppearance": "set_1", "boardAppearance": "set_1", "sortingOrder": "Alfabetycznie"}
             print('error occurred, cannot load data, restoring default values')
         self.dropdownListSortTiles.setCurrentText(self.settings["sortingOrder"])
 
     def action_tiles_one(self):
-        self.settings["tileAppearance"] = 'Set_1'
+        self.settings["tileAppearance"] = 'set_1'
 
     def action_tiles_two(self):
-        self.settings["tileAppearance"] = 'Set_2'
+        self.settings["tileAppearance"] = 'set_2'
 
     def action_board_one(self):
-        self.settings["boardAppearance"] = 'Board_1'
+        self.settings["boardAppearance"] = 'set_1'
 
     def action_board_two(self):
-        self.settings["boardAppearance"] = 'Board_2'
+        self.settings["boardAppearance"] = 'set_2'
 
     def action_change_parameters(self):
         self.settings["sortingOrder"] = self.dropdownListSortTiles.currentText()
         save_app_data(self.settings)
-        self.action_go_back()
-
-    def action_go_back(self):
-        self.dropdownListSortTiles.setCurrentText(self.settings["sortingOrder"])
-        self.close()

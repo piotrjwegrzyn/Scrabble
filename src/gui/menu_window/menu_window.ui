@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
+ <class>MenuWindow</class>
  <widget class="QMainWindow" name="MenuWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1440</width>
+    <height>900</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -19,10 +19,13 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 150, 0, 255), stop:1 rgba(0, 0, 0, 220))</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <layout class="QVBoxLayout" name="verticalLayout" stretch="3,2,1,2,1,2,1,2,3">
+     <layout class="QVBoxLayout" name="verticalLayout" stretch="3,2,1,2,1,2,1,1,1,2,3">
       <property name="leftMargin">
        <number>20</number>
       </property>
@@ -63,42 +66,30 @@
          <number>10</number>
         </property>
         <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
          <widget class="QPushButton" name="buttonGameSetting">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="font">
            <font>
             <pointsize>22</pointsize>
            </font>
           </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(230, 170, 80);
+border-style: outset;
+border-width: 2px;
+border-radius: 15px;
+border-color: black;
+padding: 4px;</string>
+          </property>
           <property name="text">
            <string>Rozpocznij grę</string>
           </property>
          </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </item>
@@ -130,42 +121,30 @@
          <number>10</number>
         </property>
         <item>
-         <spacer name="horizontalSpacer_5">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+         <widget class="QPushButton" name="buttonAccountStatistics">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="buttonAccounts">
           <property name="font">
            <font>
             <pointsize>22</pointsize>
            </font>
           </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(230, 170, 80);
+border-style: outset;
+border-width: 2px;
+border-radius: 15px;
+border-color: black;
+padding: 4px;</string>
+          </property>
           <property name="text">
            <string>Konto i statystyki</string>
           </property>
          </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_6">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </item>
@@ -197,47 +176,90 @@
          <number>10</number>
         </property>
         <item>
-         <spacer name="horizontalSpacer_7">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
          <widget class="QPushButton" name="buttonSettings">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="font">
            <font>
             <pointsize>22</pointsize>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(230, 170, 80);
+border-style: outset;
+border-width: 2px;
+border-radius: 15px;
+border-color: black;
+padding: 4px;</string>
           </property>
           <property name="text">
            <string>Ustawienia</string>
           </property>
          </widget>
         </item>
-        <item>
-         <spacer name="horizontalSpacer_8">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
        </layout>
       </item>
       <item>
        <spacer name="verticalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <property name="leftMargin">
+         <number>20</number>
+        </property>
+        <property name="topMargin">
+         <number>20</number>
+        </property>
+        <property name="rightMargin">
+         <number>20</number>
+        </property>
+        <property name="bottomMargin">
+         <number>20</number>
+        </property>
+        <item>
+         <widget class="QPushButton" name="buttonLogout">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>22</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(230, 170, 80);
+border-style: outset;
+border-width: 2px;
+border-radius: 15px;
+border-color: black;
+padding: 4px;</string>
+          </property>
+          <property name="text">
+           <string>Wyloguj</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_2">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -264,19 +286,6 @@
          <number>10</number>
         </property>
         <item>
-         <spacer name="horizontalSpacer_9">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
          <widget class="QPushButton" name="buttonExit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -289,23 +298,18 @@
             <pointsize>22</pointsize>
            </font>
           </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(230, 170, 80);
+border-style: outset;
+border-width: 2px;
+border-radius: 15px;
+border-color: black;
+padding: 4px;</string>
+          </property>
           <property name="text">
            <string>Wyjdź</string>
           </property>
          </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_10">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </item>

@@ -1,4 +1,5 @@
 import sys
+import sqlite3
 
 from PyQt5.QtWidgets import QMainWindow, QApplication, QStackedWidget
 
@@ -8,84 +9,118 @@ import gui
 class WindowManager(QMainWindow):
     def __init__(self):
         super(WindowManager, self).__init__()
+        self.initialize_database_tables()
 
-        self.mainWindow = gui.main_window.MainWindow()
-        self.gameSettingWindow = None
-        self.accountsStatsWindow = None
-        self.settingsWindow = None
-        self.set_menu_buttons()
+        self.show_welcome_window()
 
-    def set_menu_buttons(self):
-        self.mainWindow.buttonGameSetting.clicked.connect(self.goto_game_setting)
-        self.mainWindow.buttonAccounts.clicked.connect(self.goto_accounts)
-        self.mainWindow.buttonSettings.clicked.connect(self.goto_settings)
-        self.mainWindow.buttonExit.clicked.connect(widget.close)
+    def show_welcome_window(self):
+        welcomeWindow = gui.welcome_window.WelcomeWindow()
+        welcomeWindow.buttonLogin.clicked.connect(self.show_login_window)
+        welcomeWindow.buttonRegister.clicked.connect(self.show_register_window)
+        welcomeWindow.buttonExit.clicked.connect(widget.close)
+        widget.addWidget(welcomeWindow)
+        welcomeWindow.show()
 
-    def goto_game_setting(self):
-        print('a')
+    def show_register_window(self):
+        registerWindow = gui.register_window.RegisterWindow()
+        registerWindow.buttonBack.clicked.connect(self.show_welcome_window)
+        widget.addWidget(registerWindow)
+        registerWindow.show()
 
-    def goto_accounts(self):
-        self.mainWindow.hide()
-        if self.accountsStatsWindow is None:
-            self.accountsStatsWindow = gui.accounts_window.AccountsWindow()
-            self.accountsStatsWindow.loginWindow = None
-            self.accountsStatsWindow.registerWindow = None
-            self.accountsStatsWindow.deleteWindow = None
-            self.accountsStatsWindow.statisticsWindow = None
-        self.set_accounts_stats_buttons()
-        widget.addWidget(self.accountsStatsWindow)
-        self.accountsStatsWindow.show()
+    def show_login_window(self):
+        loginWindow = gui.login_window.LoginWindow()
+        loginWindow.buttonLogin.clicked.connect(self.show_menu_window)
+        loginWindow.buttonBack.clicked.connect(self.show_welcome_window)
+        widget.addWidget(loginWindow)
+        loginWindow.show()
 
-    def set_accounts_stats_buttons(self):
-        self.accountsStatsWindow.buttonLogin.clicked.connect(self.goto_login)
-        self.accountsStatsWindow.buttonRegister.clicked.connect(self.goto_register)
-        self.accountsStatsWindow.buttonDeleteAccount.clicked.connect(self.goto_delete)
-        self.accountsStatsWindow.buttonStatistics.clicked.connect(self.goto_statistics)
-        self.accountsStatsWindow.buttonBack.clicked.connect(self.mainWindow.show)
+    def show_menu_window(self):
+        # TODO odkomentowac -> +loginWindow.py x2 TODO
+        # if gui.LoggedUser.get_instance() is not None:
+            menuWindow = gui.menu_window.MenuWindow()
+            menuWindow.buttonGameSetting.clicked.connect(self.show_game_setting_window)
+            menuWindow.buttonAccountStatistics.clicked.connect(self.show_account_window)
+            menuWindow.buttonSettings.clicked.connect(self.show_settings_window)
+            menuWindow.buttonLogout.clicked.connect(self.show_login_window)
+            menuWindow.buttonExit.clicked.connect(widget.close)
+            widget.addWidget(menuWindow)
+            menuWindow.show()
 
-    def goto_login(self):
-        self.accountsStatsWindow.hide()
-        if self.accountsStatsWindow.loginWindow is None:
-            self.accountsStatsWindow.loginWindow = gui.login_window.LoginWindow()
-        self.accountsStatsWindow.loginWindow.buttonBack.clicked.connect(self.accountsStatsWindow.show)
-        widget.addWidget(self.accountsStatsWindow.loginWindow)
-        self.accountsStatsWindow.loginWindow.show()
+    def show_game_setting_window(self):
+        gameSettingWindow = gui.game_setting_window.GameSettingWindow()
+        gameSettingWindow.buttonGame.clicked.connect(self.show_game_window)
+        gameSettingWindow.buttonBack.clicked.connect(self.show_menu_window)
+        widget.addWidget(gameSettingWindow)
+        gameSettingWindow.show()
 
-    def goto_register(self):
-        self.accountsStatsWindow.hide()
-        if self.accountsStatsWindow.registerWindow is None:
-            self.accountsStatsWindow.registerWindow = gui.register_window.RegisterWindow()
-        self.accountsStatsWindow.registerWindow.buttonBack.clicked.connect(self.accountsStatsWindow.show)
-        widget.addWidget(self.accountsStatsWindow.registerWindow)
-        self.accountsStatsWindow.registerWindow.show()
+    def show_game_window(self):  # TODO
+        gameWindow = gui.game_window.GameWindow()
+        gameWindow.buttonResign.clicked.connect(self.show_menu_window)
+        widget.addWidget(gameWindow)
+        gameWindow.show()
 
-    def goto_delete(self):
-        self.accountsStatsWindow.hide()
-        if self.accountsStatsWindow.deleteWindow is None:
-            self.accountsStatsWindow.deleteWindow = gui.delete_window.DeleteWindow()
-        self.accountsStatsWindow.deleteWindow.buttonBack.clicked.connect(self.accountsStatsWindow.show)
-        widget.addWidget(self.accountsStatsWindow.deleteWindow)
-        self.accountsStatsWindow.deleteWindow.show()
+    def show_account_window(self):
+        if gui.LoggedUser.get_instance() is not None:
+            accountWindow = gui.account_window.AccountWindow()
+            accountWindow.buttonChangePassword.clicked.connect(self.show_change_password_window)
+            accountWindow.buttonDeleteAccount.clicked.connect(self.show_delete_account_window)
+            accountWindow.buttonStatistics.clicked.connect(self.show_statistics_window)
+            accountWindow.buttonBack.clicked.connect(self.show_menu_window)
+            widget.addWidget(accountWindow)
+            accountWindow.show()
+        else:
+            self.show_welcome_window()
 
-    def goto_statistics(self):
-        print('stats')
+    def show_change_password_window(self):
+        changePasswordWindow = gui.change_password_window.ChangePasswordWindow()
+        changePasswordWindow.buttonBack.clicked.connect(self.show_account_window)
+        widget.addWidget(changePasswordWindow)
+        changePasswordWindow.show()
 
-    def goto_settings(self):
-        self.mainWindow.hide()
-        if self.settingsWindow is None:
-            self.settingsWindow = gui.settings_window.SettingsWindow()
-        self.settingsWindow.buttonConfirm.clicked.connect(self.mainWindow.show)
-        self.settingsWindow.buttonCancel.clicked.connect(self.mainWindow.show)
-        widget.addWidget(self.settingsWindow)
-        self.settingsWindow.show()
+    def show_delete_account_window(self):
+        deleteAccountWindow = gui.delete_account_window.DeleteAccountWindow()
+        deleteAccountWindow.buttonBack.clicked.connect(self.show_account_window)
+        widget.addWidget(deleteAccountWindow)
+        deleteAccountWindow.show()
+
+    def show_statistics_window(self):
+        statisticsWindow = gui.statistics_window.StatisticsWindow()
+        statisticsWindow.buttonBack.clicked.connect(self.show_account_window)
+        widget.addWidget(statisticsWindow)
+        statisticsWindow.show()
+
+    def show_settings_window(self):
+        settingsWindow = gui.settings_window.SettingsWindow()
+        settingsWindow.buttonBack.clicked.connect(self.show_menu_window)
+        widget.addWidget(settingsWindow)
+        settingsWindow.show()
+
+    def initialize_database_tables(self):
+        connection = sqlite3.connect('data/Accounts_Statistics.db')
+        cursor = connection.cursor()
+
+        query_table_exists = "SELECT EXISTS (SELECT 1 FROM users)"
+        try:
+            cursor.execute(query_table_exists)
+        except:
+            query_table_create = "CREATE TABLE users (ID INTEGER PRIMARY KEY AUTOINCREMENT, username varchar(30), password varchar(128))"
+            cursor.execute(query_table_create)
+
+        query_statistics_exists = "SELECT EXISTS (SELECT 1 FROM statistics)"
+        try:
+            cursor.execute(query_statistics_exists)
+        except:
+            query_statistics_create = "CREATE TABLE statistics (ID INTEGER PRIMARY KEY AUTOINCREMENT, matches int4, wins int4, points int4, max_points int4)"
+            cursor.execute(query_statistics_create)
+        cursor.close()
+        connection.close()
 
 
 application = QApplication(sys.argv)
 widget = QStackedWidget()
 window = WindowManager()
-widget.addWidget(window.mainWindow)
-widget.setMinimumWidth(800)
-widget.setMinimumHeight(600)
+widget.setFixedWidth(1440)
+widget.setFixedHeight(900)
 
 widget.show()
 
