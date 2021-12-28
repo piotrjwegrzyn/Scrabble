@@ -35,8 +35,7 @@ class WindowManager(QMainWindow):
         loginWindow.show()
 
     def show_menu_window(self):
-        # TODO odkomentowac -> +loginWindow.py x2 TODO
-        # if gui.LoggedUser.get_instance() is not None:
+        if gui.LoggedUser.get_instance() is not None:
             menuWindow = gui.menu_window.MenuWindow()
             menuWindow.buttonGameSetting.clicked.connect(self.show_game_setting_window)
             menuWindow.buttonAccountStatistics.clicked.connect(self.show_account_window)
@@ -53,14 +52,14 @@ class WindowManager(QMainWindow):
         widget.addWidget(gameSettingWindow)
         gameSettingWindow.show()
 
-    def show_game_window(self):  # TODO
+    def show_game_window(self):
         gameWindow = gui.game_window.GameWindow()
         gameWindow.buttonResign.clicked.connect(self.show_menu_window)
         widget.addWidget(gameWindow)
         gameWindow.show()
 
     def show_account_window(self):
-        if gui.LoggedUser.get_instance() is not None:
+        if LoggedUser.get_instance() is not None:
             accountWindow = gui.account_window.AccountWindow()
             accountWindow.buttonChangePassword.clicked.connect(self.show_change_password_window)
             accountWindow.buttonDeleteAccount.clicked.connect(self.show_delete_account_window)

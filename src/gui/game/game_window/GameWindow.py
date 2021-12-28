@@ -79,7 +79,7 @@ class GameWindow(QMainWindow):
                 self.tableBoardArea.setItem(i, j, item)
 
         letters = ["a", "b", "c", "d", "e", "f", "g"]  # TODO <- wywalic, odniesc do plytek na rece gracza
-        for i in range(0,7):
+        for i in range(0, 7):
             item = QTableWidgetItem()
             letter_path = "res/letters/" + self.settings["tileAppearance"] + "/" + (letters[i]).upper() + ".png"  # TODO <- o tutaj
             image = QImage(letter_path)
