@@ -1,8 +1,9 @@
 import json
 
-from PyQt5.QtGui import QBrush, QImage
-from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
+from PyQt5.QtGui import QBrush, QImage, QTransform, QPixmap
+from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QLabel
 from PyQt5.uic import loadUi
+from PyQt5.uic.properties import QtCore
 
 from ..GamePlayers import GamePlayers
 
@@ -13,7 +14,7 @@ class GameWindow(QMainWindow):
         super(GameWindow, self).__init__()
         loadUi("src/gui/game/game_window/game_window.ui", self)
 
-        self.buttonResign.clicked.connect(self.close)
+        self.buttonResign.clicked.connect(self.resign)
         self.buttonEndTurn.clicked.connect(self.end_turn)
         self.settings = self.load_data()
 
@@ -143,3 +144,7 @@ class GameWindow(QMainWindow):
         self.players.append(self.players.pop(0))
         print('check view')
         self.display_data()  ### Do testów
+
+    def resign(self):
+        GamePlayers.delete_instances()
+        self.close()

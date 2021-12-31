@@ -386,5 +386,5 @@ class GameSettingWindow(QMainWindow):
         if index >= 1:
             self.player3.name = self.enterNameP3.text()
         if index == 2:
-            self.player3.name = self.enterNameP3.text()
+            self.player4.name = self.enterNameP4.text()
         self.close()
