@@ -59,7 +59,7 @@ class WindowManager(QMainWindow):
         gameWindow.show()
 
     def show_account_window(self):
-        if LoggedUser.get_instance() is not None:
+        if gui.LoggedUser.get_instance() is not None:
             accountWindow = gui.account_window.AccountWindow()
             accountWindow.buttonChangePassword.clicked.connect(self.show_change_password_window)
             accountWindow.buttonDeleteAccount.clicked.connect(self.show_delete_account_window)

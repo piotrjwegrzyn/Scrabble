@@ -276,7 +276,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="labelNextPlayer">
+         <widget class="QLabel" name="labelLeftPlayer">
           <property name="font">
            <font>
             <pointsize>16</pointsize>
@@ -291,7 +291,7 @@
          </widget>
         </item>
         <item row="1" column="2">
-         <widget class="QLabel" name="labelNextPlayer3">
+         <widget class="QLabel" name="labelRightPlayer">
           <property name="font">
            <font>
             <pointsize>16</pointsize>
@@ -321,7 +321,7 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLabel" name="labelNextPlayer2">
+         <widget class="QLabel" name="labelOppositePlayer">
           <property name="font">
            <font>
             <pointsize>16</pointsize>
