@@ -216,6 +216,54 @@
         <property name="bottomMargin">
          <number>5</number>
         </property>
+        <item row="0" column="1">
+         <widget class="QLabel" name="labelOppositePlayer">
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="labelCurrentPlayer">
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QPushButton" name="buttonResign">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Zrezygnuj</string>
+          </property>
+         </widget>
+        </item>
         <item row="1" column="1">
          <widget class="QTableWidget" name="tableBoardArea">
           <property name="sizePolicy">
@@ -448,36 +496,13 @@
           </item>
          </widget>
         </item>
-        <item row="0" column="0">
-         <widget class="QPushButton" name="buttonResign">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+        <item row="1" column="0">
+         <widget class="QLabel" name="labelLeftPlayer">
           <property name="font">
            <font>
             <pointsize>16</pointsize>
            </font>
           </property>
-          <property name="text">
-           <string>Zrezygnuj</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="labelLeftPlayer">
-          <property name="text">
-           <string>TextLabel</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLabel" name="labelCurrentPlayer">
           <property name="text">
            <string>TextLabel</string>
           </property>
@@ -488,16 +513,11 @@
         </item>
         <item row="1" column="2">
          <widget class="QLabel" name="labelRightPlayer">
-          <property name="text">
-           <string>TextLabel</string>
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
           </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="labelOppositePlayer">
           <property name="text">
            <string>TextLabel</string>
           </property>

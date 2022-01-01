@@ -9,13 +9,14 @@ class StatisticsWindow(QMainWindow):
 
     def __init__(self):
         super(StatisticsWindow, self).__init__()
-        loadUi('src/gui/accounts/statistics_window/statistics_window.ui', self)
-
-        self.set_column_sizes()
-        self.initialize_table_data()
-        self.table.setSortingEnabled(True)
+        loadUi('src/gui/accounts/statistics/statistics_window/statistics_window.ui', self)
 
         self.buttonBack.clicked.connect(self.close)
+
+        self.set_column_sizes()
+        self.set_table_data()
+        self.table.setSortingEnabled(True)
+        self.table.sortItems(0)
 
     def set_column_sizes(self):
         self.table.setColumnWidth(0, 120)
@@ -26,7 +27,7 @@ class StatisticsWindow(QMainWindow):
         self.table.setColumnWidth(5, 260)
         self.table.setColumnWidth(6, 340)
 
-    def initialize_table_data(self):
+    def set_table_data(self):
         connection = sqlite3.connect('data/Accounts_Statistics.db')
         cursor = connection.cursor()
         query_get_users = "SELECT username FROM users ORDER BY ID"
@@ -76,5 +77,3 @@ class StatisticsWindow(QMainWindow):
             item.setData(Qt.DisplayRole, points_percentage)
             self.table.setItem(row, 6, item)  # calculated efficiency
             row = row + 1
-
-        self.table.sortItems(0)

@@ -1,11 +1,11 @@
 import json
 
-from PyQt5.QtGui import QBrush, QImage, QTransform, QPixmap
-from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QLabel
+from PyQt5.QtGui import QBrush, QImage
+from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 from PyQt5.uic import loadUi
-from PyQt5.uic.properties import QtCore
 
 from ..GamePlayers import GamePlayers
+from ...accounts.statistics.mini_statistics_window.MiniStatisticsWindow import MiniStatisticsWindow
 
 
 class GameWindow(QMainWindow):
@@ -20,6 +20,7 @@ class GameWindow(QMainWindow):
 
         self.players = GamePlayers.get_instances()
         self.board = None
+        self.miniStatistics = None
 
         self.initialize_tables_labels()  # tableWidgets overall properties
         self.create_board()  # board consists of paths to images that are currently on board
@@ -144,6 +145,12 @@ class GameWindow(QMainWindow):
         self.players.append(self.players.pop(0))
         print('check view')
         self.display_data()  ### Do testów
+
+    # po zakończeniu gry
+    def display_statistics(self):
+        self.miniStatistics = MiniStatisticsWindow(self.players)
+        self.miniStatistics.show()
+        self.miniStatistics.buttonBack.clicked.connect(self.resign)
 
     def resign(self):
         GamePlayers.delete_instances()

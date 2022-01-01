@@ -15,5 +15,5 @@ from .accounts.login.login_window import LoginWindow as login_window
 from .accounts.register_window import RegisterWindow as register_window
 from .accounts.change_password_window import ChangePasswordWindow as change_password_window
 from .accounts.delete_account_window import DeleteAccountWindow as delete_account_window
-from .accounts.statistics_window import StatisticsWindow as statistics_window
+from .accounts.statistics.statistics_window import StatisticsWindow as statistics_window
 from .accounts.LoggedUser import LoggedUser
