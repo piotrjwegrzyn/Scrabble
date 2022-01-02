@@ -3,6 +3,7 @@ from PyQt5.uic import loadUi
 
 from ..accounts.LoggedUser import LoggedUser
 
+
 class MenuWindow(QMainWindow):
 
     def __init__(self):

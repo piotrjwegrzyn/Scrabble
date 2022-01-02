@@ -1,6 +1,12 @@
 
-class LoggedUser:
+class LoggedUser(object):
     __instance = None
+
+    def __init__(self, username, userid):
+        if LoggedUser.__instance is None:
+            LoggedUser.__instance = object.__new__(LoggedUser)
+            LoggedUser.uname = username
+            LoggedUser.uid = userid
 
     @staticmethod
     def get_instance():
@@ -11,13 +17,4 @@ class LoggedUser:
 
     @staticmethod
     def delete_instance():
-        if LoggedUser.__instance is not None:
-            LoggedUser.__instance = None
-
-    def __init__(self, userid, username):
-        if LoggedUser.__instance is None:
-            LoggedUser.__instance = self
-            LoggedUser.__instance.uid = userid
-            LoggedUser.__instance.uname = username
-        else:
-            raise Exception("Second instance of singleton!")
+        LoggedUser.__instance = None

@@ -1,17 +1,17 @@
 import hashlib
 import sqlite3
 
-from PyQt5.QtWidgets import QMainWindow, QLineEdit
+from PyQt5.QtWidgets import QLineEdit, QDialog
 from PyQt5.uic import loadUi
 
-from ..LoggedUser import LoggedUser
 
+class MiniLoginWindow(QDialog):
 
-class LoginWindow(QMainWindow):
+    def __init__(self, player):
+        super(MiniLoginWindow, self).__init__()
+        loadUi("src/gui/accounts/login/mini_login_window/mini_login_window.ui", self)
 
-    def __init__(self):
-        super(LoginWindow, self).__init__()
-        loadUi("src/gui/accounts/login_window/login_window.ui", self)
+        self.player = player
 
         self.errorMessage.setText("")
         self.enterPassword.setEchoMode(QLineEdit.Password)
@@ -39,17 +39,13 @@ class LoginWindow(QMainWindow):
                     .format(username, hashedPass)
                 id = cursor.execute(queryGetUserID).fetchone()[0]
 
-                LoggedUser(id, username)
-
-                self.errorMessage.setText("Passed")
+                self.player.name = username
+                self.player.id = id
                 connection.close()
-                # TODO odkomentowac
-                # self.close()
-            except:
+                self.close()
 
+            except:
                 self.errorMessage.setStyleSheet("background-color: rgb(0,0,0,0); color: red")
                 self.errorMessage.setText("Przynajmniej jedno pole jest nieprawidłowe")
                 connection.close()
-        # TODO usunac linijke nizej
-        self.close()
         self.clear_data()
