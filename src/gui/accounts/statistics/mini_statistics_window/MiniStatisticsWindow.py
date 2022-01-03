@@ -1,7 +1,9 @@
 import sqlite3
 
+from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QDialog, QTableWidget
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QTableWidgetItem, QDialog
 from PyQt5.uic import loadUi
 
 
@@ -14,19 +16,25 @@ class MiniStatisticsWindow(QDialog):
         self.buttonBack.clicked.connect(self.close)
         self.players = players
 
-        self.set_columns()
+        self.update_database()
+        self.set_table()
         self.set_table_data()
         self.table.setSortingEnabled(True)
-        self.table.sortItems(1)
+        self.table.sortItems(1, Qt.DescendingOrder)
 
-    def set_columns(self):
+    def set_table(self):
         self.table.setRowCount(len(self.players))
-        self.table.setColumnWidth(0, 100)
-        self.table.setColumnWidth(1, 240)
-        self.table.setColumnWidth(2, 240)
-        self.table.setColumnWidth(3, 350)
+
+        self.table.setFont(QFont("MS Shell Dlg 2", 14))  # Cells properties
+        self.table.horizontalHeader().setStyleSheet("QHeaderView")
+        self.table.verticalHeader().setStyleSheet("QHeaderView")
+        self.table.horizontalHeader().setFont(QFont("MS Shell Dlg 2", 22, QFont.Bold))
+        self.table.verticalHeader().setFont(QFont("MS Shell Dlg 2", 22, QFont.Bold))
+
         for i in range(0, 4):
-            self.table.setRowHeight(i, 25)
+            self.table.horizontalHeader().setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeToContents)
+        for i in range(0, len(self.players)):
+            self.table.verticalHeader().setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeToContents)
 
     def set_table_data(self):
         row = 0
@@ -44,7 +52,31 @@ class MiniStatisticsWindow(QDialog):
             self.table.setItem(row, 2, item)
 
             item = QTableWidgetItem()
-            ratio = 10
+            if player.theoreticalScore != 0:
+                ratio = player.score / player.theoreticalScore * 100
+            else:
+                ratio = 0
             item.setData(Qt.DisplayRole, ratio)
             self.table.setItem(row, 3, item)
             row = row + 1
+
+    def update_database(self):
+        bestScore = 0
+        for player in self.players:
+            bestScore = max(bestScore, player.score)
+        for player in self.players:
+            if player.id is not None:
+                connection = sqlite3.connect('data/Accounts_Statistics.db')
+                cursor = connection.cursor()
+                if player.score == bestScore:
+                    query_update_user = "UPDATE statistics SET matches=matches+1, wins=wins+1, points=points+'{1}'," \
+                                        "max_points=max_points+'{2}' WHERE ID='{0}'".format(player.id, player.score,
+                                                                                            player.theoreticalScore)
+                else:
+                    query_update_user = "UPDATE statistics SET matches=matches+1, points=points+'{1}'," \
+                                        " max_points=max_points+'{2}' WHERE ID='{0}'".format(player.id, player.score,
+                                                                                             player.theoreticalScore)
+                cursor.execute(query_update_user)
+                connection.commit()
+                cursor.close()
+                connection.close()

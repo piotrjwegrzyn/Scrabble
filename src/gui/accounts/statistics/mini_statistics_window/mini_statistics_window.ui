@@ -81,8 +81,8 @@
          <property name="styleSheet">
           <string notr="true">background: rgb(0,0,0,0);
 border: rgb(0,0,0,0);
-selection-color: rgb(128,0,128,0);
-selection-background-color: rgb(0,96,255);</string>
+selection-color: rgb(0,0,0,255);
+selection-background-color: rgb(128,128,128,128);</string>
          </property>
          <property name="sizeAdjustPolicy">
           <enum>QAbstractScrollArea::AdjustToContents</enum>
@@ -129,14 +129,17 @@ selection-background-color: rgb(0,96,255);</string>
          <property name="rowCount">
           <number>0</number>
          </property>
+         <attribute name="horizontalHeaderCascadingSectionResizes">
+          <bool>true</bool>
+         </attribute>
          <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>100</number>
+          <number>0</number>
          </attribute>
          <attribute name="horizontalHeaderHighlightSections">
           <bool>false</bool>
          </attribute>
          <attribute name="horizontalHeaderMinimumSectionSize">
-          <number>40</number>
+          <number>0</number>
          </attribute>
          <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
           <bool>false</bool>
@@ -144,25 +147,21 @@ selection-background-color: rgb(0,96,255);</string>
          <attribute name="verticalHeaderVisible">
           <bool>true</bool>
          </attribute>
+         <attribute name="verticalHeaderCascadingSectionResizes">
+          <bool>true</bool>
+         </attribute>
          <attribute name="verticalHeaderDefaultSectionSize">
-          <number>100</number>
+          <number>0</number>
          </attribute>
          <attribute name="verticalHeaderHighlightSections">
           <bool>false</bool>
          </attribute>
          <attribute name="verticalHeaderMinimumSectionSize">
-          <number>40</number>
+          <number>0</number>
          </attribute>
          <column>
           <property name="text">
            <string>Gracz</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>16</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
           </property>
           <property name="textAlignment">
            <set>AlignCenter</set>
@@ -172,13 +171,6 @@ selection-background-color: rgb(0,96,255);</string>
           <property name="text">
            <string>Liczba zdobytych punktów</string>
           </property>
-          <property name="font">
-           <font>
-            <pointsize>16</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
           <property name="textAlignment">
            <set>AlignCenter</set>
           </property>
@@ -187,14 +179,6 @@ selection-background-color: rgb(0,96,255);</string>
           <property name="text">
            <string>Max Punktów do zdobycia</string>
           </property>
-          <property name="font">
-           <font>
-            <family>MS Shell Dlg 2</family>
-            <pointsize>16</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
           <property name="textAlignment">
            <set>AlignCenter</set>
           </property>
@@ -202,13 +186,6 @@ selection-background-color: rgb(0,96,255);</string>
          <column>
           <property name="text">
            <string>Stosunek zdobyte / max możliwych [%]</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>16</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
           </property>
           <property name="textAlignment">
            <set>AlignCenter</set>
