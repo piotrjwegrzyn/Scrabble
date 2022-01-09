@@ -2,10 +2,11 @@
 package game_classes
 
 """
+from src.game_classes.GamePlayers import GamePlayers
 
 
 class Data(object):
-
+    players = GamePlayers.get_instances()
     lines = []
     pools_score = [15][15]
     _instance = None

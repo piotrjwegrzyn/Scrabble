@@ -10,9 +10,8 @@ class PlayerHuman(PlayerAbstract):
 
     data = Data.instance()
 
-    def __init__(self, id, name, password=""):
-        super().__init__(id, name)
-        self.password = password
+    def __init__(self, name):
+        super().__init__(name)
 
     def move(self):
         #TODO tu musi sie pokazac ekran do wprowadzania literek, z którego potrzebuje pobrać

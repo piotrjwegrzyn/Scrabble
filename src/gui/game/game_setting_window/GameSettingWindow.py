@@ -1,9 +1,10 @@
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.uic import loadUi
 
+from src.game_classes import PlayerHuman
 from ...accounts.LoggedUser import LoggedUser
 from ...accounts.login.mini_login_window.MiniLoginWindow import MiniLoginWindow
-from ..GamePlayers import GamePlayers
+from src.game_classes.GamePlayers import GamePlayers
 
 
 class GameSettingWindow(QMainWindow):
@@ -82,17 +83,14 @@ class GameSettingWindow(QMainWindow):
 
     # 4 functions actually doing sth
     def change_p1(self):
-        if self.player1.realPlayer:
-            self.player1.realPlayer = False
-            self.player1.difficulty = 1
-            self.player1.id = None
-            self.player1.name = "Komputer1"  # TODO - pozmieniac nazwy (jak beda nudy) xD (moze jakies losowe z jakiejs listy)
-            # TODO ^ albo po prostu zostawic mozliwosc wpisania uzytkownikowi (show_p1 -> else -> set true)
+        if isinstance(self.player1, PlayerHuman):
+            GamePlayers.delete_instance(self.player1)
+            GamePlayers("Komputer 1", "AI")
+            self.player1 = GamePlayers.get_instance("AI Komputer 1")
         else:
-            self.player1.realPlayer = True
-            self.player1.difficulty = None
-            self.player1.id = None
-            self.player1.name = "Gracz1"
+            GamePlayers.delete_instance(self.player1)
+            GamePlayers("Gracz 1", "Human")
+            self.player1 = GamePlayers.get_instance("Gracz 1")
         self.show_p1()
 
     def login_p1(self):
@@ -114,7 +112,12 @@ class GameSettingWindow(QMainWindow):
 
     def change_ai_1(self):
         index = self.comboBoxAiDifficulty1.currentIndex()
-        self.player1.difficulty = index + 1
+        if index == 0:
+            self.player1.level = "Easy"
+        elif index == 1:
+            self.player1.level = "Medium"
+        else:
+            self.player1.level = "Hard"
         self.show_p1()
 
     # General function to call p2 elements
@@ -126,16 +129,14 @@ class GameSettingWindow(QMainWindow):
 
     # 4 functions actually doing sth
     def change_p2(self):
-        if self.player2.realPlayer:
-            self.player2.realPlayer = False
-            self.player2.difficulty = 1
-            self.player2.id = None
-            self.player2.name = "Komputer2"
+        if isinstance(self.player2, PlayerHuman):
+            GamePlayers.delete_instance(self.player2)
+            GamePlayers("Komputer 2", "AI")
+            self.player2 = GamePlayers.get_instance("AI Komputer 2")
         else:
-            self.player2.realPlayer = True
-            self.player2.difficulty = None
-            self.player2.id = None
-            self.player2.name = "Gracz2"
+            GamePlayers.delete_instance(self.player2)
+            GamePlayers("Gracz 2", "Human")
+            self.player2 = GamePlayers.get_instance("Gracz 2")
         self.show_p2()
 
     def login_p2(self):
@@ -157,7 +158,12 @@ class GameSettingWindow(QMainWindow):
 
     def change_ai_2(self):
         index = self.comboBoxAiDifficulty2.currentIndex()
-        self.player2.difficulty = index + 1
+        if index == 0:
+            self.player2.level = "Easy"
+        elif index == 1:
+            self.player2.level = "Medium"
+        else:
+            self.player2.level = "Hard"
         self.show_p2()
 
     # General function to call p3 elements
@@ -169,16 +175,14 @@ class GameSettingWindow(QMainWindow):
 
     # 4 functions actually doing sth
     def change_p3(self):
-        if self.player3.realPlayer:
-            self.player3.realPlayer = False
-            self.player3.difficulty = 1
-            self.player3.id = None
-            self.player3.name = "Komputer3"
+        if isinstance(self.player3, PlayerHuman):
+            GamePlayers.delete_instance(self.player3)
+            GamePlayers("Komputer 3", "AI")
+            self.player3 = GamePlayers.get_instance("AI Komputer 3")
         else:
-            self.player3.realPlayer = True
-            self.player3.difficulty = None
-            self.player3.id = None
-            self.player3.name = "Gracz3"
+            GamePlayers.delete_instance(self.player3)
+            GamePlayers("Gracz 3", "Human")
+            self.player3 = GamePlayers.get_instance("Gracz 3")
         self.show_p3()
 
     def login_p3(self):
@@ -200,7 +204,12 @@ class GameSettingWindow(QMainWindow):
 
     def change_ai_3(self):
         index = self.comboBoxAiDifficulty3.currentIndex()
-        self.player3.difficulty = index + 1
+        if index == 0:
+            self.player3.level = "Easy"
+        elif index == 1:
+            self.player3.level = "Medium"
+        else:
+            self.player3.level = "Hard"
         self.show_p3()
 
     # General function to call p4 elements
@@ -212,16 +221,14 @@ class GameSettingWindow(QMainWindow):
 
     # 4 functions actually doing sth
     def change_p4(self):
-        if self.player4.realPlayer:
-            self.player4.realPlayer = False
-            self.player4.difficulty = 1
-            self.player4.id = None
-            self.player4.name = "Komputer4"
+        if isinstance(self.player4, PlayerHuman):
+            GamePlayers.delete_instance(self.player4)
+            GamePlayers("Komputer 4", "AI")
+            self.player4 = GamePlayers.get_instance("AI Komputer 4")
         else:
-            self.player4.realPlayer = True
-            self.player4.difficulty = None
-            self.player4.id = None
-            self.player4.name = "Gracz4"
+            GamePlayers.delete_instance(self.player4)
+            GamePlayers("Gracz 4", "Human")
+            self.player4 = GamePlayers.get_instance("Gracz 4")
         self.show_p4()
 
     def login_p4(self):
@@ -243,15 +250,20 @@ class GameSettingWindow(QMainWindow):
 
     def change_ai_4(self):
         index = self.comboBoxAiDifficulty4.currentIndex()
-        self.player4.difficulty = index + 1
+        if index == 0:
+            self.player4.level = "Easy"
+        elif index == 1:
+            self.player4.level = "Medium"
+        else:
+            self.player4.level = "Hard"
         self.show_p4()
 
     # Functions to show/hide game players
     def show_p1(self):
         if self.player1 is None:
-            GamePlayers("Gracz1")
-            self.player1 = GamePlayers.get_instance("Gracz1")
-        if self.player1.realPlayer:
+            GamePlayers("Gracz 1", "Human")
+            self.player1 = GamePlayers.get_instance("Gracz 1")
+        if isinstance(self.player1, PlayerHuman):
             self.buttonGameP1.setText("Gracz")
             if self.player1.id is None:
                 self.buttonGameP1.setEnabled(True)
@@ -268,7 +280,12 @@ class GameSettingWindow(QMainWindow):
             self.buttonGameP1.setText("Komputer")
             self.buttonLoginP1.setVisible(False)
             self.buttonLogoutP1.setVisible(False)
-            self.comboBoxAiDifficulty1.setCurrentIndex(self.player1.difficulty - 1)
+            if self.player1.level == "Easy":
+                self.comboBoxAiDifficulty1.setCurrentIndex(0)
+            elif self.player1.level == "Medium":
+                self.comboBoxAiDifficulty1.setCurrentIndex(1)
+            elif self.player1.level == "Hard":
+                self.comboBoxAiDifficulty1.setCurrentIndex(2)
             self.comboBoxAiDifficulty1.setVisible(True)
             self.enterNameP1.setEnabled(True)
         self.buttonGameP1.setVisible(True)
@@ -277,9 +294,9 @@ class GameSettingWindow(QMainWindow):
 
     def show_p2(self):
         if self.player2 is None:
-            GamePlayers("Gracz2")
-            self.player2 = GamePlayers.get_instance("Gracz2")
-        if self.player2.realPlayer:
+            GamePlayers("Gracz 2", "Human")
+            self.player2 = GamePlayers.get_instance("Gracz 2")
+        if isinstance(self.player2, PlayerHuman):
             self.buttonGameP2.setText("Gracz")
             if self.player2.id is None:
                 self.buttonGameP2.setEnabled(True)
@@ -296,7 +313,12 @@ class GameSettingWindow(QMainWindow):
             self.buttonGameP2.setText("Komputer")
             self.buttonLoginP2.setVisible(False)
             self.buttonLogoutP2.setVisible(False)
-            self.comboBoxAiDifficulty2.setCurrentIndex(self.player2.difficulty - 1)
+            if self.player2.level == "Easy":
+                self.comboBoxAiDifficulty1.setCurrentIndex(0)
+            elif self.player2.level == "Medium":
+                self.comboBoxAiDifficulty1.setCurrentIndex(1)
+            elif self.player2.level == "Hard":
+                self.comboBoxAiDifficulty1.setCurrentIndex(2)
             self.comboBoxAiDifficulty2.setVisible(True)
             self.enterNameP2.setEnabled(True)
         self.buttonGameP2.setVisible(True)
@@ -305,9 +327,9 @@ class GameSettingWindow(QMainWindow):
 
     def show_p3(self):
         if self.player3 is None:
-            GamePlayers("Gracz3")
-            self.player3 = GamePlayers.get_instance("Gracz3")
-        if self.player3.realPlayer:
+            GamePlayers("Gracz 3", "Human")
+            self.player3 = GamePlayers.get_instance("Gracz 3")
+        if isinstance(self.player3, PlayerHuman):
             self.buttonGameP3.setText("Gracz")
             if self.player3.id is None:
                 self.buttonGameP3.setEnabled(True)
@@ -324,7 +346,12 @@ class GameSettingWindow(QMainWindow):
             self.buttonGameP3.setText("Komputer")
             self.buttonLoginP3.setVisible(False)
             self.buttonLogoutP3.setVisible(False)
-            self.comboBoxAiDifficulty3.setCurrentIndex(self.player3.difficulty - 1)
+            if self.player3.level == "Easy":
+                self.comboBoxAiDifficulty1.setCurrentIndex(0)
+            elif self.player3.level == "Medium":
+                self.comboBoxAiDifficulty1.setCurrentIndex(1)
+            elif self.player3.level == "Hard":
+                self.comboBoxAiDifficulty1.setCurrentIndex(2)
             self.comboBoxAiDifficulty3.setVisible(True)
             self.enterNameP3.setEnabled(True)
         self.buttonGameP3.setVisible(True)
@@ -333,9 +360,9 @@ class GameSettingWindow(QMainWindow):
 
     def show_p4(self):
         if self.player4 is None:
-            GamePlayers("Gracz4")
-            self.player4 = GamePlayers.get_instance("Gracz4")
-        if self.player4.realPlayer:
+            GamePlayers("Gracz 4", "Human")
+            self.player4 = GamePlayers.get_instance("Gracz 4")
+        if isinstance(self.player4, PlayerHuman):
             self.buttonGameP4.setText("Gracz")
             if self.player4.id is None:
                 self.buttonGameP4.setEnabled(True)
@@ -352,7 +379,12 @@ class GameSettingWindow(QMainWindow):
             self.buttonGameP4.setText("Komputer")
             self.buttonLoginP4.setVisible(False)
             self.buttonLogoutP4.setVisible(False)
-            self.comboBoxAiDifficulty4.setCurrentIndex(self.player4.difficulty - 1)
+            if self.player4.level == "Easy":
+                self.comboBoxAiDifficulty1.setCurrentIndex(0)
+            elif self.player4.level == "Medium":
+                self.comboBoxAiDifficulty1.setCurrentIndex(1)
+            elif self.player4.level == "Hard":
+                self.comboBoxAiDifficulty1.setCurrentIndex(2)
             self.comboBoxAiDifficulty4.setVisible(True)
             self.enterNameP4.setEnabled(True)
         self.buttonGameP4.setVisible(True)

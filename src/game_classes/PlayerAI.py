@@ -9,11 +9,11 @@ from src.game_classes.Game import Game
 
 class PlayerAI(PlayerAbstract):
 
-    def __init__(self, id, level):
-        super().__init__(id, "AI " + str(id))
+    def __init__(self, name):
+        super().__init__("AI " + str(name))
         self.possible_words_position_in_dictionary = []
         self.possible_words = []
-        self.level = level
+        self.level = "Easy"
         self.data = Data.instance()
 
     def move(self):

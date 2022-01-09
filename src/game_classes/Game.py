@@ -9,12 +9,13 @@ import random
 from src.game_classes.Data import Data
 
 
-class Game():
+class Game:
 
-    def __init__(self, players):
+    def __init__(self, gameWindow):
         self.start_time = None
         self.data = Data.instance()
-        self.data.players = players
+        self.data.players = Data.players
+        self.window = gameWindow
 
     def start_game(self):
         for player in self.data.players:
