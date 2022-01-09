@@ -4,6 +4,7 @@ from PyQt5.QtGui import QBrush, QImage
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 from PyQt5.uic import loadUi
 
+from src.game_classes.Game import Game
 from src.game_classes.GamePlayers import GamePlayers
 from src.game_classes.Board import Board
 from ...accounts.statistics.mini_statistics_window.MiniStatisticsWindow import MiniStatisticsWindow
@@ -24,8 +25,7 @@ class GameWindow(QMainWindow):
         self.miniStatistics = None
 
         self.initialize_tables_labels()  # tableWidgets overall properties
-        self.create_board()  # board consists of paths to images that are currently on board
-        self.display_data()  # display actual images on screen
+        Game(self)
 
     @staticmethod
     def load_data():
@@ -111,7 +111,6 @@ class GameWindow(QMainWindow):
                 paths[14 - i][14 - i] = path_double_word
             if board[i][14 - i] is None:
                 paths[i][14 - i] = path_double_word
-        # 8 pol z 5linijek, niby szybciej, ale mozna bylo dac recznie
         for i in range(6, 8):
             if board[i][i - 4] is None:
                 paths[i][i - 4] = path_double_letter
