@@ -3,14 +3,13 @@ package game_classes
 
 """
 
-class PlayerAbstract():
-    sum_of_wins = 0
-    points_factor = 0.0
 
-    def __init__(self, id, name):
-        self.id = id
+class PlayerAbstract():
+    game_score = 0
+    player_pool = []
+
+    def __init__(self, name):
         self.name = name
-    
-    def show_rank(self):
-        # TODO("todo")
+
+    def move(self):
         pass
