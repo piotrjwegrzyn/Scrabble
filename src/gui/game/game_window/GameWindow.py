@@ -15,20 +15,14 @@ class GameWindow(QMainWindow):
 
     def __init__(self):
         super(GameWindow, self).__init__()
-        loadUi("src/gui/game/game_window/game_window.ui", self)
 
-        self.buttonResign.clicked.connect(self.resign)
-        self.buttonEndTurn.clicked.connect(self.end_turn)
         self.settings = self.load_data()
-
         self.players = GamePlayers.get_instances()
-        self.board = None
         self.miniStatistics = None
-
         self.draggedTileIdx = None
         self.allDraggedTiles = []
 
-        self.initialize_tables_labels()  # tableWidgets overall properties
+        self.show_gamescreen()
         Game(self)
 
     @staticmethod
@@ -165,6 +159,17 @@ class GameWindow(QMainWindow):
     def end_turn(self):
         self.reset_values_to_default()
 
+    def show_gamescreen(self):
+        loadUi("src/gui/game/game_window/game_window.ui", self)
+        self.buttonResign.clicked.connect(self.resign)
+        self.buttonEndTurn.clicked.connect(self.end_turn)
+        self.initialize_tables_labels()  # tableWidgets overall properties
+        self.display_data()
+
+    def show_blackscreen(self):
+        loadUi("src/gui/game/game_window/black_window.ui", self)
+        self.buttonContinue.clicked.connect(self.show_gamescreen)
+
     # po zakończeniu gry
     def display_statistics(self):
         self.miniStatistics = MiniStatisticsWindow(self.players)
@@ -186,7 +191,7 @@ class GameWindow(QMainWindow):
             # copy item <- to tableBoardArea
             tileItem = self.tableTilesArea.item(0, self.draggedTileIdx)  # tile
             item = tileItem.clone()
-            self.tableBoardArea.setItem(y_idx, x_idx, item)  # insert tile  # UWAGA!!! wkleja na odwrot, albo ja cos zle paczam
+            self.tableBoardArea.setItem(y_idx, x_idx, item)
             # delete item <- from tableTilesArea
             self.tableTilesArea.takeItem(0, self.draggedTileIdx)  # tile
             self.allDraggedTiles.append([self.draggedTileIdx, x_idx, y_idx])
