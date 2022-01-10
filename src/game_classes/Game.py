@@ -93,22 +93,6 @@ class Game:
                     i]
         return move_score
 
-    def check_if_word_can_be_placed(self, x, y, word):
-        letter = self.data.board_pools[x][y]
-        ind = word.find(letter)
-        length = len(word)
-        if self.data.board_pools[x-1][y] != '' or self.data.board_pools[x+1][y] != '':
-            for i in range(y-(ind+1), y):
-                if self.data.board_pools[x-1][y] != '' or self.data.board_pools[x+1][y] != '':
-                    return False
-            for i in range(y+1, y+(length-ind+1)):
-                if self.data.board_pools[x-1][y] != '' or self.data.board_pools[x+1][y] != '':
-                    return False
-            if self.data.board_pools[x][y-(ind+1)] != '' or self.data.board_pools[x][y+(length-ind+1)] != '':
-                return False
-            # TODO check
-        return True
-
     def put_letter(self, position_x, position_y, letter):
         self.data.board_pools[position_x][position_y] = letter
 
