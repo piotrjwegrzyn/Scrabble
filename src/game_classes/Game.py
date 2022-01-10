@@ -41,37 +41,6 @@ class Game:
         godz = czas_gry // 60
         print('Czas gry to {}H {}M {}S'.format(godz, min, sec))
 
-    def isalpha_and_in_pool(self, pool, word):
-        if not (word.isalpha()):
-            print("Ya entered some weird stuff")
-            return False
-
-        move_score = 0
-        player_pool_copy = pool.copy()
-        for char in word:
-            if char in player_pool_copy:
-                player_pool_copy.remove(char)
-            else:
-                print("character(s) not in your pool")
-                return False
-        return True
-
-    def in_dictionary(self, word):
-        f = open('slownik')
-        for line in f:
-            if word == line.strip():
-                break
-        else:
-            print("Word not in dictionary")
-            f.close()
-            return False
-        f.close()
-        return True
-
-    def remove_from_pool(self, pool, word):
-        for char in word:
-            pool.remove(char)
-
     def count_score(self, x_start, y_start, x_end, y_end):
         move_score = 0
         if x_end > x_start:
@@ -89,9 +58,9 @@ class Game:
 
     def main_loop(self):
         while True:
-            # self.data.players[0]
+            player = self.data.players[0]
 
-            # self.window.display_data()
+            self.window.display_data()
 
             x_start, y_start, x_end, y_end, word = player.move()
             if x_end > x_start:
@@ -103,4 +72,4 @@ class Game:
             move_score = self.count_score(x_start, y_start, x_end, y_end)
             player.game_score += move_score
 
-            # self.data.players.append(self.data.players.pop(0))
+            self.data.players.append(self.data.players.pop(0))
