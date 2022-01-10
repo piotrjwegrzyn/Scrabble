@@ -3,15 +3,14 @@ package game_classes
 
 """
 from src.game_classes.PlayerAbstract import PlayerAbstract
-from Data import Data
 
 
 class PlayerHuman(PlayerAbstract):
 
-    data = Data.instance()
-
     def __init__(self, name):
         super().__init__(name)
+        import Data
+        self.data = Data.instance()
 
     def move(self):
         #TODO tu musi sie pokazac ekran do wprowadzania literek, z którego potrzebuje pobrać

@@ -6,12 +6,11 @@ import sys
 import time
 import random
 
-from src.game_classes.Data import Data
-
 
 class Game:
 
     def __init__(self, gameWindow):
+        from Data import Data
         self.start_time = None
         self.data = Data.instance()
         self.data.players = Data.players

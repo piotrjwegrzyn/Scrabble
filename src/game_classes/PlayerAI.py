@@ -2,14 +2,15 @@
 package game_classes
 
 """
-from src.game_classes.PlayerAbstract import PlayerAbstract
-from src.game_classes.Data import Data
+
 from src.game_classes.Game import Game
+from src.game_classes.PlayerAbstract import PlayerAbstract
 
 
 class PlayerAI(PlayerAbstract):
 
     def __init__(self, name):
+        from Data import Data
         super().__init__("AI " + str(name))
         self.possible_words_position_in_dictionary = []
         self.possible_words = []
@@ -46,7 +47,7 @@ class PlayerAI(PlayerAbstract):
                 else:
                     found = False
                     break
-            if (found):
+            if found:
                 self.possible_words.append(line)
                 self.possible_words_position_in_dictionary.append(i)
                 break

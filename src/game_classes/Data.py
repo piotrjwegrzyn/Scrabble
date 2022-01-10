@@ -2,13 +2,11 @@
 package game_classes
 
 """
-from src.game_classes.GamePlayers import GamePlayers
 
 
 class Data(object):
-    players = GamePlayers.get_instances()
+    players = []
     lines = []
-    pools_score = [15][15]
     _instance = None
 
     def __init__(self):
@@ -20,15 +18,16 @@ class Data(object):
             cls._instance = cls.__new__(cls)
             f = open('dictionary', encoding='utf-8')
             cls.lines = f.readlines()
+            from GamePlayers import GamePlayers
+            cls.players = GamePlayers.get_instances()
             cls.board_pools = [15][15]
-            for i in range(15):
-                for j in range(15):
-                    cls.pools_score[i][j] = 1
+            cls.pools_score = [[1]*15 for i in range(15)]
             # Tu trzeba dodać mnożniki do konkretnych pól
             cls.players = []
             cls.letters_you_can_add_to = []
             # cls.game_pool = list("aaaaaaaaaąbbcccćdddeeeeeeeęfgghhiiiiiiiijjkkklllłłmmmnnnnnńooooooóppprrrrsśtttuuwwwwyyyyzzzzzźż")
-            cls.game_pool = list("nhucgźoróylwmłńoadpteidcezifpsgaoyićawiplozlżnzwreomakjhoitaarunmiłznśiazrąęekweyceentbyabkajid")
+            cls.game_pool = list(
+                "nhucgźoróylwmłńoadpteidcezifpsgaoyićawiplozlżnzwreomakjhoitaarunmiłznśiazrąęekweyceentbyabkajid")
             cls.letters = {
                 'a': 1,
                 'ą': 5,
@@ -64,7 +63,3 @@ class Data(object):
                 'ż': 5,
             }
         return cls._instance
-
-    def count_points(self, word):
-        # TODO("todo")
-        return 0

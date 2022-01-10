@@ -6,7 +6,6 @@ from PyQt5.uic import loadUi
 
 from src.game_classes.Game import Game
 from src.game_classes.GamePlayers import GamePlayers
-from src.game_classes.Board import Board
 from ...accounts.statistics.mini_statistics_window.MiniStatisticsWindow import MiniStatisticsWindow
 
 
