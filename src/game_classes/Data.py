@@ -2,6 +2,8 @@
 package game_classes
 
 """
+import sys
+import random
 
 
 class Data(object):
@@ -16,11 +18,12 @@ class Data(object):
     def instance(cls):
         if cls._instance is None:
             cls._instance = cls.__new__(cls)
-            f = open('src/game_classes/dictionary', encoding='utf-8')
+            f = open('dictionary', encoding='utf-8')
             cls.lines = f.readlines()
-            from src.game_classes.GamePlayers import GamePlayers
+            f.close()
+            from GamePlayers import GamePlayers
             cls.players = GamePlayers.get_instances()
-            cls.board_pools = [[None]*15]*15
+            cls.board_pools = [15][15]
             cls.pools_score = [[1]*15 for i in range(15)]
             # Tu trzeba dodać mnożniki do konkretnych pól
             cls.players = []
@@ -63,3 +66,13 @@ class Data(object):
                 'ż': 5,
             }
         return cls._instance
+
+    def draw(self, how_many):
+        if len(self.data.game_pool) < how_many:
+            # TODO pula wyczerpana -> koniec gry
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!    AND THAT IS THE END   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            sys.exit()
+        draw_pool = []
+        for i in range(how_many):
+            draw_pool.append(self.data.game_pool.pop(random.randint(0, len(self.data.game_pool) - 1)))
+        return draw_pool

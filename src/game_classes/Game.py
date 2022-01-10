@@ -10,7 +10,7 @@ import random
 class Game:
 
     def __init__(self, gameWindow):
-        from src.game_classes.Data import Data
+        from Data import Data
         self.start_time = None
         self.data = Data.instance()
         self.data.players = Data.players
@@ -71,16 +71,6 @@ class Game:
         for char in word:
             pool.remove(char)
 
-    def draw(self, how_many):
-        if len(self.data.game_pool) < how_many:
-            # TODO pula wyczerpana -> koniec gry
-            print("!!!!!!!!!!!!!!!!!!!!!!!!!!    AND THAT IS THE END   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            sys.exit()
-        draw_pool = []
-        for i in range(how_many):
-            draw_pool.append(self.data.game_pool.pop(random.randint(0, len(self.data.game_pool) - 1)))
-        return draw_pool
-
     def count_score(self, x_start, y_start, x_end, y_end):
         move_score = 0
         if x_end > x_start:
@@ -98,7 +88,7 @@ class Game:
 
     def main_loop(self):
         while True:
-            player = self.data.players.pop(0)
+            player = self.data.players.pop()
 
             x_start, y_start, x_end, y_end, word = player.move()
             if x_end > x_start:

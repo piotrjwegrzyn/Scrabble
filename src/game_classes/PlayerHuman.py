@@ -20,4 +20,31 @@ class PlayerHuman(PlayerAbstract):
         #TODO x_start, y_start, x_end, y_end, word = COS
         #TODO return x_start, y_start, x_end, y_end, word
         #TODO W klasie game literki dodadzą się do planszy i zostaną nam przyznane punkty
-        pass
+        self.check_if_well_placed()
+
+    def check_if_well_placed(self):
+        x = []
+        y = []
+        for ele in letters_placed:
+            x.append(ele[1])
+            y.append(ele[2])
+        x.sort()
+        y.sort()
+
+        is_vertical_or_horizontal = 'vertical'
+        for i in range(1, len(x)):
+            if x[i] != x[i-1]:
+                is_vertical_or_horizontal = 'horizontal'
+        if is_vertical_or_horizontal == 'horizontal':
+            for i in range(1, len(y)):
+                if y[i] != y[i-1]:
+                    is_vertical_or_horizontal = 'bad'
+
+        if is_vertical_or_horizontal == 'bad':
+            return False
+        elif is_vertical_or_horizontal == 'vertical':
+            missing_letters = 0
+            for i in range(1, len(y)):
+                if y[i]-y[i-1] != 1:
+                    if self.data.board_pools[x[0], y[i-1]+1] != '':
+                        letter_in_between = True
