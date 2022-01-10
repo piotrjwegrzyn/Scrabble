@@ -9,7 +9,7 @@ from src.game_classes.PlayerAbstract import PlayerAbstract
 class PlayerAI(PlayerAbstract):
 
     def __init__(self, name):
-        from Data import Data
+        from src.game_classes.Data import Data
         super().__init__("AI " + str(name))
         self.possible_words_position_in_dictionary = []
         self.possible_words = []
