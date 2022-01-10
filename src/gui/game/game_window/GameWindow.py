@@ -194,7 +194,7 @@ class GameWindow(QMainWindow):
             self.tableBoardArea.setItem(y_idx, x_idx, item)
             # delete item <- from tableTilesArea
             self.tableTilesArea.takeItem(0, self.draggedTileIdx)  # tile
-            self.allDraggedTiles.append([self.draggedTileIdx, x_idx, y_idx])
+            self.allDraggedTiles.append([self.draggedTileIdx, y_idx, x_idx])
         except:
             print("This item no longer exists")
         self.draggedTileIdx = None

@@ -28,6 +28,7 @@ class Game:
 
     def resume_game(self):
         # TODO
+        # self.window.buttonEndTurn.clicked.connect(#Twoja_funckja)
         print('!!! UKRYJ OKIENKO I KONTYNUUJ GRE !!!')
 
     def end_game(self):
@@ -88,7 +89,9 @@ class Game:
 
     def main_loop(self):
         while True:
-            player = self.data.players.pop()
+            # self.data.players[0]
+
+            # self.window.display_data()
 
             x_start, y_start, x_end, y_end, word = player.move()
             if x_end > x_start:
@@ -100,4 +103,4 @@ class Game:
             move_score = self.count_score(x_start, y_start, x_end, y_end)
             player.game_score += move_score
 
-            self.data.players.append(player)
+            # self.data.players.append(self.data.players.pop(0))
