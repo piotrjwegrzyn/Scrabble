@@ -88,7 +88,7 @@ class GameWindow(QMainWindow):
         for i in range(0, 15):
             for j in range(0, 15):
                 if board[i][j] is not None:
-                    paths[i][j] = "res/letters/" + self.settings["TileAppearance"] + "/" + board[i][j] + ".png"
+                    paths[i][j] = "res/letters/" + self.settings["tileAppearance"] + "/" + board[i][j] + ".png"
                 else:
                     if i == 7 and j == 7:
                         paths[i][j] = path_star
@@ -156,9 +156,6 @@ class GameWindow(QMainWindow):
             self.labelOppositePlayer.setText(players[2].name)
             self.labelRightPlayer.setText(players[3].name)
 
-    def end_turn(self):
-        self.reset_values_to_default()
-
     def show_gamescreen(self):
         loadUi("src/gui/game/game_window/game_window.ui", self)
         self.buttonResign.clicked.connect(self.resign)
@@ -167,6 +164,7 @@ class GameWindow(QMainWindow):
         self.display_data()
 
     def show_blackscreen(self):
+        self.reset_values_to_default()
         loadUi("src/gui/game/game_window/black_window.ui", self)
         self.buttonContinue.clicked.connect(self.show_gamescreen)
 

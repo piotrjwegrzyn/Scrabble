@@ -43,8 +43,13 @@ class PlayerHuman(PlayerAbstract):
         if is_vertical_or_horizontal == 'bad':
             return False
         elif is_vertical_or_horizontal == 'vertical':
-            missing_letters = 0
-            for i in range(1, len(y)):
-                if y[i]-y[i-1] != 1:
-                    if self.data.board_pools[x[0], y[i-1]+1] != '':
-                        letter_in_between = True
+            for i in range(min(y), max(y)):
+                if i not in y and self.data.board_pools[x[0]][i] == '':
+                    return False
+            return True
+
+        elif is_vertical_or_horizontal == 'horizontal':
+            for i in range(min(x), max(x)):
+                if i not in x and self.data.board_pools[i][y[0]] == '':
+                    return False
+            return True
