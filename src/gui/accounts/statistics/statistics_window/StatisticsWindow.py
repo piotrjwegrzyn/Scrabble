@@ -1,6 +1,8 @@
 import sqlite3
 
+from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 from PyQt5.uic import loadUi
 
@@ -13,19 +15,19 @@ class StatisticsWindow(QMainWindow):
 
         self.buttonBack.clicked.connect(self.close)
 
-        self.set_column_sizes()
+        self.set_tables()
         self.set_table_data()
         self.table.setSortingEnabled(True)
         self.table.sortItems(0)
 
-    def set_column_sizes(self):
-        self.table.setColumnWidth(0, 120)
-        self.table.setColumnWidth(1, 110)
-        self.table.setColumnWidth(2, 160)
-        self.table.setColumnWidth(3, 210)
-        self.table.setColumnWidth(4, 150)
-        self.table.setColumnWidth(5, 260)
-        self.table.setColumnWidth(6, 340)
+    def set_tables(self):
+        self.table.setFont(QFont("MS Shell Dlg 2", 10))  # Cells properties
+        self.table.horizontalHeader().setStyleSheet("QHeaderView")
+        self.table.verticalHeader().setStyleSheet("QHeaderView")
+        self.table.horizontalHeader().setFont(QFont("MS Shell Dlg 2", 20, QFont.Bold))
+        self.table.verticalHeader().setFont(QFont("MS Shell Dlg 2", 20, QFont.Bold))
+        for i in range(0, 7):
+            self.table.horizontalHeader().setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeToContents)
 
     def set_table_data(self):
         connection = sqlite3.connect('data/Accounts_Statistics.db')
@@ -41,6 +43,7 @@ class StatisticsWindow(QMainWindow):
 
         row = 0
         for user in users_data:
+            self.table.verticalHeader().setSectionResizeMode(row, QtWidgets.QHeaderView.ResizeToContents)
             self.table.setItem(row, 0, QTableWidgetItem(str(user[0])))
             row = row + 1
         row = 0

@@ -88,11 +88,16 @@
         </property>
         <item>
          <widget class="QTableWidget" name="table">
+          <property name="font">
+           <font>
+            <family>MS Shell Dlg 2</family>
+           </font>
+          </property>
           <property name="styleSheet">
            <string notr="true">background: rgb(0,0,0,0);
 border: rgb(0,0,0,0);
-selection-color: rgb(128,0,128,0);
-selection-background-color: rgb(0,96,255);</string>
+selection-color: rgb(0,0,0,255);
+selection-background-color: rgb(150,150,150,100);</string>
           </property>
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustToContents</enum>
@@ -165,6 +170,9 @@ selection-background-color: rgb(0,96,255);</string>
              <bold>true</bold>
             </font>
            </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
           </column>
           <column>
            <property name="text">
@@ -176,6 +184,9 @@ selection-background-color: rgb(0,96,255);</string>
              <weight>75</weight>
              <bold>true</bold>
             </font>
+           </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
            </property>
           </column>
           <column>
@@ -189,6 +200,9 @@ selection-background-color: rgb(0,96,255);</string>
              <bold>true</bold>
             </font>
            </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
           </column>
           <column>
            <property name="text">
@@ -201,6 +215,9 @@ selection-background-color: rgb(0,96,255);</string>
              <bold>true</bold>
             </font>
            </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
           </column>
           <column>
            <property name="text">
@@ -212,6 +229,9 @@ selection-background-color: rgb(0,96,255);</string>
              <weight>75</weight>
              <bold>true</bold>
             </font>
+           </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
            </property>
           </column>
           <column>
@@ -226,6 +246,9 @@ selection-background-color: rgb(0,96,255);</string>
              <bold>true</bold>
             </font>
            </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
           </column>
           <column>
            <property name="text">
@@ -237,6 +260,9 @@ selection-background-color: rgb(0,96,255);</string>
              <weight>75</weight>
              <bold>true</bold>
             </font>
+           </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
            </property>
           </column>
          </widget>
