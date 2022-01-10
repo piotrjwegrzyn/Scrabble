@@ -102,14 +102,16 @@ class WindowManager(QMainWindow):
         try:
             cursor.execute(query_table_exists)
         except:
-            query_table_create = "CREATE TABLE users (ID INTEGER PRIMARY KEY AUTOINCREMENT, username varchar(30), password varchar(128))"
+            query_table_create = "CREATE TABLE users (ID INTEGER PRIMARY KEY AUTOINCREMENT, username varchar(30), " \
+                                 "password varchar(128))"
             cursor.execute(query_table_create)
 
         query_statistics_exists = "SELECT EXISTS (SELECT 1 FROM statistics)"
         try:
             cursor.execute(query_statistics_exists)
         except:
-            query_statistics_create = "CREATE TABLE statistics (ID INTEGER PRIMARY KEY AUTOINCREMENT, matches int4, wins int4, points int4, max_points int4)"
+            query_statistics_create = "CREATE TABLE statistics (ID INTEGER PRIMARY KEY AUTOINCREMENT, matches int4, " \
+                                      "wins int4, points int4, max_points int4)"
             cursor.execute(query_statistics_create)
         cursor.close()
         connection.close()

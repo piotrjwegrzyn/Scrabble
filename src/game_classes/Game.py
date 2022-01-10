@@ -15,7 +15,6 @@ class Game:
         self.data = Data.instance()
         self.data.players = Data.players
         self.window = gameWindow
-        self.start_game()
 
     def start_game(self):
         for player in self.data.players:
