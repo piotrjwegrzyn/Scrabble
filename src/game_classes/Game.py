@@ -10,11 +10,12 @@ import random
 class Game:
 
     def __init__(self, gameWindow):
-        from Data import Data
+        from src.game_classes.Data import Data
         self.start_time = None
         self.data = Data.instance()
         self.data.players = Data.players
         self.window = gameWindow
+        self.start_game()
 
     def start_game(self):
         for player in self.data.players:
@@ -98,9 +99,9 @@ class Game:
 
     def main_loop(self):
         while True:
-            player = self.data.players.pop()
+            player = self.data.players.pop(0)
 
-            x_start, y_start, x_end, y_end, word = player.move()
+            """x_start, y_start, x_end, y_end, word = player.move()
             if x_end > x_start:
                 for i in range(x_start, x_end):
                     self.put_letter(i, y_start, word[i - x_start])
@@ -108,6 +109,6 @@ class Game:
                 for i in range(y_start, y_end):
                     self.put_letter(x_start, i, word[i - y_start])
             move_score = self.count_score(x_start, y_start, x_end, y_end)
-            player.game_score += move_score
+            player.game_score += move_score"""
 
             self.data.players.append(player)

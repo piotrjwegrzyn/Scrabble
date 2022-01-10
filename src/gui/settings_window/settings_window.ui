@@ -373,7 +373,7 @@
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">image: url(res/board/set_1/puste_pole.png);</string>
+               <string notr="true">image: url(res/board/set_1/empty_field.png);</string>
               </property>
               <property name="text">
                <string/>
@@ -395,7 +395,7 @@
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">image: url(res/board/set_2/puste_pole.png);</string>
+               <string notr="true">image: url(res/board/set_2/empty_field.png);</string>
               </property>
               <property name="text">
                <string/>
@@ -512,11 +512,6 @@
           <item>
            <property name="text">
             <string>Wartość płytki</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Ilość płytek</string>
            </property>
           </item>
          </widget>

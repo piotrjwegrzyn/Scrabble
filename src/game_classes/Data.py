@@ -16,11 +16,11 @@ class Data(object):
     def instance(cls):
         if cls._instance is None:
             cls._instance = cls.__new__(cls)
-            f = open('dictionary', encoding='utf-8')
+            f = open('src/game_classes/dictionary', encoding='utf-8')
             cls.lines = f.readlines()
-            from GamePlayers import GamePlayers
+            from src.game_classes.GamePlayers import GamePlayers
             cls.players = GamePlayers.get_instances()
-            cls.board_pools = [15][15]
+            cls.board_pools = [[None]*15]*15
             cls.pools_score = [[1]*15 for i in range(15)]
             # Tu trzeba dodać mnożniki do konkretnych pól
             cls.players = []

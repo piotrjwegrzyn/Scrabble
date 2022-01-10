@@ -9,7 +9,7 @@ class PlayerHuman(PlayerAbstract):
 
     def __init__(self, name):
         super().__init__(name)
-        import Data
+        from src.game_classes.Data import Data
         self.data = Data.instance()
 
     def move(self):

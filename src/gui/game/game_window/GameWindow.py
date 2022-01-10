@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 from PyQt5.uic import loadUi
 
 from src.game_classes.Game import Game
+from src.game_classes.Data import Data
 from src.game_classes.GamePlayers import GamePlayers
 from ...accounts.statistics.mini_statistics_window.MiniStatisticsWindow import MiniStatisticsWindow
 
@@ -60,12 +61,12 @@ class GameWindow(QMainWindow):
             self.labelRightPlayer.setHidden(False)
 
     def display_data(self):
-        self.display_board()
-        self.display_letters()
-        self.display_labels()
+        self.draw_board()
+        self.draw_letters()
+        self.draw_labels()
 
     def draw_board(self):
-        board = Board.board_pools
+        board = Data.instance().board_pools
         board_paths = self.create_board_paths(board)
         for i in range(0, 15):
             for j in range(0, 15):
@@ -89,18 +90,18 @@ class GameWindow(QMainWindow):
                     paths[i][j] = "res/letters/" + self.settings["TileAppearance"] + "/" + board[i][j] + ".png"
                 else:
                     if i == 7 and j == 7:
-                        self.board[i][j] = path_star
+                        paths[i][j] = path_star
                     elif i % 7 == 0 and j % 7 == 0:
-                        self.board[i][j] = path_triple_word
+                        paths[i][j] = path_triple_word
                     elif ((i == 3 or i == 11) and j % 14 == 0) or ((j == 3 or j == 11) and i % 14 == 0):
-                        self.board[i][j] = path_double_letter
+                        paths[i][j] = path_double_letter
                     elif (i % 4 == 1 and j % 4 == 1) and not (
                             i == j == 1 or i == j == 13 or (i == 1 and j == 13) or (i == 13 and j == 1)):
-                        self.board[i][j] = path_triple_letter
+                        paths[i][j] = path_triple_letter
                     elif (i == 6 or i == 8) and (j == 6 or j == 8):
-                        self.board[i][j] = path_double_letter
+                        paths[i][j] = path_double_letter
                     else:
-                        self.board[i][j] = path_empty
+                        paths[i][j] = path_empty
         for i in range(1, 5):
             if board[i][i] is None:
                 paths[i][i] = path_double_word
@@ -132,7 +133,7 @@ class GameWindow(QMainWindow):
 
     def draw_letters(self):
         players = GamePlayers.get_instances()
-        for i in range(0, 7):
+        for i in range(0, len(players[0].player_pool)):
             item = QTableWidgetItem()
             letterPath = "res/letters/" + self.settings["tileAppearance"] + "/" + (
                 players[0].player_pool[i]).upper() + ".png"

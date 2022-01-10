@@ -29,7 +29,7 @@ class DeleteAccountWindow(QMainWindow):
         if len(password) != 0 and len(password_2) != 0:
             if password == password_2:
                 hashedPassword = hashlib.sha512(password.encode('utf-8')).hexdigest()
-                id = LoggedUser
+                id = LoggedUser.get_instance().uid
 
                 connection = sqlite3.connect('data/Accounts_Statistics.db')
                 cursor = connection.cursor()
@@ -46,6 +46,7 @@ class DeleteAccountWindow(QMainWindow):
                     connection.commit()
 
                     self.errorMessage.setText("Konto zostało usunięte. Kliknij 'powrot', aby wrocic do menu startowego")
+                    LoggedUser.delete_instance()
                 else:
                     self.errorMessage.setStyleSheet("background-color: rgb(0,0,0,0); color: red")
                     self.errorMessage.setText('Nieprawidłowe hasło')
