@@ -1,4 +1,5 @@
 import json
+import math
 
 from PyQt5.QtGui import QBrush, QImage
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
@@ -24,6 +25,9 @@ class GameWindow(QMainWindow):
         self.board = None
         self.miniStatistics = None
 
+        self.draggedTileIdx = None
+        self.allDraggedTiles = []
+
         self.initialize_tables_labels()  # tableWidgets overall properties
         Game(self)
 
@@ -38,6 +42,9 @@ class GameWindow(QMainWindow):
         return settings
 
     def initialize_tables_labels(self):
+        self.tableBoardArea.dropEvent = self.set_board_drop_event
+        self.tableTilesArea.dragEnterEvent = self.set_tiles_drag_event
+
         self.tableBoardArea.setAcceptDrops(True)
         self.tableBoardArea.setDragEnabled(False)
         self.tableTilesArea.setAcceptDrops(True)
@@ -156,8 +163,7 @@ class GameWindow(QMainWindow):
             self.labelRightPlayer.setText(players[3].name)
 
     def end_turn(self):
-        # TODO - blackscreen
-        print('check view')
+        self.reset_values_to_default()
 
     # po zakończeniu gry
     def display_statistics(self):
@@ -168,3 +174,33 @@ class GameWindow(QMainWindow):
     def resign(self):
         GamePlayers.delete_instances()
         self.close()
+
+    def set_board_drop_event(self, event):
+        # event.pos()
+        x = event.pos().x()
+        x_idx = math.floor(x/102)
+        y = event.pos().y()
+        y_idx = math.floor(y/102)
+
+        try:
+            # copy item <- to tableBoardArea
+            tileItem = self.tableTilesArea.item(0, self.draggedTileIdx)  # tile
+            item = tileItem.clone()
+            self.tableBoardArea.setItem(y_idx, x_idx, item)  # insert tile  # UWAGA!!! wkleja na odwrot, albo ja cos zle paczam
+            # delete item <- from tableTilesArea
+            self.tableTilesArea.takeItem(0, self.draggedTileIdx)  # tile
+            self.allDraggedTiles.append([self.draggedTileIdx, x_idx, y_idx])
+        except:
+            print("This item no longer exists")
+        self.draggedTileIdx = None
+
+    def set_tiles_drag_event(self, event):
+        idx = math.floor(event.pos().x()/102)
+        self.draggedTileIdx = idx
+
+    def get_dropped_tiles(self):
+        return self.allDraggedTiles
+
+    def reset_values_to_default(self):
+        self.allDraggedTiles = []
+        self.draggedTileIdx = None
