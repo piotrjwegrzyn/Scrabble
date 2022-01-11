@@ -1,12 +1,11 @@
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.uic import loadUi
 
-from src.game_classes.PlayerHuman import PlayerHuman
 from src.game_classes.Data import Data
-from src.game_classes.Game import Game
+from src.game_classes.GamePlayers import GamePlayers
+from src.game_classes.PlayerHuman import PlayerHuman
 from ...accounts.LoggedUser import LoggedUser
 from ...accounts.login.mini_login_window.MiniLoginWindow import MiniLoginWindow
-from src.game_classes.GamePlayers import GamePlayers
 
 
 class GameSettingWindow(QMainWindow):
@@ -434,5 +433,4 @@ class GameSettingWindow(QMainWindow):
         if index == 2:
             self.player4.name = self.enterNameP4.text()
         Data.players = GamePlayers.get_instances()
-        Game()
         self.close()

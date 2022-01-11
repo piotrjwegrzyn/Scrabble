@@ -21,8 +21,10 @@ class Game:
     def start_game(self):
         for player in self.data.players:
             player.player_pool = self.data.draw(7)
+        self.windowManager.game_window.draw_letters()  # jednorazowo trzeba to wywołać oddzielnie, bo w chwili rysowania player nie miał liter
+        #^ można też wywołać po prostu self.windowManager.game_window.display_data(), ale trzeba by to usunąć z inita w GameWindow()
         self.start_time = time.time()
-        self.main_loop()
+        # self.main_loop()  # No właśnie, pętla
 
     def pause_game(self):
         # TODO
@@ -88,7 +90,7 @@ class Game:
         x = []
         y = []
         letters = []
-        for ele in self.windowManager.gameWindow.get_dropped_tiles():
+        for ele in self.windowManager.game_window.get_dropped_tiles():
             letters.append(ele[0])
             x.append(ele[1])
             y.append(ele[2])
