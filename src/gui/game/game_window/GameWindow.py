@@ -159,7 +159,6 @@ class GameWindow(QMainWindow):
     def show_gamescreen(self):
         loadUi("src/gui/game/game_window/game_window.ui", self)
         self.buttonResign.clicked.connect(self.resign)
-        self.buttonEndTurn.clicked.connect(self.end_turn)
         self.initialize_tables_labels()  # tableWidgets overall properties
         self.display_data()
 

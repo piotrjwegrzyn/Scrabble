@@ -17,7 +17,7 @@ class PlayerAI(PlayerAbstract):
         self.level = "Easy"
         self.data = Data.instance()
 
-    def move(self):
+    def move(self, gameWindow):
         if self.level == "Medium":
             for pos in self.data.letters_you_can_add_to:
                 x, y = pos[0], pos[1]
@@ -36,13 +36,13 @@ class PlayerAI(PlayerAbstract):
                         y_stop = y
                         letter = self.data.board_pools[x][y]
                         ind = word.find(letter)
-                        return x-ind, y_start, x-ind+len(word), y_stop, word
+                        return x-ind, y_start, x-ind+len(word), y_stop, word, 0
                     elif self.data.board_pools[x][y-1] != '' or self.data.board_pools[x][y+1] != '':
                         x_start = x
                         x_stop = x
                         letter = self.data.board_pools[x][y]
                         ind = word.find(letter)
-                        return x_start, y-ind, x_stop, y-ind+len(word), word
+                        return x_start, y-ind, x_stop, y-ind+len(word), word, 0
             else:
                 temp = self.data.draw(7)
                 self.data.game_pool.extend(self.player_pool)
@@ -65,13 +65,13 @@ class PlayerAI(PlayerAbstract):
                             y_stop = y
                             letter = self.data.board_pools[x][y]
                             ind = word.find(letter)
-                            return x - ind, y_start, x - ind + len(word), y_stop, word
+                            return x - ind, y_start, x - ind + len(word), y_stop, word, 0
                         elif self.data.board_pools[x][y - 1] != '' or self.data.board_pools[x][y + 1] != '':
                             x_start = x
                             x_stop = x
                             letter = self.data.board_pools[x][y]
                             ind = word.find(letter)
-                            return x_start, y - ind, x_stop, y - ind + len(word), word
+                            return x_start, y - ind, x_stop, y - ind + len(word), word, 0
         else:
             pass
 

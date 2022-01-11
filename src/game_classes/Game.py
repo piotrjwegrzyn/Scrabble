@@ -18,7 +18,7 @@ class Game:
 
     def start_game(self):
         for player in self.data.players:
-            player.player_pool = self.draw(7)
+            player.player_pool = self.data.draw(7)
         self.start_time = time.time()
         self.main_loop()
 
@@ -61,8 +61,15 @@ class Game:
             player = self.data.players[0]
 
             self.window.display_data()
+            if not player.is_human:
+                x_start, y_start, x_end, y_end, word, exit_code = player.move(self.window)
+            else:
+                self.window.buttonEndTurn.clicked.connect()
+            x_start, y_start, x_end, y_end, word, exit_code = 0, 0, 0, 0, '', 3
+            while exit_code != 0:
 
-            x_start, y_start, x_end, y_end, word = player.move()
+                x_start, y_start, x_end, y_end, word, exit_code = player.move(self.window)
+
             if x_end > x_start:
                 for i in range(x_start, x_end):
                     self.put_letter(i, y_start, word[i - x_start])

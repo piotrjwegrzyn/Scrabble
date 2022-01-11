@@ -76,3 +76,6 @@ class Data(object):
         for i in range(how_many):
             draw_pool.append(self.game_pool.pop(random.randint(0, len(self.game_pool) - 1)))
         return draw_pool
+
+    def check_for_letters_you_can_add_to(self, x_start, y_start, x_end, y_end):
+        pass
