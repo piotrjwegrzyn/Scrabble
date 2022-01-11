@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 140, 0, 255), stop:1 rgba(0, 60, 0, 220))</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
@@ -195,6 +198,14 @@
             <pointsize>16</pointsize>
            </font>
           </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(203, 203, 0);
+border-style: outset;
+border-width: 2px;
+border-radius: 15px;
+border-color: black;
+padding: 4px;</string>
+          </property>
           <property name="text">
            <string>Zakończ turę</string>
           </property>
@@ -223,6 +234,9 @@
             <pointsize>16</pointsize>
            </font>
           </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: tgb(0,0,0,0)</string>
+          </property>
           <property name="text">
            <string>TextLabel</string>
           </property>
@@ -237,6 +251,9 @@
            <font>
             <pointsize>16</pointsize>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: tgb(0,0,0,0)</string>
           </property>
           <property name="text">
            <string>TextLabel</string>
@@ -258,6 +275,14 @@
            <font>
             <pointsize>16</pointsize>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(203, 203, 0);
+border-style: outset;
+border-width: 2px;
+border-radius: 15px;
+border-color: black;
+padding: 4px;</string>
           </property>
           <property name="text">
            <string>Zrezygnuj</string>
@@ -503,6 +528,9 @@
             <pointsize>16</pointsize>
            </font>
           </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: tgb(0,0,0,0)</string>
+          </property>
           <property name="text">
            <string>TextLabel</string>
           </property>
@@ -517,6 +545,9 @@
            <font>
             <pointsize>16</pointsize>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: tgb(0,0,0,0)</string>
           </property>
           <property name="text">
            <string>TextLabel</string>
