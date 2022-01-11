@@ -115,10 +115,13 @@ class GameSettingWindow(QMainWindow):
         index = self.comboBoxAiDifficulty1.currentIndex()
         if index == 0:
             self.player1.level = "Easy"
+            self.player1.id = 1
         elif index == 1:
             self.player1.level = "Medium"
+            self.player1.id = 2
         else:
             self.player1.level = "Hard"
+            self.player1.id = 3
         self.show_p1()
 
     # General function to call p2 elements
@@ -161,10 +164,13 @@ class GameSettingWindow(QMainWindow):
         index = self.comboBoxAiDifficulty2.currentIndex()
         if index == 0:
             self.player2.level = "Easy"
+            self.player2.id = 1
         elif index == 1:
             self.player2.level = "Medium"
+            self.player2.id = 2
         else:
             self.player2.level = "Hard"
+            self.player2.id = 3
         self.show_p2()
 
     # General function to call p3 elements
@@ -207,10 +213,13 @@ class GameSettingWindow(QMainWindow):
         index = self.comboBoxAiDifficulty3.currentIndex()
         if index == 0:
             self.player3.level = "Easy"
+            self.player3.id = 1
         elif index == 1:
             self.player3.level = "Medium"
+            self.player3.id = 2
         else:
             self.player3.level = "Hard"
+            self.player3.id = 3
         self.show_p3()
 
     # General function to call p4 elements
@@ -253,10 +262,13 @@ class GameSettingWindow(QMainWindow):
         index = self.comboBoxAiDifficulty4.currentIndex()
         if index == 0:
             self.player4.level = "Easy"
+            self.player4.id = 1
         elif index == 1:
             self.player4.level = "Medium"
+            self.player4.id = 2
         else:
             self.player4.level = "Hard"
+            self.player4.id = 3
         self.show_p4()
 
     # Functions to show/hide game players

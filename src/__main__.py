@@ -105,6 +105,15 @@ class WindowManager(QMainWindow):
             query_table_create = "CREATE TABLE users (ID INTEGER PRIMARY KEY AUTOINCREMENT, username varchar(30), " \
                                  "password varchar(128))"
             cursor.execute(query_table_create)
+            query_add_ai_easy = "INSERT INTO users (username) VALUES ('AI Komputer Easy')"
+            cursor.execute(query_add_ai_easy)
+            connection.commit()
+            query_add_ai_medium = "INSERT INTO users (username) VALUES ('AI Komputer Medium')"
+            cursor.execute(query_add_ai_medium)
+            connection.commit()
+            query_add_ai_hard = "INSERT INTO users (username) VALUES ('AI Komputer Hard')"
+            cursor.execute(query_add_ai_hard)
+            connection.commit()
 
         query_statistics_exists = "SELECT EXISTS (SELECT 1 FROM statistics)"
         try:
@@ -113,6 +122,16 @@ class WindowManager(QMainWindow):
             query_statistics_create = "CREATE TABLE statistics (ID INTEGER PRIMARY KEY AUTOINCREMENT, matches int4, " \
                                       "wins int4, points int4, max_points int4)"
             cursor.execute(query_statistics_create)
+            query_add_ai_easy_stats = "INSERT INTO statistics (matches, wins, points, max_points) VALUES (0, 0, 0, 0)"
+            cursor.execute(query_add_ai_easy_stats)
+            connection.commit()
+            query_add_ai_medium_stats = "INSERT INTO statistics (matches, wins, points, max_points) VALUES (0, 0, 0, 0)"
+            cursor.execute(query_add_ai_medium_stats)
+            connection.commit()
+            query_add_ai_hard_stats = "INSERT INTO statistics (matches, wins, points, max_points) VALUES (0, 0, 0, 0)"
+            cursor.execute(query_add_ai_hard_stats)
+            connection.commit()
+
         cursor.close()
         connection.close()
 

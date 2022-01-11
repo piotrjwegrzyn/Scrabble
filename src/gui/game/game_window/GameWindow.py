@@ -78,16 +78,18 @@ class GameWindow(QMainWindow):
                 self.tableBoardArea.setItem(i, j, item)
 
     def create_board_paths(self, board):
-        paths = [[None] * 15] * 15
         path_empty = "res/board/" + self.settings["boardAppearance"] + "/empty_field.png"
         path_star = "res/board/" + self.settings["boardAppearance"] + "/star.png"
         path_double_letter = "res/board/" + self.settings["boardAppearance"] + "/double_letter.png"
         path_double_word = "res/board/" + self.settings["boardAppearance"] + "/double_word.png"
         path_triple_letter = "res/board/" + self.settings["boardAppearance"] + "/triple_letter.png"
         path_triple_word = "res/board/" + self.settings["boardAppearance"] + "/triple_word.png"
+        paths = [None]*15
+        for i in range(0, 15):
+            paths[i] = [None]*15
         for i in range(0, 15):
             for j in range(0, 15):
-                if board[i][j] is not None:
+                if board[i][j] != '':
                     paths[i][j] = "res/letters/" + self.settings["tileAppearance"] + "/" + board[i][j] + ".png"
                 else:
                     if i == 7 and j == 7:
@@ -104,31 +106,31 @@ class GameWindow(QMainWindow):
                     else:
                         paths[i][j] = path_empty
         for i in range(1, 5):
-            if board[i][i] is None:
+            if board[i][i] == '':
                 paths[i][i] = path_double_word
-            if board[14 - i][i] is None:
+            if board[14 - i][i] == '':
                 paths[14 - i][i] = path_double_word
-            if board[14 - i][14 - i] is None:
+            if board[14 - i][14 - i] == '':
                 paths[14 - i][14 - i] = path_double_word
-            if board[i][14 - i] is None:
+            if board[i][14 - i] == '':
                 paths[i][14 - i] = path_double_word
         for i in range(6, 8):
-            if board[i][i - 4] is None:
+            if board[i][i - 4] == '':
                 paths[i][i - 4] = path_double_letter
-            if board[14 - i][14 - (i - 4)] is None:
+            if board[14 - i][14 - (i - 4)] == '':
                 paths[14 - i][14 - (i - 4)] = path_double_letter
-            if board[i - 4][i] is None:
+            if board[i - 4][i] == '':
                 paths[i - 4][i] = path_double_letter
-            if board[14 - (i - 4)][14 - i] is None:
+            if board[14 - (i - 4)][14 - i] == '':
                 paths[14 - (i - 4)][14 - i] = path_double_letter
         # brakujace 4, bo nie chcialo mi sie juz myslec
-        if board[8][2] is None:
+        if board[8][2] == '':
             paths[8][2] = path_double_letter
-        if board[2][8] is None:
+        if board[2][8] == '':
             paths[2][8] = path_double_letter
-        if board[12][6] is None:
+        if board[12][6] == '':
             paths[12][6] = path_double_letter
-        if board[6][12] is None:
+        if board[6][12] == '':
             paths[6][12] = path_double_letter
         return paths
 
