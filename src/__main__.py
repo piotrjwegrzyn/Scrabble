@@ -1,7 +1,7 @@
 import sys
 import sqlite3
 
-from PyQt5.QtWidgets import QMainWindow, QApplication, QStackedWidget
+from PyQt5.QtWidgets import QMainWindow, QApplication, QStackedWidget, QSizePolicy
 
 import gui
 
@@ -19,12 +19,14 @@ class WindowManager(QMainWindow):
         welcomeWindow.buttonRegister.clicked.connect(self.show_register_window)
         welcomeWindow.buttonExit.clicked.connect(widget.close)
         widget.addWidget(welcomeWindow)
+        welcomeWindow.setFixedSize(widget.width(), widget.height())
         welcomeWindow.show()
 
     def show_register_window(self):
         registerWindow = gui.register_window.RegisterWindow()
         registerWindow.buttonBack.clicked.connect(self.show_welcome_window)
         widget.addWidget(registerWindow)
+        registerWindow.setFixedSize(widget.width(), widget.height())
         registerWindow.show()
 
     def show_login_window(self):
@@ -32,6 +34,7 @@ class WindowManager(QMainWindow):
         loginWindow.buttonLogin.clicked.connect(self.show_menu_window)
         loginWindow.buttonBack.clicked.connect(self.show_welcome_window)
         widget.addWidget(loginWindow)
+        loginWindow.setFixedSize(widget.width(), widget.height())
         loginWindow.show()
 
     def show_menu_window(self):
@@ -43,6 +46,7 @@ class WindowManager(QMainWindow):
             menuWindow.buttonLogout.clicked.connect(self.show_login_window)
             menuWindow.buttonExit.clicked.connect(widget.close)
             widget.addWidget(menuWindow)
+            menuWindow.setFixedSize(widget.width(), widget.height())
             menuWindow.show()
 
     def show_game_setting_window(self):
@@ -50,12 +54,14 @@ class WindowManager(QMainWindow):
         gameSettingWindow.buttonGame.clicked.connect(self.show_game_window)
         gameSettingWindow.buttonBack.clicked.connect(self.show_menu_window)
         widget.addWidget(gameSettingWindow)
+        gameSettingWindow.setFixedSize(widget.width(), widget.height())
         gameSettingWindow.show()
 
     def show_game_window(self):
         gameWindow = gui.game_window.GameWindow()
         gameWindow.buttonResign.clicked.connect(self.show_menu_window)
         widget.addWidget(gameWindow)
+        gameWindow.setFixedSize(widget.width(), widget.height())
         gameWindow.show()
 
     def show_account_window(self):
@@ -66,6 +72,7 @@ class WindowManager(QMainWindow):
             accountWindow.buttonStatistics.clicked.connect(self.show_statistics_window)
             accountWindow.buttonBack.clicked.connect(self.show_menu_window)
             widget.addWidget(accountWindow)
+            accountWindow.setFixedSize(widget.width(), widget.height())
             accountWindow.show()
         else:
             self.show_welcome_window()
@@ -74,24 +81,28 @@ class WindowManager(QMainWindow):
         changePasswordWindow = gui.change_password_window.ChangePasswordWindow()
         changePasswordWindow.buttonBack.clicked.connect(self.show_account_window)
         widget.addWidget(changePasswordWindow)
+        changePasswordWindow.setFixedSize(widget.width(), widget.height())
         changePasswordWindow.show()
 
     def show_delete_account_window(self):
         deleteAccountWindow = gui.delete_account_window.DeleteAccountWindow()
         deleteAccountWindow.buttonBack.clicked.connect(self.show_account_window)
         widget.addWidget(deleteAccountWindow)
+        deleteAccountWindow.setFixedSize(widget.width(), widget.height())
         deleteAccountWindow.show()
 
     def show_statistics_window(self):
         statisticsWindow = gui.statistics_window.StatisticsWindow()
         statisticsWindow.buttonBack.clicked.connect(self.show_account_window)
         widget.addWidget(statisticsWindow)
+        statisticsWindow.setFixedSize(widget.width(), widget.height())
         statisticsWindow.show()
 
     def show_settings_window(self):
         settingsWindow = gui.settings_window.SettingsWindow()
         settingsWindow.buttonBack.clicked.connect(self.show_menu_window)
         widget.addWidget(settingsWindow)
+        settingsWindow.setFixedSize(widget.width(), widget.height())
         settingsWindow.show()
 
     def initialize_database_tables(self):
@@ -138,10 +149,8 @@ class WindowManager(QMainWindow):
 
 application = QApplication(sys.argv)
 widget = QStackedWidget()
+widget.showFullScreen()
 window = WindowManager()
-widget.setFixedWidth(1440)
-widget.setFixedHeight(900)
-
 widget.show()
 
 sys.exit(application.exec())
