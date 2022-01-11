@@ -69,7 +69,7 @@ class Game:
             while exit_code != 0:
 
                 x_start, y_start, x_end, y_end, word, exit_code = player.move(self.window)
-
+                self.data.check_for_letters_you_can_add_to(x_start, y_start, x_end, y_end)
             if x_end > x_start:
                 for i in range(x_start, x_end):
                     self.put_letter(i, y_start, word[i - x_start])

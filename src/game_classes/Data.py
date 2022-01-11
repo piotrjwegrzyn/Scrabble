@@ -78,4 +78,38 @@ class Data(object):
         return draw_pool
 
     def check_for_letters_you_can_add_to(self, x_start, y_start, x_end, y_end):
-        pass
+        for i in range(x_start-1, x_end+2):
+            for j in range(y_start-1, y_end+2):
+                self.check_letter(i, j)
+
+    def check_letter(self, x, y):
+        if self.board_pools[x+1][y] != '' or self.board_pools[x-1][y] != '':
+            for i in range(x-1, x+2):
+                if self.board_pools[i][y-1] != '':
+                    self.remove_from_letters_you_can_add_to(x, y)
+                    return
+            for i in range(x-1, x+2):
+                if self.board_pools[i][y+1] != '':
+                    self.remove_from_letters_you_can_add_to(x, y)
+                    return
+        elif self.board_pools[x][y+1] != '' or self.board_pools[x][y-1] != '':
+            for i in range(y-1, y+2):
+                if self.board_pools[x-1][i] != '':
+                    self.remove_from_letters_you_can_add_to(x, y)
+                    return
+            for i in range(y-1, y+2):
+                if self.board_pools[x+1][i] != '':
+                    self.remove_from_letters_you_can_add_to(x, y)
+                    return
+        self.add_to_letters_you_can_add_to(x, y)
+        return
+
+    def remove_from_letters_you_can_add_to(self, x, y):
+        temp = (x, y)
+        if temp in self.letters_you_can_add_to:
+            self.letters_you_can_add_to.remove(temp)
+
+    def add_to_letters_you_can_add_to(self, x, y):
+        temp = (x, y)
+        if temp not in self.letters_you_can_add_to:
+            self.letters_you_can_add_to.append(temp)
