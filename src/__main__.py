@@ -10,7 +10,9 @@ class WindowManager(QMainWindow):
     def __init__(self):
         super(WindowManager, self).__init__()
         self.initialize_database_tables()
-
+        from src.game_classes.Game import Game
+        self.game = Game(self)
+        self.game_window = None
         self.show_welcome_window()
 
     def show_welcome_window(self):
@@ -47,14 +49,17 @@ class WindowManager(QMainWindow):
 
     def show_game_setting_window(self):
         gameSettingWindow = gui.game_setting_window.GameSettingWindow()
-        gameSettingWindow.buttonGame.clicked.connect(self.show_game_window)
+        gameSettingWindow.buttonGame.clicked.connect(self.game.start_game())
         gameSettingWindow.buttonBack.clicked.connect(self.show_menu_window)
         widget.addWidget(gameSettingWindow)
         gameSettingWindow.show()
 
     def show_game_window(self):
         gameWindow = gui.game_window.GameWindow()
+        self.game_window = gameWindow
+        gameWindow.display_data()
         gameWindow.buttonResign.clicked.connect(self.show_menu_window)
+        gameWindow.buttonEndTurn.clicked.connect(self.game.start_check_and_in_dict_methods())
         widget.addWidget(gameWindow)
         gameWindow.show()
 

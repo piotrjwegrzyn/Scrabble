@@ -9,13 +9,14 @@ import random
 
 class Game:
 
-    def __init__(self):
+    def __init__(self, windowManager):
         from src.game_classes.Data import Data
-        from src.gui.game.game_window.GameWindow import GameWindow
         self.start_time = None
         self.data = Data.instance()
         self.data.players = Data.players
-        self.window = GameWindow()
+        self.windowManager = windowManager
+        self.can_be_placed = False
+        self.in_dict = False
 
     def start_game(self):
         for player in self.data.players:
@@ -29,7 +30,6 @@ class Game:
 
     def resume_game(self):
         # TODO
-        # self.window.buttonEndTurn.clicked.connect(#Twoja_funckja)
         print('!!! UKRYJ OKIENKO I KONTYNUUJ GRE !!!')
 
     def end_game(self):
@@ -61,16 +61,13 @@ class Game:
         while True:
             player = self.data.players[0]
 
-            self.window.display_data()
-
-            # self.window.buttonEndTurn.clicked.connect()
             if not player.is_human:
-                x_start, y_start, x_end, y_end, word, exit_code = player.move(self.window)
+                x_start, y_start, x_end, y_end, word = player.move(self.windowManager.game_window)
             else:
-                x_start, y_start, x_end, y_end, word, exit_code = 0, 0, 0, 0, '', 3
-            while exit_code != 0:
+                while not self.can_be_placed or not self.in_dict:
+                    self.windowManager.show_game_window()
+                x_start, y_start, x_end, y_end, word = player.move(self.windowManager.game_window)
 
-                x_start, y_start, x_end, y_end, word, exit_code = player.move(self.window)
                 self.data.check_for_letters_you_can_add_to(x_start, y_start, x_end, y_end)
             if x_end > x_start:
                 for i in range(x_start, x_end):
@@ -82,3 +79,69 @@ class Game:
             player.game_score += move_score
 
             self.data.players.append(self.data.players.pop(0))
+
+    def start_check_and_in_dict_methods(self):
+        self.check_if_well_placed_and_get_word()
+        self.in_dictionary()
+
+    def check_if_well_placed_and_get_word(self):
+        x = []
+        y = []
+        letters = []
+        for ele in self.windowManager.gameWindow.get_dropped_tiles():
+            letters.append(ele[0])
+            x.append(ele[1])
+            y.append(ele[2])
+        x.sort()
+        y.sort()
+
+        is_vertical_or_horizontal = 'vertical'
+        for i in range(1, len(x)):
+            if x[i] != x[i - 1]:
+                is_vertical_or_horizontal = 'horizontal'
+        if is_vertical_or_horizontal == 'horizontal':
+            for i in range(1, len(y)):
+                if y[i] != y[i - 1]:
+                    is_vertical_or_horizontal = 'bad'
+
+        word = ''
+        if is_vertical_or_horizontal == 'bad':
+            self.can_be_placed = False
+            return
+        elif is_vertical_or_horizontal == 'vertical':
+            for i in range(min(y), max(y)):
+                if i in y:
+                    word += letters.pop()
+                elif self.data.board_pools[x[0]][i] != '':
+                    word += self.data.board_pools[x[0]][i]
+                else:
+                    self.can_be_placed = False
+                    return
+            self.can_be_placed = True
+            self.data.players[0].word = word
+            return
+        elif is_vertical_or_horizontal == 'horizontal':
+            for i in range(min(x), max(x)):
+                if i in x:
+                    word += letters.pop()
+                elif self.data.board_pools[i][y[0]] != '':
+                    word += self.data.board_pools[i][y[0]]
+                else:
+                    self.can_be_placed = False
+                    return
+            self.can_be_placed = True
+            self.data.players[0].word = word
+            return
+
+    def in_dictionary(self):
+        f = open('src/game_calsses/dict_easy')
+        for line in f:
+            if self.data.players[0].word == line.strip():
+                break
+        else:
+            f.close()
+            self.in_dict = False
+            return
+        f.close()
+        self.in_dict = True
+        return

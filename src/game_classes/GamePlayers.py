@@ -1,6 +1,6 @@
-
 from src.game_classes.PlayerHuman import PlayerHuman
 from src.game_classes.PlayerAI import PlayerAI
+
 
 class GamePlayers(object):
     __instances = []
@@ -32,4 +32,3 @@ class GamePlayers(object):
     @staticmethod
     def get_instances():
         return GamePlayers.__instances
-
