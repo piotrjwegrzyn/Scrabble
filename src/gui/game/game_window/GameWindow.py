@@ -5,7 +5,6 @@ from PyQt5.QtGui import QBrush, QImage
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 from PyQt5.uic import loadUi
 
-from src.game_classes.Game import Game
 from src.game_classes.Data import Data
 from src.game_classes.GamePlayers import GamePlayers
 from ...accounts.statistics.mini_statistics_window.MiniStatisticsWindow import MiniStatisticsWindow
@@ -23,7 +22,6 @@ class GameWindow(QMainWindow):
         self.allDraggedTiles = []
 
         self.show_gamescreen()
-        Game(self)
 
     @staticmethod
     def load_data():

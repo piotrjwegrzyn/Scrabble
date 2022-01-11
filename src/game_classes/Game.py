@@ -9,12 +9,13 @@ import random
 
 class Game:
 
-    def __init__(self, gameWindow):
+    def __init__(self):
         from src.game_classes.Data import Data
+        from src.gui.game.game_window.GameWindow import GameWindow
         self.start_time = None
         self.data = Data.instance()
         self.data.players = Data.players
-        self.window = gameWindow
+        self.window = GameWindow()
 
     def start_game(self):
         for player in self.data.players:
@@ -61,11 +62,12 @@ class Game:
             player = self.data.players[0]
 
             self.window.display_data()
+
+            # self.window.buttonEndTurn.clicked.connect()
             if not player.is_human:
                 x_start, y_start, x_end, y_end, word, exit_code = player.move(self.window)
             else:
-                self.window.buttonEndTurn.clicked.connect()
-            x_start, y_start, x_end, y_end, word, exit_code = 0, 0, 0, 0, '', 3
+                x_start, y_start, x_end, y_end, word, exit_code = 0, 0, 0, 0, '', 3
             while exit_code != 0:
 
                 x_start, y_start, x_end, y_end, word, exit_code = player.move(self.window)
