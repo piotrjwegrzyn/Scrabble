@@ -91,7 +91,7 @@ class Game:
         y = []
         letters = []
         for ele in self.windowManager.game_window.get_dropped_tiles():
-            letters.append(ele[0])
+            letters.append(self.data.players[0].player_pool[ele[0]])
             x.append(ele[1])
             y.append(ele[2])
         x.sort()
@@ -105,10 +105,12 @@ class Game:
             for i in range(1, len(y)):
                 if y[i] != y[i - 1]:
                     is_vertical_or_horizontal = 'bad'
-
+        if len(x) <= 1:
+            is_vertical_or_horizontal = 'bad'
         word = ''
         if is_vertical_or_horizontal == 'bad':
             self.can_be_placed = False
+            self.data.players[0].word = word
             return
         elif is_vertical_or_horizontal == 'vertical':
             for i in range(min(y), max(y)):
@@ -118,6 +120,7 @@ class Game:
                     word += self.data.board_pools[x[0]][i]
                 else:
                     self.can_be_placed = False
+                    self.data.players[0].word = word
                     return
             self.can_be_placed = True
             self.data.players[0].word = word
@@ -130,13 +133,17 @@ class Game:
                     word += self.data.board_pools[i][y[0]]
                 else:
                     self.can_be_placed = False
+                    self.data.players[0].word = word
                     return
             self.can_be_placed = True
             self.data.players[0].word = word
             return
 
     def in_dictionary(self):
-        f = open('src/game_calsses/dict_easy')
+        if self.data.players[0].word == '':
+            self.in_dict = False
+            return
+        f = open('src/game_classes/dict_easy', encoding='utf-8')
         for line in f:
             if self.data.players[0].word == line.strip():
                 break

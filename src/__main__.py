@@ -12,7 +12,6 @@ class WindowManager(QMainWindow):
         self.initialize_database_tables()
         self.game = None
         self.game_window = None
-        self.game_window = None
         self.show_welcome_window()
 
     def show_welcome_window(self):
@@ -63,6 +62,7 @@ class WindowManager(QMainWindow):
         self.game_window = gui.game_window.GameWindow()
         self.game_window.display_data()
         self.game_window.buttonResign.clicked.connect(self.show_menu_window)
+        self.game_window.buttonEndTurn.clicked.connect(self.game.start_check_and_in_dict_methods)
         widget.addWidget(self.game_window)
         self.game_window.setFixedSize(widget.width(), widget.height())
         self.game_window.show()
@@ -151,8 +151,8 @@ class WindowManager(QMainWindow):
 
     def start_game(self):
         from src.game_classes.Game import Game
-        self.show_game_window()  # tutaj też tworzymy gameWindow
         self.game = Game(self)  # mamy użytkowników i ekrany, więc git
+        self.show_game_window()  # tutaj też tworzymy gameWindow
         self.game.start_game()  # start
 
         """# WERSJA 2 <- gameWindow
