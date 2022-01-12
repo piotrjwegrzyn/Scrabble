@@ -21,10 +21,7 @@ class Game:
     def start_game(self):
         for player in self.data.players:
             player.player_pool = self.data.draw(7)
-        self.windowManager.game_window.draw_letters()  # jednorazowo trzeba to wywołać oddzielnie, bo w chwili rysowania player nie miał liter
-        #^ można też wywołać po prostu self.windowManager.game_window.display_data(), ale trzeba by to usunąć z inita w GameWindow()
         self.start_time = time.time()
-        # self.main_loop()  # No właśnie, pętla
 
     def pause_game(self):
         # TODO
@@ -59,32 +56,30 @@ class Game:
     def put_letter(self, position_x, position_y, letter):
         self.data.board_pools[position_x][position_y] = letter
 
-    def main_loop(self):
-        while True:
-            player = self.data.players[0]
-
-            if not player.is_human:
+    def make_move(self):
+        player = self.data.players[0]
+        if player.is_human:
+            self.check_if_well_placed_and_get_word()
+            self.in_dictionary()
+            if self.can_be_placed and self.in_dict:
                 x_start, y_start, x_end, y_end, word = player.move(self.windowManager.game_window)
             else:
-                while not self.can_be_placed or not self.in_dict:
-                    self.windowManager.show_game_window()
-                x_start, y_start, x_end, y_end, word = player.move(self.windowManager.game_window)
+                #TODO oczyścić planszę z ostatniego ruchu -> wczytac jeszcze raz z board_pools w data
+                return
+        else:
+            x_start, y_start, x_end, y_end, word = player.move(self.windowManager.game_window)
 
-                self.data.check_for_letters_you_can_add_to(x_start, y_start, x_end, y_end)
-            if x_end > x_start:
-                for i in range(x_start, x_end):
-                    self.put_letter(i, y_start, word[i - x_start])
-            else:
-                for i in range(y_start, y_end):
-                    self.put_letter(x_start, i, word[i - y_start])
-            move_score = self.count_score(x_start, y_start, x_end, y_end)
-            player.game_score += move_score
+        self.data.check_for_letters_you_can_add_to(x_start, y_start, x_end, y_end)
+        if x_end > x_start:
+            for i in range(x_start, x_end):
+                self.put_letter(i, y_start, word[i - x_start])
+        else:
+            for i in range(y_start, y_end):
+                self.put_letter(x_start, i, word[i - y_start])
+        move_score = self.count_score(x_start, y_start, x_end, y_end)
+        player.game_score += move_score
+        self.data.players.append(self.data.players.pop(0))
 
-            self.data.players.append(self.data.players.pop(0))
-
-    def start_check_and_in_dict_methods(self):
-        self.check_if_well_placed_and_get_word()
-        self.in_dictionary()
 
     def check_if_well_placed_and_get_word(self):
         x = []
@@ -113,9 +108,9 @@ class Game:
             self.data.players[0].word = word
             return
         elif is_vertical_or_horizontal == 'vertical':
-            for i in range(min(y), max(y)):
+            for i in range(min(y), max(y)+1):
                 if i in y:
-                    word += letters.pop()
+                    word += letters.pop(0)
                 elif self.data.board_pools[x[0]][i] != '':
                     word += self.data.board_pools[x[0]][i]
                 else:
@@ -128,7 +123,7 @@ class Game:
         elif is_vertical_or_horizontal == 'horizontal':
             for i in range(min(x), max(x)):
                 if i in x:
-                    word += letters.pop()
+                    word += letters.pop(0)
                 elif self.data.board_pools[i][y[0]] != '':
                     word += self.data.board_pools[i][y[0]]
                 else:

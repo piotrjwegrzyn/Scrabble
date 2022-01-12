@@ -62,7 +62,7 @@ class WindowManager(QMainWindow):
         self.game_window = gui.game_window.GameWindow()
         self.game_window.display_data()
         self.game_window.buttonResign.clicked.connect(self.show_menu_window)
-        self.game_window.buttonEndTurn.clicked.connect(self.game.start_check_and_in_dict_methods)
+        self.game_window.buttonEndTurn.clicked.connect(self.game.make_move)
         widget.addWidget(self.game_window)
         self.game_window.setFixedSize(widget.width(), widget.height())
         self.game_window.show()
@@ -154,6 +154,7 @@ class WindowManager(QMainWindow):
         self.game = Game(self)  # mamy użytkowników i ekrany, więc git
         self.show_game_window()  # tutaj też tworzymy gameWindow
         self.game.start_game()  # start
+        self.game_window.draw_letters()
 
         """# WERSJA 2 <- gameWindow
         self.game = Game(self.game_window)

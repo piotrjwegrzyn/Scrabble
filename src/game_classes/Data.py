@@ -80,7 +80,8 @@ class Data(object):
     def check_for_letters_you_can_add_to(self, x_start, y_start, x_end, y_end):
         for i in range(x_start-1, x_end+2):
             for j in range(y_start-1, y_end+2):
-                self.check_letter(i, j)
+                if self.board_pools[i][j] != '':
+                    self.check_letter(i, j)
 
     def check_letter(self, x, y):
         if self.board_pools[x+1][y] != '' or self.board_pools[x-1][y] != '':
