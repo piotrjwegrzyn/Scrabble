@@ -16,6 +16,7 @@ class PlayerAI(PlayerAbstract):
         self.positions = []
         self.level = "Easy"
         self.data = Data.instance()
+        self.words_found = 0
 
     def move(self, gameWindow):
         if self.level == "Medium":
@@ -36,14 +37,16 @@ class PlayerAI(PlayerAbstract):
                         y_stop = y
                         letter = self.data.board_pools[x][y]
                         ind = word.find(letter)
-                        return x-ind, y_start, x-ind+len(word), y_stop, word, 0
+                        return x-ind, y_start, x-ind+len(word), y_stop, word
                     elif self.data.board_pools[x][y-1] != '' or self.data.board_pools[x][y+1] != '':
                         x_start = x
                         x_stop = x
                         letter = self.data.board_pools[x][y]
                         ind = word.find(letter)
-                        return x_start, y-ind, x_stop, y-ind+len(word), word, 0
+                        return x_start, y-ind, x_stop, y-ind+len(word), word
             else:
+                for letter in self.player_pool:
+                    self.data.game_pool.append(letter)
                 temp = self.data.draw(7)
                 self.data.game_pool.extend(self.player_pool)
                 self.player_pool = temp
@@ -52,26 +55,33 @@ class PlayerAI(PlayerAbstract):
             self.positions.clear()
 
         elif self.level == "Easy":
+            self.positions.clear()
+            self.possible_words.clear()
+            self.possible_words_position_in_dictionary.clear()
             for pos in self.data.letters_you_can_add_to:
                 x, y = pos[0], pos[1]
+                temp = self.words_found
                 self.not_the_best_word_AI(self.data.board_pools[x][y])
-                no_possible_words = len(self.possible_words)
-                for i in range(no_possible_words):
-                    word = self.possible_words.pop(0)
-                    x, y = self.positions[i][0], self.positions[i][1]
-                    if self.check_if_word_can_be_placed(x, y, word):
-                        if self.data.board_pools[x - 1][y] != '' or self.data.board_pools[x + 1][y] != '':
-                            y_start = y
-                            y_stop = y
-                            letter = self.data.board_pools[x][y]
-                            ind = word.find(letter)
-                            return x - ind, y_start, x - ind + len(word), y_stop, word, 0
-                        elif self.data.board_pools[x][y - 1] != '' or self.data.board_pools[x][y + 1] != '':
-                            x_start = x
-                            x_stop = x
-                            letter = self.data.board_pools[x][y]
-                            ind = word.find(letter)
-                            return x_start, y - ind, x_stop, y - ind + len(word), word, 0
+                if self.words_found > temp:
+                    self.positions.append(pos)
+            no_possible_words = len(self.possible_words)
+            for i in range(no_possible_words):
+                word = self.possible_words.pop(0)
+                x, y = self.positions[i][0], self.positions[i][1]
+                if self.check_if_word_can_be_placed(x, y, word):
+                    if self.data.board_pools[x - 1][y] != '' or self.data.board_pools[x + 1][y] != '':
+                        x_start = x
+                        x_stop = x
+                        letter = self.data.board_pools[x][y]
+                        self.letters_that_were_on_board.append(letter)
+                        ind = word.find(letter)
+                        return x_start, y - ind, x_stop, y - ind + len(word) - 1, word
+                    elif self.data.board_pools[x][y - 1] != '' or self.data.board_pools[x][y + 1] != '':
+                        y_start = y
+                        y_stop = y
+                        letter = self.data.board_pools[x][y]
+                        ind = word.find(letter)
+                        return x - ind, y_start, x - ind + len(word) - 1, y_stop, word
         else:
             pass
 
@@ -130,17 +140,19 @@ class PlayerAI(PlayerAbstract):
     def not_the_best_word_AI(self, letter):
         temp = self.player_pool.copy()
         temp.append(letter)
-        for line in open('dict_easy').readlines():
-            AI_pool_copy = temp.copy()
-            found = True
-            # usuwanie znaku \n z konca
-            line = line.strip()
-            for char in line:
-                if char in AI_pool_copy:
-                    AI_pool_copy.remove(char)
-                else:
-                    found = False
+        for line in open('src/game_classes/dict_easy', encoding='utf-8'):
+            if letter in line:
+                AI_pool_copy = temp.copy()
+                found = True
+                # usuwanie znaku \n z konca
+                line = line.strip()
+                for char in line:
+                    if char in AI_pool_copy:
+                        AI_pool_copy.remove(char)
+                    else:
+                        found = False
+                        break
+                if found:
+                    self.possible_words.append(line)
+                    self.words_found += 1
                     break
-            if found:
-                self.possible_words.append(line)
-                break

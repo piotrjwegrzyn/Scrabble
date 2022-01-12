@@ -86,10 +86,12 @@ class Game:
         self.data.check_for_letters_you_can_add_to(x_start, y_start, x_end, y_end)
         move_score = self.count_score(x_start, y_start, x_end, y_end)
         player.game_score += move_score
-        self.data.players.append(self.data.players.pop(0))
         for letter in word:
-            player.player_pool.remove(letter)
-        player.player_pool.extend(self.data.draw(len(word)))
+            if letter not in player.letters_that_were_on_board:
+                player.player_pool.remove(letter)
+        player.player_pool.extend(self.data.draw(len(word) - len(player.letters_that_were_on_board)))
+        player.letters_that_were_on_board.clear()
+        self.data.players.append(self.data.players.pop(0))
 
     def check_if_well_placed_and_get_word(self):
         x = []
@@ -122,6 +124,7 @@ class Game:
                 if i in y:
                     word += letters.pop(0)
                 elif self.data.board_pools[x[0]][i] != '':
+                    self.data.players[0].letters_that_were_on_board.append(self.data.board_pools[x[0]][i])
                     word += self.data.board_pools[x[0]][i]
                 else:
                     self.can_be_placed = False
@@ -135,6 +138,7 @@ class Game:
                 if i in x:
                     word += letters.pop(0)
                 elif self.data.board_pools[i][y[0]] != '':
+                    self.data.players[0].letters_that_were_on_board.append(self.data.board_pools[x[0]][i])
                     word += self.data.board_pools[i][y[0]]
                 else:
                     self.can_be_placed = False
