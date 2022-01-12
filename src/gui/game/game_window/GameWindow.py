@@ -179,10 +179,8 @@ class GameWindow(QMainWindow):
 
     def set_board_drop_event(self, event):
         # event.pos()
-        x = event.pos().x()
-        x_idx = math.floor(x/102)
-        y = event.pos().y()
-        y_idx = math.floor(y/102)
+        x_idx = self.tableBoardArea.columnAt(event.pos().x())
+        y_idx = self.tableBoardArea.rowAt(event.pos().y())
 
         try:
             # copy item <- to tableBoardArea
