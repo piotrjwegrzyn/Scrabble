@@ -19,6 +19,8 @@ class GameWindow(QMainWindow):
         self.players = GamePlayers.get_instances()
         self.miniStatistics = None
         self.draggedTileIdx = None
+
+        self.allTilesToExchange = []
         self.allDraggedTiles = []
 
         self.show_gamescreen()
@@ -33,31 +35,26 @@ class GameWindow(QMainWindow):
             print('error occurred, cannot load data, restoring default values')
         return settings
 
-    def initialize_tables_labels(self):
-        self.tableBoardArea.dropEvent = self.set_board_drop_event
-        self.tableTilesArea.dragEnterEvent = self.set_tiles_drag_event
+    def set_board_drop_event(self, event):
+        # event.pos()
+        x_idx = self.tableBoardArea.columnAt(event.pos().x())
+        y_idx = self.tableBoardArea.rowAt(event.pos().y())
 
-        self.tableBoardArea.setAcceptDrops(True)
-        self.tableBoardArea.setDragEnabled(False)
-        self.tableTilesArea.setAcceptDrops(True)
-        self.tableTilesArea.setDragEnabled(True)
+        try:
+            # copy item <- to tableBoardArea
+            tileItem = self.tableTilesArea.item(0, self.draggedTileIdx)  # tile
+            item = tileItem.clone()
+            self.tableBoardArea.setItem(y_idx, x_idx, item)
+            # delete item <- from tableTilesArea
+            self.tableTilesArea.takeItem(0, self.draggedTileIdx)  # tile
+            self.allDraggedTiles.append([self.draggedTileIdx, y_idx, x_idx])
+        except:
+            print("This item no longer exists")
+        self.draggedTileIdx = None
 
-        for i in range(0, 15):
-            self.tableBoardArea.setColumnWidth(i, 102)
-            self.tableBoardArea.setRowHeight(i, 102)
-        for i in range(0, 7):
-            self.tableTilesArea.setColumnWidth(i, 102)
-            self.tableTilesArea.setRowHeight(i, 102)
-
-        if len(self.players) == 2:
-            self.labelLeftPlayer.setHidden(True)
-            self.labelRightPlayer.setHidden(True)
-        elif len(self.players) == 3:
-            self.labelLeftPlayer.setHidden(False)
-            self.labelRightPlayer.setHidden(True)
-        else:
-            self.labelLeftPlayer.setHidden(False)
-            self.labelRightPlayer.setHidden(False)
+    def set_tiles_drag_event(self, event):
+        idx = math.floor(event.pos().x()/102)
+        self.draggedTileIdx = idx
 
     def display_data(self):
         self.draw_board()
@@ -159,8 +156,40 @@ class GameWindow(QMainWindow):
     def show_gamescreen(self):
         loadUi("src/gui/game/game_window/game_window.ui", self)
         self.buttonResign.clicked.connect(self.resign)
+        self.buttonResetTurn.clicked.connect(self.reset)
         self.initialize_tables_labels()  # tableWidgets overall properties
         self.display_data()
+
+    def initialize_tables_labels(self):
+        self.tableBoardArea.dropEvent = self.set_board_drop_event
+        self.tableTilesArea.dragEnterEvent = self.set_tiles_drag_event
+        self.tableTilesArea.doubleClicked.connect(self.add_to_exchange)
+
+        self.tableBoardArea.setAcceptDrops(True)
+        self.tableBoardArea.setDragEnabled(False)
+        self.tableTilesArea.setAcceptDrops(True)
+        self.tableTilesArea.setDragEnabled(True)
+
+        for i in range(0, 15):
+            self.tableBoardArea.setColumnWidth(i, 102)
+            self.tableBoardArea.setRowHeight(i, 102)
+        for i in range(0, 7):
+            self.tableTilesArea.setColumnWidth(i, 102)
+            self.tableTilesArea.setRowHeight(i, 102)
+
+        if len(self.players) == 2:
+            self.labelLeftPlayer.setHidden(True)
+            self.labelRightPlayer.setHidden(True)
+        elif len(self.players) == 3:
+            self.labelLeftPlayer.setHidden(False)
+            self.labelRightPlayer.setHidden(True)
+        else:
+            self.labelLeftPlayer.setHidden(False)
+            self.labelRightPlayer.setHidden(False)
+
+    def add_to_exchange(self):
+        self.allTilesToExchange.append(self.tableTilesArea.currentColumn())
+        self.allTilesToExchange = list(dict.fromkeys(self.allTilesToExchange))
 
     def show_blackscreen(self):
         self.reset_values_to_default()
@@ -173,34 +202,21 @@ class GameWindow(QMainWindow):
         self.miniStatistics.show()
         self.miniStatistics.buttonBack.clicked.connect(self.buttonResign.click)
 
+    def reset(self):
+        self.reset_values_to_default()
+        self.display_data()
+
+    def reset_values_to_default(self):
+        self.allDraggedTiles = []
+        self.allTilesToExchange = []
+        self.draggedTileIdx = None
+
     def resign(self):
         GamePlayers.delete_instances()
         self.close()
 
-    def set_board_drop_event(self, event):
-        # event.pos()
-        x_idx = self.tableBoardArea.columnAt(event.pos().x())
-        y_idx = self.tableBoardArea.rowAt(event.pos().y())
-
-        try:
-            # copy item <- to tableBoardArea
-            tileItem = self.tableTilesArea.item(0, self.draggedTileIdx)  # tile
-            item = tileItem.clone()
-            self.tableBoardArea.setItem(y_idx, x_idx, item)
-            # delete item <- from tableTilesArea
-            self.tableTilesArea.takeItem(0, self.draggedTileIdx)  # tile
-            self.allDraggedTiles.append([self.draggedTileIdx, y_idx, x_idx])
-        except:
-            print("This item no longer exists")
-        self.draggedTileIdx = None
-
-    def set_tiles_drag_event(self, event):
-        idx = math.floor(event.pos().x()/102)
-        self.draggedTileIdx = idx
-
     def get_dropped_tiles(self):
         return self.allDraggedTiles
 
-    def reset_values_to_default(self):
-        self.allDraggedTiles = []
-        self.draggedTileIdx = None
+    def get_tiles_to_exchange(self):
+        return self.allTilesToExchange
