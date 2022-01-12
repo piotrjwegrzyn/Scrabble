@@ -44,9 +44,15 @@ class GameWindow(QMainWindow):
             # copy item <- to tableBoardArea
             tileItem = self.tableTilesArea.item(0, self.draggedTileIdx)  # tile
             item = tileItem.clone()
+            # TODO - znaleźć błąd; print('skopiowanie płytki z ręki')
+
+            # print('ustawienie płytki na planszy')
             self.tableBoardArea.setItem(y_idx, x_idx, item)
+            # TODO - znaleźć błąd; print('ustawienie płytki na planszy')
+
             # delete item <- from tableTilesArea
             self.tableTilesArea.takeItem(0, self.draggedTileIdx)  # tile
+            # TODO - znaleźć błąd; print('wywalenie płytki z ręki gracza')
             self.allDraggedTiles.append([self.draggedTileIdx, y_idx, x_idx])
         except:
             print("This item no longer exists")
