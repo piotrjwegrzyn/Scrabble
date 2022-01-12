@@ -18,8 +18,8 @@ class PlayerHuman(PlayerAbstract):
             x = []
             y = []
             for ele in gameWindow.get_dropped_tiles():
-                x.append(ele[1])
-                y.append(ele[2])
+                x.append(ele[2])
+                y.append(ele[1])
             return min(x), min(y), max(x), max(y), self.word
 
     def remove_from_pool(self, word):
