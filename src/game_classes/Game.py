@@ -68,11 +68,12 @@ class Game:
                     self.make_actuall_move(x_start, y_start, x_end, y_end, word)
                     self.human_moved = True
                 else:
-                    # TODO oczyścić planszę z ostatniego ruchu -> wczytac jeszcze raz z board_pools w data
+                    self.windowManager.game_window.reset()
                     return
             else:
                 x_start, y_start, x_end, y_end, word = player.move(self.windowManager.game_window)
                 self.make_actuall_move(x_start, y_start, x_end, y_end, word)
+                self.windowManager.game_window.reset()
         self.human_moved = False
 
     def make_actuall_move(self, x_start, y_start, x_end, y_end, word):
@@ -120,7 +121,13 @@ class Game:
             self.data.players[0].word = word
             return
         elif is_vertical_or_horizontal == 'vertical':
-            for i in range(min(y), max(y) + 1):
+            y_start = min(y)
+            y_end = max(y)
+            if self.data.board_pools[x[0]][min(y)-1] != '':
+                y_start = min(y)-1
+            if self.data.board_pools[x[0]][max(y) + 1] != '':
+                y_end = max(y) + 1
+            for i in range(y_start, y_end + 1):
                 if i in y:
                     word += letters.pop(0)
                 elif self.data.board_pools[x[0]][i] != '':
@@ -134,7 +141,13 @@ class Game:
             self.data.players[0].word = word
             return
         elif is_vertical_or_horizontal == 'horizontal':
-            for i in range(min(x), max(x) + 1):
+            x_start = min(x)
+            x_end = max(x)
+            if self.data.board_pools[min(x) - 1][y[0]] != '':
+                x_start = min(x)-1
+            if self.data.board_pools[max(x) + 1][y[0]] != '':
+                x_end = max(x) + 1
+            for i in range(x_start, x_end + 1):
                 if i in x:
                     word += letters.pop(0)
                 elif self.data.board_pools[i][y[0]] != '':

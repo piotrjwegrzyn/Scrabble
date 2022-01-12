@@ -76,7 +76,7 @@ class GameWindow(QMainWindow):
                 image = QImage(board_paths[i][j])
                 brush = QBrush(image)
                 item.setBackground(brush)
-                self.tableBoardArea.setItem(i, j, item)
+                self.tableBoardArea.setItem(j, i, item)
 
     def create_board_paths(self, board):
         path_empty = "res/board/" + self.settings["boardAppearance"] + "/empty_field.png"
