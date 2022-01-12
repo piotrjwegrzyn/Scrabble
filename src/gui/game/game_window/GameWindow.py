@@ -46,7 +46,7 @@ class GameWindow(QMainWindow):
             item = tileItem.clone()
             # TODO - znaleźć błąd; print('skopiowanie płytki z ręki')
 
-            # print('ustawienie płytki na planszy')
+            # set item on board
             self.tableBoardArea.setItem(y_idx, x_idx, item)
             # TODO - znaleźć błąd; print('ustawienie płytki na planszy')
 
