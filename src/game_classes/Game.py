@@ -83,7 +83,6 @@ class Game:
                     self.windowManager.game_window.reset()
                     return
             else:
-                time.sleep(1)
                 x_start, y_start, x_end, y_end, word = player.move(self.windowManager.game_window)
                 if player.how_many_times_in_row_exchanged >= 2:
                     self.end_game()
