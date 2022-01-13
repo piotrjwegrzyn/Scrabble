@@ -62,21 +62,23 @@ class WindowManager(QMainWindow):
     def show_game_window(self):
         if self.blackscreen_window is not None:
             self.blackscreen_window.hide()
-        self.game_window = gui.game_window.GameWindow()
-        self.game_window.display_data()
-        self.game_window.buttonResign.clicked.connect(self.show_menu_window)
-        self.game_window.buttonExchange.clicked.connect(self.game.exchange)
-        self.game_window.buttonEndTurn.clicked.connect(self.game.make_move)
-        widget.addWidget(self.game_window)
-        self.game_window.setFixedSize(widget.width(), widget.height())
+        if self.game_window is None:
+            self.game_window = gui.game_window.GameWindow()
+            self.game_window.display_data()
+            self.game_window.buttonResign.clicked.connect(self.show_menu_window)
+            self.game_window.buttonExchange.clicked.connect(self.game.exchange)
+            self.game_window.buttonEndTurn.clicked.connect(self.game.make_move)
+            widget.addWidget(self.game_window)
+            self.game_window.setFixedSize(widget.width(), widget.height())
         self.game_window.show()
 
     def show_blackscreen_window(self):
         self.game_window.hide()
-        self.blackscreen_window = gui.blackscreen_window.BlackscreenWindow()
-        self.blackscreen_window.buttonContinue.clicked.connect(self.show_game_window)
-        widget.addWidget(self.blackscreen_window)
-        self.blackscreen_window.setFixedSize(widget.width(), widget.height())
+        if self.blackscreen_window is None:
+            self.blackscreen_window = gui.blackscreen_window.BlackscreenWindow()
+            self.blackscreen_window.buttonContinue.clicked.connect(self.show_game_window)
+            widget.addWidget(self.blackscreen_window)
+            self.blackscreen_window.setFixedSize(widget.width(), widget.height())
         self.blackscreen_window.show()
 
     def show_account_window(self):
