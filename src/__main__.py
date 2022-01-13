@@ -1,6 +1,7 @@
 import sqlite3
 import sys
 
+from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QMainWindow, QApplication, QStackedWidget
 
 import gui
@@ -173,6 +174,10 @@ class WindowManager(QMainWindow):
         self.show_game_window()  # tutaj też tworzymy gameWindow
         self.game.start_game()  # start
         self.game_window.draw_letters()
+        self.qTimer = QTimer()
+        self.qTimer.setInterval(500)
+        self.qTimer.timeout.connect(self.game.automatic_move_if_computer)
+        self.qTimer.start()
 
         """# WERSJA 2 <- gameWindow
         self.game = Game(self.game_window)

@@ -26,14 +26,8 @@ class Game:
         self.windowManager.game_window.reset()
 
     def end_game(self):
-        # TODO("Refactor")
-        print('!!! DODAJ DO STATYSTYK I WYJDZ DO MAIN MENU !!!')
-        czas_gry = time.time() - self.start_time
-        sec = czas_gry % 60
-        czas_gry = czas_gry // 60
-        min = czas_gry % 60
-        godz = czas_gry // 60
-        print('Czas gry to {}H {}M {}S'.format(godz, min, sec))
+        self.windowManager.qTimer.stop()
+        self.windowManager.game_window.display_statistics()
 
     def count_score(self, x_start, y_start, x_end, y_end):
         move_score = 0
@@ -69,31 +63,33 @@ class Game:
         self.windowManager.game_window.reset()
         self.data.players.append(self.data.players.pop(0))
 
+    def automatic_move_if_computer(self):
+        if not self.data.players[0].is_human:
+            self.make_move()
+
     def make_move(self):
-        while True:
-            player = self.data.players[0]
-            if player.is_human:
-                self.check_if_well_placed_and_get_word()
-                self.in_dictionary()
-                if self.can_be_placed and self.in_dict:
-                    x_start, y_start, x_end, y_end, word = player.move(self.windowManager.game_window)
-                    self.make_actuall_move(x_start, y_start, x_end, y_end, word)
-                else:
-                    player.letters_that_were_on_board.clear()
-                    self.windowManager.game_window.reset()
-                    return
-            else:
+        player = self.data.players[0]
+        if player.is_human:
+            self.check_if_well_placed_and_get_word()
+            self.in_dictionary()
+            if self.can_be_placed and self.in_dict:
                 x_start, y_start, x_end, y_end, word = player.move(self.windowManager.game_window)
-                if player.how_many_times_in_row_exchanged >= 2:
-                    self.end_game()
-                if word != '':
-                    self.make_actuall_move(x_start, y_start, x_end, y_end, word)
-                    self.windowManager.game_window.reset()
-            self.data.players.append(self.data.players.pop(0))
-            if self.data.players[0].is_human:
+                self.make_actuall_move(x_start, y_start, x_end, y_end, word)
+            else:
+                player.letters_that_were_on_board.clear()
                 self.windowManager.game_window.reset()
-                self.windowManager.show_blackscreen_window()
-                break
+                return
+        else:
+            x_start, y_start, x_end, y_end, word = player.move(self.windowManager.game_window)
+            if player.how_many_times_in_row_exchanged >= 2:
+                self.end_game()
+            if word != '':
+                self.make_actuall_move(x_start, y_start, x_end, y_end, word)
+                self.windowManager.game_window.reset()
+        self.data.players.append(self.data.players.pop(0))
+        if self.data.players[0].is_human:
+            self.windowManager.game_window.reset()
+            self.windowManager.show_blackscreen_window()
 
     def make_actuall_move(self, x_start, y_start, x_end, y_end, word):
         player = self.data.players[0]

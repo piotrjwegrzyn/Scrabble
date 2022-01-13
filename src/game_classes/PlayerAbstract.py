@@ -9,6 +9,7 @@ class PlayerAbstract:
     player_pool = []
     is_human = False
     letters_that_were_on_board = []
+    theoretical_score = 0
 
     def __init__(self, name):
         self.name = name

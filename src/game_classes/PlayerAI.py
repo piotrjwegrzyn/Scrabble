@@ -93,6 +93,8 @@ class PlayerAI(PlayerAbstract):
             if y-(ind+1) >= 0 and y+(length-ind) < 15:
                 if self.data.board_pools[x][y-(ind+1)] != '' or self.data.board_pools[x][y+(length-ind)] != '':
                     check = False
+            if y-ind < 0 or y+length-ind-1 > 14:
+                check = False
 
         elif self.data.board_pools[x][y-1] != '' or self.data.board_pools[x][y+1] != '':
             for i in range(max(x-(ind+1), 0), x):
@@ -104,6 +106,8 @@ class PlayerAI(PlayerAbstract):
             if x-(ind+1) >= 0 and x+(length-ind) < 15:
                 if self.data.board_pools[x-(ind+1)][y] != '' or self.data.board_pools[x+(length-ind)][y] != '':
                     check = False
+            if x-ind < 0 or x+length-ind-1 > 14:
+                check = False
 
         if check:
             return True
