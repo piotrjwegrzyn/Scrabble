@@ -40,6 +40,8 @@ class WindowManager(QMainWindow):
         loginWindow.show()
 
     def show_menu_window(self):
+        if self.blackscreen_window is not None:
+            self.blackscreen_window = None
         if gui.LoggedUser.get_instance() is not None:
             menuWindow = gui.menu_window.MenuWindow()
             menuWindow.buttonGameSetting.clicked.connect(self.show_game_setting_window)
@@ -62,17 +64,18 @@ class WindowManager(QMainWindow):
     def show_game_window(self):
         if self.blackscreen_window is not None:
             self.blackscreen_window.hide()
-        if self.game_window is None:
+        if self.blackscreen_window is None:
             self.game_window = gui.game_window.GameWindow()
-            self.game_window.display_data()
             self.game_window.buttonResign.clicked.connect(self.show_menu_window)
             self.game_window.buttonExchange.clicked.connect(self.game.exchange_clicked)
             self.game_window.buttonEndTurn.clicked.connect(self.game.make_move)
             widget.addWidget(self.game_window)
             self.game_window.setFixedSize(widget.width(), widget.height())
+            self.game_window.display_data()
         self.game_window.show()
 
     def show_blackscreen_window(self):
+        self.game_window.reset_values_to_default()
         self.game_window.hide()
         if self.blackscreen_window is None:
             self.blackscreen_window = gui.blackscreen_window.BlackscreenWindow()

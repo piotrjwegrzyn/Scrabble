@@ -21,6 +21,7 @@ class GameWindow(QMainWindow):
 
         self.settings = self.load_data()
         self.players = GamePlayers.get_instances()
+        self.backupItems = []
         self.miniStatistics = None
         self.draggedTileIdx = None
 
@@ -28,7 +29,6 @@ class GameWindow(QMainWindow):
         self.allDraggedTiles = []
 
         self.initialize_tables_labels()  # tableWidgets overall properties
-        self.display_data()
 
     @staticmethod
     def load_data():
@@ -184,21 +184,31 @@ class GameWindow(QMainWindow):
             self.labelRightPlayer.setHidden(False)
 
     def add_to_exchange(self):
-        try:
-            self.allTilesToExchange.append(self.tableTilesArea.currentColumn())
-            item = self.tableTilesArea.item(0, self.tableTilesArea.currentColumn())
-            pixmap = item.data(Qt.DecorationRole)
+        index = self.tableTilesArea.currentColumn()
+        if index in self.allTilesToExchange:
+            self.allTilesToExchange.remove(index)
+            try:
+                for (storedIndex, storedItem) in self.backupItems:
+                    if storedIndex == index:
+                        self.tableTilesArea.setItem(0, index, storedItem)
+                        self.backupItems.remove([storedIndex, storedItem])
+            except:
+                print("Error restoring item")
+        else:
+            self.allTilesToExchange.append(index)
+            try:
+                item = self.tableTilesArea.item(0, index)
+                self.backupItems.append([index, item.clone()])
+                pixmap = item.data(Qt.DecorationRole)
 
-            painter = QPainter(pixmap)
-            painter.fillRect(QRect(0, 0, pixmap.width(), pixmap.height()), QBrush(QColor(0, 0, 0, 80)))
-            painter.end()
+                painter = QPainter(pixmap)
+                painter.fillRect(QRect(0, 0, pixmap.width(), pixmap.height()), QBrush(QColor(0, 0, 0, 80)))
+                painter.end()
 
-            item.setData(Qt.DecorationRole, pixmap)
-            self.tableTilesArea.setItem(0, self.tableTilesArea.currentColumn(), item)
-
-            self.allTilesToExchange = list(dict.fromkeys(self.allTilesToExchange))
-        except:
-            print("You can't exchange non-existent letter")
+                item.setData(Qt.DecorationRole, pixmap)
+                self.tableTilesArea.setItem(0, index, item)
+            except:
+                print("You can't exchange non-existent letter")
 
     # po zakończeniu gry
     def display_statistics(self):
@@ -211,6 +221,7 @@ class GameWindow(QMainWindow):
         self.display_data()
 
     def reset_values_to_default(self):
+        self.backupItems = []
         self.allDraggedTiles = []
         self.allTilesToExchange = []
         self.draggedTileIdx = None
