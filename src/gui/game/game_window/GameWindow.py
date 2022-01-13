@@ -1,8 +1,8 @@
 import json
 import math
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt, QRect
+from PyQt5.QtGui import QPixmap, QColor, QPainter, QBrush
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 from PyQt5.uic import loadUi
 
@@ -45,15 +45,12 @@ class GameWindow(QMainWindow):
             # copy item <- to tableBoardArea
             tileItem = self.tableTilesArea.item(0, self.draggedTileIdx)  # tile
             item = tileItem.clone()
-            # TODO - znaleźć błąd; print('skopiowanie płytki z ręki')
 
             # set item on board
             self.tableBoardArea.setItem(y_idx, x_idx, item)
-            # TODO - znaleźć błąd; print('ustawienie płytki na planszy')
 
             # delete item <- from tableTilesArea
             self.tableTilesArea.takeItem(0, self.draggedTileIdx)  # tile
-            # TODO - znaleźć błąd; print('wywalenie płytki z ręki gracza')
             self.allDraggedTiles.append([self.draggedTileIdx, y_idx, x_idx])
         except:
             print("This item no longer exists")
@@ -135,11 +132,10 @@ class GameWindow(QMainWindow):
         return paths
 
     def draw_letters(self):
-        players = GamePlayers.get_instances()
-        for i in range(0, len(players[0].player_pool)):
+        for i in range(0, len(self.players[0].player_pool)):
             item = QTableWidgetItem()
             letterPath = "res/letters/" + self.settings["tileAppearance"] + "/" + (
-                players[0].player_pool[i]).upper() + ".png"
+                self.players[0].player_pool[i]).upper() + ".png"
             item.setData(Qt.DecorationRole, QPixmap(letterPath))
             self.tableTilesArea.setItem(0, i, item)
 
@@ -191,8 +187,21 @@ class GameWindow(QMainWindow):
             self.labelRightPlayer.setHidden(False)
 
     def add_to_exchange(self):
-        self.allTilesToExchange.append(self.tableTilesArea.currentColumn())
-        self.allTilesToExchange = list(dict.fromkeys(self.allTilesToExchange))
+        try:
+            self.allTilesToExchange.append(self.tableTilesArea.currentColumn())
+            item = self.tableTilesArea.item(0, self.tableTilesArea.currentColumn())
+            pixmap = item.data(Qt.DecorationRole)
+
+            painter = QPainter(pixmap)
+            painter.fillRect(QRect(0, 0, pixmap.width(), pixmap.height()), QBrush(QColor(0, 0, 0, 80)))
+            painter.end()
+
+            item.setData(Qt.DecorationRole, pixmap)
+            self.tableTilesArea.setItem(0, self.tableTilesArea.currentColumn(), item)
+
+            self.allTilesToExchange = list(dict.fromkeys(self.allTilesToExchange))
+        except:
+            print("You can't exchange non-existent letter")
 
     def show_blackscreen(self):
         self.reset_values_to_default()

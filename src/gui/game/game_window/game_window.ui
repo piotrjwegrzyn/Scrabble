@@ -68,7 +68,7 @@
            </sizepolicy>
           </property>
           <property name="styleSheet">
-           <string notr="true">selection-background-color: rgb(150,150,150,100);</string>
+           <string notr="true">selection-background-color: rgb(0,0,0,0);</string>
           </property>
           <property name="verticalScrollBarPolicy">
            <enum>Qt::ScrollBarAsNeeded</enum>
