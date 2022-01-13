@@ -71,7 +71,7 @@ class WindowManager(QMainWindow):
         self.game_window.setFixedSize(widget.width(), widget.height())
         self.game_window.show()
 
-    def show_blackscreen(self):
+    def show_blackscreen_window(self):
         self.game_window.hide()
         self.blackscreen_window = gui.blackscreen_window.BlackscreenWindow()
         self.blackscreen_window.buttonContinue.clicked.connect(self.show_game_window)
