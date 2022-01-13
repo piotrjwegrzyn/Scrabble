@@ -1,7 +1,8 @@
 import json
 import math
 
-from PyQt5.QtGui import QBrush, QImage
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 from PyQt5.uic import loadUi
 
@@ -73,9 +74,7 @@ class GameWindow(QMainWindow):
         for i in range(0, 15):
             for j in range(0, 15):
                 item = QTableWidgetItem()
-                image = QImage(board_paths[i][j])
-                brush = QBrush(image)
-                item.setBackground(brush)
+                item.setData(Qt.DecorationRole, QPixmap(board_paths[i][j]))
                 self.tableBoardArea.setItem(j, i, item)
 
     def create_board_paths(self, board):
@@ -141,9 +140,7 @@ class GameWindow(QMainWindow):
             item = QTableWidgetItem()
             letterPath = "res/letters/" + self.settings["tileAppearance"] + "/" + (
                 players[0].player_pool[i]).upper() + ".png"
-            image = QImage(letterPath)
-            brush = QBrush(image)
-            item.setBackground(brush)
+            item.setData(Qt.DecorationRole, QPixmap(letterPath))
             self.tableTilesArea.setItem(0, i, item)
 
     def draw_labels(self):
