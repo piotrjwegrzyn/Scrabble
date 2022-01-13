@@ -61,10 +61,13 @@ class Game:
 
     def exchange(self):
         letters_to_throw_away = []
+        for ele in self.windowManager.game_window.get_tiles_to_exchange():
+            letters_to_throw_away.append(self.data.players[0].player_pool[ele[0]])
         self.data.game_pool.extend(letters_to_throw_away)
         for letter in letters_to_throw_away:
             self.data.players[0].player_pool.remove(letter)
         self.data.players[0].player_pool.extend(self.data.draw(len(letters_to_throw_away)))
+        self.windowManager.game_window.reset()
 
     def make_move(self):
         while True:
@@ -77,6 +80,7 @@ class Game:
                     self.make_actuall_move(x_start, y_start, x_end, y_end, word)
                 else:
                     player.letters_that_were_on_board.clear()
+                    self.windowManager.game_window.reset()
                     return
             else:
                 x_start, y_start, x_end, y_end, word = player.move(self.windowManager.game_window)
