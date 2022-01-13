@@ -17,7 +17,9 @@ class Game:
         self.windowManager = windowManager
         self.can_be_placed = False
         self.in_dict = False
-        self.human_moved = False
+        if not self.data.players[0].is_human:
+            self.data.board_pools[7][7] = self.data.players[0].player_pool.pop(0)
+            self.data.letters_you_can_add_to.append((7, 7))
 
     def start_game(self):
         for player in self.data.players:
@@ -57,8 +59,11 @@ class Game:
     def put_letter(self, position_x, position_y, letter):
         self.data.board_pools[position_x][position_y] = letter
 
+    def exchange(self):
+        pass
+
     def make_move(self):
-        while not self.human_moved or not self.data.players[0].is_human:
+        while True:
             player = self.data.players[0]
             if player.is_human:
                 self.check_if_well_placed_and_get_word()
@@ -66,16 +71,18 @@ class Game:
                 if self.can_be_placed and self.in_dict:
                     x_start, y_start, x_end, y_end, word = player.move(self.windowManager.game_window)
                     self.make_actuall_move(x_start, y_start, x_end, y_end, word)
-                    self.human_moved = True
                 else:
-                    self.windowManager.game_window.reset()
+                    player.letters_that_were_on_board.clear()
                     return
             else:
                 x_start, y_start, x_end, y_end, word = player.move(self.windowManager.game_window)
                 if word != '':
                     self.make_actuall_move(x_start, y_start, x_end, y_end, word)
-                self.windowManager.game_window.reset()
-        self.human_moved = False
+            self.windowManager.game_window.reset()
+            self.data.players.append(self.data.players.pop(0))
+            if self.data.players[0].is_human:
+                self.windowManager.game_window.show_blackscreen()
+                break
 
     def make_actuall_move(self, x_start, y_start, x_end, y_end, word):
         player = self.data.players[0]
@@ -91,9 +98,8 @@ class Game:
         for letter in word:
             if letter not in player.letters_that_were_on_board:
                 player.player_pool.remove(letter)
-        player.player_pool.extend(self.data.draw(len(word) - len(player.letters_that_were_on_board)))
+        player.player_pool.extend(self.data.draw(7 - len(player.player_pool)))
         player.letters_that_were_on_board.clear()
-        self.data.players.append(self.data.players.pop(0))
 
     def check_if_well_placed_and_get_word(self):
         x = []
@@ -146,10 +152,12 @@ class Game:
         elif is_vertical_or_horizontal == 'horizontal':
             x_start = min(x)
             x_end = max(x)
-            if self.data.board_pools[min(x) - 1][y[0]] != '':
-                x_start = min(x)-1
-            if self.data.board_pools[max(x) + 1][y[0]] != '':
-                x_end = max(x) + 1
+            if min(x) - 1 >= 0:
+                if self.data.board_pools[min(x) - 1][y[0]] != '':
+                    x_start = min(x)-1
+            if max(x) + 1 < 15:
+                if self.data.board_pools[max(x) + 1][y[0]] != '':
+                    x_end = max(x) + 1
             for i in range(x_start, x_end + 1):
                 if i in x:
                     word += letters.pop(0)

@@ -26,15 +26,19 @@ class PlayerHuman(PlayerAbstract):
         y_end = max(y)
         if len(x) != len(self.word):
             if min(x) != max(x):
-                if self.data.board_pools[min(x) - 1][y[0]] != '':
-                    x_start = min(x) - 1
-                if self.data.board_pools[max(x) + 1][y[0]] != '':
-                    x_end = max(x) + 1
+                if min(x) - 1 >= 0:
+                    if self.data.board_pools[min(x) - 1][y[0]] != '':
+                        x_start = min(x) - 1
+                if max(x) + 1 < 15:
+                    if self.data.board_pools[max(x) + 1][y[0]] != '':
+                        x_end = max(x) + 1
             elif min(y) != max(y):
-                if self.data.board_pools[x[0]][min(y) - 1] != '':
-                    y_start = min(y) - 1
-                if self.data.board_pools[x[0]][max(y) + 1] != '':
-                    y_end = max(y) + 1
+                if min(y) - 1 >= 0:
+                    if self.data.board_pools[x[0]][min(y) - 1] != '':
+                        y_start = min(y) - 1
+                if max(y) + 1 < 15:
+                    if self.data.board_pools[x[0]][max(y) + 1] != '':
+                        y_end = max(y) + 1
         return x_start, y_start, x_end, y_end, self.word
 
     def remove_from_pool(self, word):
