@@ -85,7 +85,7 @@ class Game:
             self.windowManager.game_window.reset()
             self.data.players.append(self.data.players.pop(0))
             if self.data.players[0].is_human:
-                self.windowManager.game_window.show_blackscreen()
+                self.windowManager.show_blackscreen()
                 break
 
     def make_actuall_move(self, x_start, y_start, x_end, y_end, word):

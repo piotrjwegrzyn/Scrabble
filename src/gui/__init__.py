@@ -8,6 +8,7 @@ THIS FILE CREATES ACCESSIBLE PACKAGE
 from .welcome_window import WelcomeWindow as welcome_window
 from .menu_window import MenuWindow as menu_window
 from .game.game_window import GameWindow as game_window
+from .game.game_window import BlackscreenWindow as blackscreen_window
 from .game.game_setting_window import GameSettingWindow as game_setting_window
 from .settings_window import SettingsWindow as settings_window
 from .accounts.account_window import AccountWindow as account_window

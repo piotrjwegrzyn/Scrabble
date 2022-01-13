@@ -15,6 +15,9 @@ class GameWindow(QMainWindow):
 
     def __init__(self):
         super(GameWindow, self).__init__()
+        loadUi("src/gui/game/game_window/game_window.ui", self)
+        self.buttonResign.clicked.connect(self.resign)
+        self.buttonResetTurn.clicked.connect(self.reset)
 
         self.settings = self.load_data()
         self.players = GamePlayers.get_instances()
@@ -24,7 +27,8 @@ class GameWindow(QMainWindow):
         self.allTilesToExchange = []
         self.allDraggedTiles = []
 
-        self.show_gamescreen()
+        self.initialize_tables_labels()  # tableWidgets overall properties
+        self.display_data()
 
     @staticmethod
     def load_data():
@@ -152,13 +156,6 @@ class GameWindow(QMainWindow):
             self.labelOppositePlayer.setText(players[2].name)
             self.labelRightPlayer.setText(players[3].name)
 
-    def show_gamescreen(self):
-        loadUi("src/gui/game/game_window/game_window.ui", self)
-        self.buttonResign.clicked.connect(self.resign)
-        self.buttonResetTurn.clicked.connect(self.reset)
-        self.initialize_tables_labels()  # tableWidgets overall properties
-        self.display_data()
-
     def initialize_tables_labels(self):
         self.tableBoardArea.dropEvent = self.set_board_drop_event
         self.tableTilesArea.dragEnterEvent = self.set_tiles_drag_event
@@ -202,11 +199,6 @@ class GameWindow(QMainWindow):
             self.allTilesToExchange = list(dict.fromkeys(self.allTilesToExchange))
         except:
             print("You can't exchange non-existent letter")
-
-    def show_blackscreen(self):
-        self.reset_values_to_default()
-        loadUi("src/gui/game/game_window/black_window.ui", self)
-        self.buttonContinue.clicked.connect(self.show_gamescreen)
 
     # po zakończeniu gry
     def display_statistics(self):
