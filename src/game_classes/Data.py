@@ -78,8 +78,8 @@ class Data(object):
         return draw_pool
 
     def check_for_letters_you_can_add_to(self, x_start, y_start, x_end, y_end):
-        for i in range(x_start-1, x_end+2):
-            for j in range(y_start-1, y_end+2):
+        for i in range(max(x_start-1, 1), min(x_end+2, 13)):
+            for j in range(max(y_start-1, 1), min(y_end+2, 13)):
                 if self.board_pools[i][j] != '':
                     self.check_letter(i, j)
 

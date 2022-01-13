@@ -72,7 +72,8 @@ class Game:
                     return
             else:
                 x_start, y_start, x_end, y_end, word = player.move(self.windowManager.game_window)
-                self.make_actuall_move(x_start, y_start, x_end, y_end, word)
+                if word != '':
+                    self.make_actuall_move(x_start, y_start, x_end, y_end, word)
                 self.windowManager.game_window.reset()
         self.human_moved = False
 
@@ -123,10 +124,12 @@ class Game:
         elif is_vertical_or_horizontal == 'vertical':
             y_start = min(y)
             y_end = max(y)
-            if self.data.board_pools[x[0]][min(y)-1] != '':
-                y_start = min(y)-1
-            if self.data.board_pools[x[0]][max(y) + 1] != '':
-                y_end = max(y) + 1
+            if min(y)-1 >= 0:
+                if self.data.board_pools[x[0]][min(y)-1] != '':
+                    y_start = min(y)-1
+            if max(y) + 1 < 15:
+                if self.data.board_pools[x[0]][max(y) + 1] != '':
+                    y_end = max(y) + 1
             for i in range(y_start, y_end + 1):
                 if i in y:
                     word += letters.pop(0)
@@ -151,7 +154,7 @@ class Game:
                 if i in x:
                     word += letters.pop(0)
                 elif self.data.board_pools[i][y[0]] != '':
-                    self.data.players[0].letters_that_were_on_board.append(self.data.board_pools[x[0]][i])
+                    self.data.players[0].letters_that_were_on_board.append(self.data.board_pools[i][y[0]])
                     word += self.data.board_pools[i][y[0]]
                 else:
                     self.can_be_placed = False
