@@ -168,6 +168,7 @@ class WindowManager(QMainWindow):
 
     def start_game(self):
         from src.game_classes.Game import Game
+        del self.game
         self.game = Game(self)  # mamy użytkowników i ekrany, więc git
         self.show_game_window()  # tutaj też tworzymy gameWindow
         self.game.start_game()  # start

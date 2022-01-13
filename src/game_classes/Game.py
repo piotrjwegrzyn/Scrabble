@@ -2,9 +2,7 @@
 package game_classes
 
 """
-import sys
 import time
-import random
 
 
 class Game:
@@ -17,24 +15,15 @@ class Game:
         self.windowManager = windowManager
         self.can_be_placed = False
         self.in_dict = False
-        if not self.data.players[0].is_human:
-            self.data.board_pools[7][7] = self.data.players[0].player_pool.pop(0)
-            self.data.letters_you_can_add_to.append((7, 7))
 
     def start_game(self):
+        from src.game_classes.Data import Data
+        del self.data
+        self.data = Data.instance()
         for player in self.data.players:
             player.player_pool = self.data.draw(7)
         self.start_time = time.time()
-        del self.data
         self.windowManager.game_window.reset()
-
-    def pause_game(self):
-        # TODO
-        print('!!! POKAŻ JAKIEŚ OKIENKO I ZATRZYMAJ GRE !!!')
-
-    def resume_game(self):
-        # TODO
-        print('!!! UKRYJ OKIENKO I KONTYNUUJ GRE !!!')
 
     def end_game(self):
         # TODO("Refactor")
@@ -63,7 +52,11 @@ class Game:
 
     def exchange_clicked(self):
         self.exchange()
-        self.make_move()
+        if not self.data.players[0].is_human:
+            self.make_move()
+        else:
+            self.windowManager.game_window.reset()
+            self.windowManager.show_blackscreen_window()
 
     def exchange(self):
         letters_to_throw_away = []
@@ -90,9 +83,13 @@ class Game:
                     self.windowManager.game_window.reset()
                     return
             else:
+                time.sleep(1)
                 x_start, y_start, x_end, y_end, word = player.move(self.windowManager.game_window)
+                if player.how_many_times_in_row_exchanged >= 2:
+                    self.end_game()
                 if word != '':
                     self.make_actuall_move(x_start, y_start, x_end, y_end, word)
+                    self.windowManager.game_window.reset()
             self.data.players.append(self.data.players.pop(0))
             if self.data.players[0].is_human:
                 self.windowManager.game_window.reset()

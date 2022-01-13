@@ -17,8 +17,21 @@ class PlayerAI(PlayerAbstract):
         self.level = "Easy"
         self.data = Data.instance()
         self.words_found = 0
+        self.how_many_times_in_row_exchanged = 0
 
     def move(self, gameWindow):
+        if self.data.board_pools[7][7] == '':
+            letter = self.player_pool.pop(0)
+            self.best_word_AI(letter, 7, 7)
+            if len(self.possible_words) > 0:
+                self.data.board_pools[7][7] = letter
+                self.letters_that_were_on_board.append(letter)
+                word = self.possible_words.pop(0)
+                x_start = 7 - word.find(letter)
+                x_end = 7 - word.find(letter) + len(word) - 1
+                return x_start, 7, x_end, 7, word
+            else:
+                self.player_pool.append(letter)
         self.positions.clear()
         self.possible_words.clear()
         self.possible_words_position_in_dictionary.clear()
@@ -36,6 +49,7 @@ class PlayerAI(PlayerAbstract):
             self.data.game_pool.extend(self.player_pool)
             self.player_pool.clear()
             self.player_pool.extend(self.data.draw(7))
+            self.how_many_times_in_row_exchanged += 1
             return 0, 0, 0, 0, ''
         else:
             for i in range(no_possible_words):
@@ -50,6 +64,7 @@ class PlayerAI(PlayerAbstract):
                     y_start = y - ind
                     y_end = y - ind + len(word) - 1
                     if y_start >= 0 and y_end < 15:
+                        self.how_many_times_in_row_exchanged = 0
                         return x_start, y_start, x_end, y_end, word
                 elif self.data.board_pools[x][y - 1] != '' or self.data.board_pools[x][y + 1] != '':
                     y_start = y
@@ -60,6 +75,7 @@ class PlayerAI(PlayerAbstract):
                     x_start = x - ind
                     x_end = x - ind + len(word) - 1
                     if x_start >= 0 and x_end < 15:
+                        self.how_many_times_in_row_exchanged = 0
                         return x_start, y_start, x_end, y_end, word
 
     def check_if_word_can_be_placed(self, x, y, word):
