@@ -62,7 +62,7 @@ class Game:
     def exchange(self):
         letters_to_throw_away = []
         for ele in self.windowManager.game_window.get_tiles_to_exchange():
-            letters_to_throw_away.append(self.data.players[0].player_pool[ele[0]])
+            letters_to_throw_away.append(self.data.players[0].player_pool[ele])
         self.data.game_pool.extend(letters_to_throw_away)
         for letter in letters_to_throw_away:
             self.data.players[0].player_pool.remove(letter)
