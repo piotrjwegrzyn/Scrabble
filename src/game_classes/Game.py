@@ -25,6 +25,8 @@ class Game:
         for player in self.data.players:
             player.player_pool = self.data.draw(7)
         self.start_time = time.time()
+        del self.data
+        self.windowManager.game_window.reset()
 
     def pause_game(self):
         # TODO
@@ -59,6 +61,10 @@ class Game:
     def put_letter(self, position_x, position_y, letter):
         self.data.board_pools[position_x][position_y] = letter
 
+    def exchange_clicked(self):
+        self.exchange()
+        self.make_move()
+
     def exchange(self):
         letters_to_throw_away = []
         for ele in self.windowManager.game_window.get_tiles_to_exchange():
@@ -68,6 +74,7 @@ class Game:
             self.data.players[0].player_pool.remove(letter)
         self.data.players[0].player_pool.extend(self.data.draw(len(letters_to_throw_away)))
         self.windowManager.game_window.reset()
+        self.data.players.append(self.data.players.pop(0))
 
     def make_move(self):
         while True:
@@ -86,9 +93,9 @@ class Game:
                 x_start, y_start, x_end, y_end, word = player.move(self.windowManager.game_window)
                 if word != '':
                     self.make_actuall_move(x_start, y_start, x_end, y_end, word)
-            self.windowManager.game_window.reset()
             self.data.players.append(self.data.players.pop(0))
             if self.data.players[0].is_human:
+                self.windowManager.game_window.reset()
                 self.windowManager.show_blackscreen_window()
                 break
 
@@ -119,6 +126,9 @@ class Game:
             y.append(ele[1])
         x.sort()
         y.sort()
+        if self.data.board_pools[7][7] == '' and 7 not in x or 7 not in y:
+            self.can_be_placed = False
+            return
 
         is_vertical_or_horizontal = 'vertical'
         for i in range(1, len(x)):
