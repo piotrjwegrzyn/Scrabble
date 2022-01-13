@@ -327,11 +327,11 @@ class GameSettingWindow(QMainWindow):
             self.buttonLoginP2.setVisible(False)
             self.buttonLogoutP2.setVisible(False)
             if self.player2.level == "Easy":
-                self.comboBoxAiDifficulty1.setCurrentIndex(0)
+                self.comboBoxAiDifficulty2.setCurrentIndex(0)
             elif self.player2.level == "Medium":
-                self.comboBoxAiDifficulty1.setCurrentIndex(1)
+                self.comboBoxAiDifficulty2.setCurrentIndex(1)
             elif self.player2.level == "Hard":
-                self.comboBoxAiDifficulty1.setCurrentIndex(2)
+                self.comboBoxAiDifficulty2.setCurrentIndex(2)
             self.comboBoxAiDifficulty2.setVisible(True)
             self.enterNameP2.setEnabled(True)
         self.buttonGameP2.setVisible(True)
@@ -360,11 +360,11 @@ class GameSettingWindow(QMainWindow):
             self.buttonLoginP3.setVisible(False)
             self.buttonLogoutP3.setVisible(False)
             if self.player3.level == "Easy":
-                self.comboBoxAiDifficulty1.setCurrentIndex(0)
+                self.comboBoxAiDifficulty3.setCurrentIndex(0)
             elif self.player3.level == "Medium":
-                self.comboBoxAiDifficulty1.setCurrentIndex(1)
+                self.comboBoxAiDifficulty3.setCurrentIndex(1)
             elif self.player3.level == "Hard":
-                self.comboBoxAiDifficulty1.setCurrentIndex(2)
+                self.comboBoxAiDifficulty3.setCurrentIndex(2)
             self.comboBoxAiDifficulty3.setVisible(True)
             self.enterNameP3.setEnabled(True)
         self.buttonGameP3.setVisible(True)
@@ -393,11 +393,11 @@ class GameSettingWindow(QMainWindow):
             self.buttonLoginP4.setVisible(False)
             self.buttonLogoutP4.setVisible(False)
             if self.player4.level == "Easy":
-                self.comboBoxAiDifficulty1.setCurrentIndex(0)
+                self.comboBoxAiDifficulty4.setCurrentIndex(0)
             elif self.player4.level == "Medium":
-                self.comboBoxAiDifficulty1.setCurrentIndex(1)
+                self.comboBoxAiDifficulty4.setCurrentIndex(1)
             elif self.player4.level == "Hard":
-                self.comboBoxAiDifficulty1.setCurrentIndex(2)
+                self.comboBoxAiDifficulty4.setCurrentIndex(2)
             self.comboBoxAiDifficulty4.setVisible(True)
             self.enterNameP4.setEnabled(True)
         self.buttonGameP4.setVisible(True)
