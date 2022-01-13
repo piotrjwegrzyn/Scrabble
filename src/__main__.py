@@ -62,7 +62,7 @@ class WindowManager(QMainWindow):
         self.game_window = gui.game_window.GameWindow()
         self.game_window.display_data()
         self.game_window.buttonResign.clicked.connect(self.show_menu_window)
-        # self.game_window.buttonExchange.clicked.connect(self.game.exchange)
+        self.game_window.buttonExchange.clicked.connect(self.game.exchange)
         self.game_window.buttonEndTurn.clicked.connect(self.game.make_move)
         widget.addWidget(self.game_window)
         self.game_window.setFixedSize(widget.width(), widget.height())

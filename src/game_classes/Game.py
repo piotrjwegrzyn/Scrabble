@@ -60,7 +60,11 @@ class Game:
         self.data.board_pools[position_x][position_y] = letter
 
     def exchange(self):
-        pass
+        letters_to_throw_away = []
+        self.data.game_pool.extend(letters_to_throw_away)
+        for letter in letters_to_throw_away:
+            self.data.players[0].player_pool.remove(letter)
+        self.data.players[0].player_pool.extend(self.data.draw(len(letters_to_throw_away)))
 
     def make_move(self):
         while True:
