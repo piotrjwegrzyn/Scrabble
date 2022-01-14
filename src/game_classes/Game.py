@@ -35,6 +35,8 @@ class Game:
 
     def count_score(self, x_start, y_start, x_end, y_end, word):
         move_score = 0
+        if word == '':
+            return move_score
         double_word_multiplier = False
         triple_word_multiplier = False
         if x_end > x_start:
