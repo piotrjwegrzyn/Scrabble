@@ -43,7 +43,7 @@ class StatisticsWindow(QMainWindow):
 
         row = 0
         for user in users_data:
-            self.table.verticalHeader().setSectionResizeMode(row, QtWidgets.QHeaderView.ResizeToContents)  # set_tables_element
+            self.table.verticalHeader().setSectionResizeMode(row, QtWidgets.QHeaderView.ResizeToContents)
             self.table.setItem(row, 0, QTableWidgetItem(str(user[0])))
             row = row + 1
         row = 0

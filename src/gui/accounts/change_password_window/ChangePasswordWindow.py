@@ -33,7 +33,7 @@ class ChangePasswordWindow(QMainWindow):
             if newPass == newPass2:
                 oldHashedPassword = hashlib.sha512(password.encode('utf-8')).hexdigest()
                 newHashedPass = hashlib.sha512(newPass.encode('utf-8')).hexdigest()
-                id = LoggedUser.getInstance().uid
+                id = LoggedUser.get_instance().uid
 
                 connection = sqlite3.connect('data/Accounts_Statistics.db')
                 cursor = connection.cursor()

@@ -44,16 +44,17 @@ class MiniStatisticsWindow(QDialog):
             self.table.setItem(row, 0, item)
 
             item = QTableWidgetItem()
-            item.setData(Qt.DisplayRole, player.score)
+            item.setData(Qt.DisplayRole, player.game_score)
             self.table.setItem(row, 1, item)
 
             item = QTableWidgetItem()
-            item.setData(Qt.DisplayRole, player.theoreticalScore)
+            item.setData(Qt.DisplayRole, player.theoretical_score)
             self.table.setItem(row, 2, item)
 
             item = QTableWidgetItem()
-            if player.theoreticalScore != 0:
-                ratio = player.score / player.theoreticalScore * 100
+
+            if player.theoretical_score != 0:
+                ratio = player.game_score / player.theoretical_score * 100
             else:
                 ratio = 0
             item.setData(Qt.DisplayRole, ratio)
@@ -63,19 +64,22 @@ class MiniStatisticsWindow(QDialog):
     def update_database(self):
         bestScore = 0
         for player in self.players:
-            bestScore = max(bestScore, player.score)
+            bestScore = max(bestScore, player.game_score)
+  
         for player in self.players:
             if player.id is not None:
                 connection = sqlite3.connect('data/Accounts_Statistics.db')
                 cursor = connection.cursor()
-                if player.score == bestScore:
+
+                if player.game_score == bestScore:
                     query_update_user = "UPDATE statistics SET matches=matches+1, wins=wins+1, points=points+'{1}'," \
-                                        "max_points=max_points+'{2}' WHERE ID='{0}'".format(player.id, player.score,
-                                                                                            player.theoreticalScore)
+                                        "max_points=max_points+'{2}' WHERE ID='{0}'".format(player.id, player.game_score,
+                                                                                            player.theoretical_score)
                 else:
                     query_update_user = "UPDATE statistics SET matches=matches+1, points=points+'{1}'," \
-                                        " max_points=max_points+'{2}' WHERE ID='{0}'".format(player.id, player.score,
-                                                                                             player.theoreticalScore)
+                                        " max_points=max_points+'{2}' WHERE ID='{0}'".format(player.id, player.game_score,
+                                                                                             player.theoretical_score)
+
                 cursor.execute(query_update_user)
                 connection.commit()
                 cursor.close()

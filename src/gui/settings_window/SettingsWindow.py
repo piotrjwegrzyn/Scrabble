@@ -52,5 +52,8 @@ class SettingsWindow(QMainWindow):
         self.settings["boardAppearance"] = 'set_2'
 
     def action_change_parameters(self):
-        self.settings["sortingOrder"] = self.dropdownListSortTiles.currentText()
+        if self.dropdownListSortTiles.currentIndex() == 0:
+            self.settings["sortingOrder"] = "Alphabetical"
+        else:
+            self.settings["sortingOrder"] = "TileValue"
         save_app_data(self.settings)

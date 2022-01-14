@@ -2,16 +2,22 @@
 <ui version="4.0">
  <class>Dialog</class>
  <widget class="QDialog" name="Dialog">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>600</width>
+    <height>450</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 140, 0, 255), stop:1 rgba(0, 60, 0, 220))</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -34,6 +40,9 @@
         <font>
          <pointsize>22</pointsize>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: tgb(0,0,0,0)</string>
        </property>
        <property name="text">
         <string>Logowanie</string>
@@ -78,6 +87,9 @@
              <pointsize>14</pointsize>
             </font>
            </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: tgb(0,0,0,0)</string>
+           </property>
            <property name="text">
             <string>Nazwa Użytkownika</string>
            </property>
@@ -93,6 +105,11 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>16</pointsize>
+            </font>
            </property>
           </widget>
          </item>
@@ -132,6 +149,9 @@
              <pointsize>14</pointsize>
             </font>
            </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: tgb(0,0,0,0)</string>
+           </property>
            <property name="text">
             <string>Hasło</string>
            </property>
@@ -147,6 +167,11 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>16</pointsize>
+            </font>
            </property>
            <property name="echoMode">
             <enum>QLineEdit::Normal</enum>
@@ -178,6 +203,9 @@
          <weight>50</weight>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: tgb(0,0,0,0)</string>
        </property>
        <property name="text">
         <string/>
@@ -227,6 +255,14 @@
            <pointsize>22</pointsize>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(203, 203, 0);
+border-style: outset;
+border-width: 2px;
+border-radius: 15px;
+border-color: black;
+padding: 4px;</string>
+         </property>
          <property name="text">
           <string>Anuluj</string>
          </property>
@@ -257,6 +293,14 @@
           <font>
            <pointsize>22</pointsize>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(203, 203, 0);
+border-style: outset;
+border-width: 2px;
+border-radius: 15px;
+border-color: black;
+padding: 4px;</string>
          </property>
          <property name="text">
           <string>Zaloguj</string>

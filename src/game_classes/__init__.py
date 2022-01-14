@@ -5,4 +5,4 @@ THIS FILE CREATES ACCESSIBLE PACKAGE
 
 """
 
-import Board, Dictionary, Game, PlayerAI, PlayerHuman
+from src.game_classes import Data, Game, PlayerAI, PlayerHuman, PlayerAbstract, GamePlayers
