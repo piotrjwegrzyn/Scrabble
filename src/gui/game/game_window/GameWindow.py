@@ -228,6 +228,7 @@ class GameWindow(QMainWindow):
 
     def resign(self):
         GamePlayers.delete_instances()
+        # Data.reset()
         self.close()
 
     def get_dropped_tiles(self):
