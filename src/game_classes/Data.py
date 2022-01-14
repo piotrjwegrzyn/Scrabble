@@ -7,6 +7,8 @@ import random
 
 
 class Data(object):
+    pools_score = [[1] * 15 for i in range(15)]
+    theoretical_hard_computer = None
     players = []
     lines = []
     _instance = None
@@ -22,12 +24,41 @@ class Data(object):
             cls.lines = f.readlines()
             f.close()
             cls.board_pools = [[''] * 15 for i in range(15)]
-            cls.pools_score = [[1] * 15 for i in range(15)]
-            # Tu trzeba dodać mnożniki do konkretnych pól
+            for i in range(0, 15):
+                for j in range(0, 15):
+                    if i == 7 and j == 7:
+                        pass
+                    elif i % 7 == 0 and j % 7 == 0:
+                        cls.pools_score[i][j] = -3
+                    elif ((i == 3 or i == 11) and j % 14 == 0) or ((j == 3 or j == 11) and i % 14 == 0):
+                        cls.pools_score[i][j] = 2
+                    elif (i % 4 == 1 and j % 4 == 1) and not (
+                            i == j == 1 or i == j == 13 or (i == 1 and j == 13) or (i == 13 and j == 1)):
+                        cls.pools_score[i][j] = 3
+                    elif (i == 6 or i == 8) and (j == 6 or j == 8):
+                        cls.pools_score[i][j] = 2
+            for i in range(1, 5):
+                cls.pools_score[i][i] = -2
+                cls.pools_score[14 - i][i] = -2
+                cls.pools_score[14 - i][14 - i] = -2
+                cls.pools_score[i][14 - i] = -2
+            for i in range(6, 8):
+                cls.pools_score[i][i - 4] = 2
+                cls.pools_score[14 - i][14 - (i - 4)] = 2
+                cls.pools_score[i - 4][i] = 2
+                cls.pools_score[14 - (i - 4)][14 - i] = 2
+            cls.pools_score[8][2] = 2
+            cls.pools_score[2][8] = 2
+            cls.pools_score[12][6] = 2
+            cls.pools_score[6][12] = 2
             cls.players = []
             cls.letters_you_can_add_to = []
             from src.game_classes.GamePlayers import GamePlayers
             cls.players = GamePlayers.get_instances()
+            from src.game_classes.PlayerAI import PlayerAI
+            cls.theoretical_hard_computer = PlayerAI("x")
+            cls.theoretical_hard_computer.level = "Hard"
+            cls.theoretical_hard_computer.is_real = False
             # cls.game_pool = list("aaaaaaaaaąbbcccćdddeeeeeeeęfgghhiiiiiiiijjkkklllłłmmmnnnnnńooooooóppprrrrsśtttuuwwwwyyyyzzzzzźż")
             cls.game_pool = list(
                 "nhucgźoróylwmłńoadpteidcezifpsgaoyićawiplozlżnzwreomakjhoitaarunmiłznśiazrąęekweyceentbyabkajid")
@@ -69,9 +100,7 @@ class Data(object):
 
     def draw(self, how_many):
         if len(self.game_pool) < how_many:
-            # TODO pula wyczerpana -> koniec gry
-            print("!!!!!!!!!!!!!!!!!!!!!!!!!!    AND THAT IS THE END   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            sys.exit()
+            return ['!']
         draw_pool = []
         for i in range(how_many):
             draw_pool.append(self.game_pool.pop(random.randint(0, len(self.game_pool) - 1)))

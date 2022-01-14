@@ -18,6 +18,7 @@ class PlayerAI(PlayerAbstract):
         self.data = Data.instance()
         self.words_found = 0
         self.how_many_times_in_row_exchanged = 0
+        self.is_real = True
 
     def move(self, gameWindow):
         if self.data.board_pools[7][7] == '':
@@ -48,7 +49,10 @@ class PlayerAI(PlayerAbstract):
         if no_possible_words < 1:
             self.data.game_pool.extend(self.player_pool)
             self.player_pool.clear()
-            self.player_pool.extend(self.data.draw(7))
+            if self.is_real:
+                self.player_pool.extend(self.data.draw(7))
+            if '!' in self.player_pool:
+                return 0, 0, 0, 0, '!'
             self.how_many_times_in_row_exchanged += 1
             return 0, 0, 0, 0, ''
         if self.level == "Hard":

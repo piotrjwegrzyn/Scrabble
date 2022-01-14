@@ -20,7 +20,7 @@ class Game:
         from src.game_classes.Data import Data
         self.data = Data.instance()
         self.data.board_pools = [[''] * 15 for i in range(15)]
-        self.data.pools_score = [[1] * 15 for i in range(15)]
+        self.data.game_pool = list("nhucgźoróylwmłńoadpteidcezifpsgaoyićawiplozlżnzwreomakjhoitaarunmiłznśiazrąęekweyceentbyabkajid")
         from src.game_classes.GamePlayers import GamePlayers
         self.data.players = GamePlayers.get_instances()
         self.data.letters_you_can_add_to = []
@@ -33,16 +33,34 @@ class Game:
         self.windowManager.qTimer.stop()
         self.windowManager.game_window.display_statistics()
 
-    def count_score(self, x_start, y_start, x_end, y_end):
+    def count_score(self, x_start, y_start, x_end, y_end, word):
         move_score = 0
+        double_word_multiplier = False
+        triple_word_multiplier = False
         if x_end > x_start:
-            for i in range(x_start, x_end):
-                move_score += self.data.letters[self.data.board_pools[i][y_start]] * self.data.pools_score[i][
-                    y_start]
+            for i in range(x_start, x_end + 1):
+                multiplier = self.data.pools_score[i][y_start]
+                if multiplier == -2:
+                    multiplier = 1
+                    double_word_multiplier = True
+                elif multiplier == -3:
+                    multiplier = 1
+                    triple_word_multiplier = True
+                move_score += self.data.letters[word[i-x_start]] * multiplier
         else:
-            for i in range(y_start, y_end):
-                move_score += self.data.letters[self.data.board_pools[x_start][i]] * self.data.pools_score[x_start][
-                    i]
+            for i in range(y_start, y_end + 1):
+                multiplier = self.data.pools_score[x_start][i]
+                if multiplier == -2:
+                    multiplier = 1
+                    double_word_multiplier = True
+                elif multiplier == -3:
+                    multiplier = 1
+                    triple_word_multiplier = True
+                move_score += self.data.letters[word[i-y_start]] * multiplier
+        if double_word_multiplier:
+            move_score = move_score * 2
+        elif triple_word_multiplier:
+            move_score = move_score * 3
         return move_score
 
     def put_letter(self, position_x, position_y, letter):
@@ -57,6 +75,8 @@ class Game:
             self.windowManager.show_blackscreen_window()
 
     def exchange(self):
+        if len(self.windowManager.game_window.get_tiles_to_exchange()) == 0:
+            return
         letters_to_throw_away = []
         for ele in self.windowManager.game_window.get_tiles_to_exchange():
             letters_to_throw_away.append(self.data.players[0].player_pool[ele])
@@ -64,6 +84,8 @@ class Game:
         for letter in letters_to_throw_away:
             self.data.players[0].player_pool.remove(letter)
         self.data.players[0].player_pool.extend(self.data.draw(len(letters_to_throw_away)))
+        if '!' in self.data.players[0].player_pool:
+            self.end_game()
         self.windowManager.game_window.reset()
         self.data.players.append(self.data.players.pop(0))
 
@@ -77,6 +99,9 @@ class Game:
             self.check_if_well_placed_and_get_word()
             self.in_dictionary()
             if self.can_be_placed and self.in_dict:
+                self.data.theoretical_hard_computer.player_pool = player.player_pool.copy()
+                x_start, y_start, x_end, y_end, word = self.data.theoretical_hard_computer.move(self.windowManager.game_window)
+                player.theoretical_score += self.count_score(x_start, y_start, x_end, y_end, word)
                 x_start, y_start, x_end, y_end, word = player.move(self.windowManager.game_window)
                 self.make_actuall_move(x_start, y_start, x_end, y_end, word)
             else:
@@ -84,11 +109,17 @@ class Game:
                 self.windowManager.game_window.reset()
                 return
         else:
+            self.data.theoretical_hard_computer.player_pool = player.player_pool.copy()
             x_start, y_start, x_end, y_end, word = player.move(self.windowManager.game_window)
-            if player.how_many_times_in_row_exchanged >= 2:
+            if word == '!' or player.how_many_times_in_row_exchanged >= 3:
                 self.end_game()
             if word != '':
                 self.make_actuall_move(x_start, y_start, x_end, y_end, word)
+                if player.level == "Hard":
+                    player.theoretical_score = player.game_score
+                else:
+                    x_start, y_start, x_end, y_end, word = self.data.theoretical_hard_computer.move(self.windowManager.game_window)
+                    player.theoretical_score += self.count_score(x_start, y_start, x_end, y_end, word) + 2
                 self.windowManager.game_window.reset()
         self.data.players.append(self.data.players.pop(0))
         if self.data.players[0].is_human:
@@ -104,12 +135,14 @@ class Game:
             for i in range(y_start, y_end + 1):
                 self.put_letter(x_start, i, word[i - y_start])
         self.data.check_for_letters_you_can_add_to(x_start, y_start, x_end, y_end)
-        move_score = self.count_score(x_start, y_start, x_end, y_end)
+        move_score = self.count_score(x_start, y_start, x_end, y_end, word)
         player.game_score += move_score
         for letter in word:
             if letter not in player.letters_that_were_on_board:
                 player.player_pool.remove(letter)
         player.player_pool.extend(self.data.draw(7 - len(player.player_pool)))
+        if '!' in player.player_pool:
+            self.end_game()
         player.letters_that_were_on_board.clear()
 
     def check_if_well_placed_and_get_word(self):
@@ -122,9 +155,10 @@ class Game:
             y.append(ele[1])
         x.sort()
         y.sort()
-        if 7 not in x or 7 not in y and self.data.board_pools[7][7] == '':
-            self.can_be_placed = False
-            return
+        if self.data.board_pools[7][7] == '':
+            if 7 not in x or 7 not in y:
+                self.can_be_placed = False
+                return
 
         is_vertical_or_horizontal = 'vertical'
         for i in range(1, len(x)):
