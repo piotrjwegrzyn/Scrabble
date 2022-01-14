@@ -67,7 +67,7 @@ class WindowManager(QMainWindow):
             self.blackscreen_window.hide()
         if self.blackscreen_window is None:
             self.game_window = gui.game_window.GameWindow()
-            self.game_window.buttonResign.clicked.connect(self.show_menu_window)
+            self.game_window.buttonResign.clicked.connect(self.game.end_game)
             self.game_window.buttonExchange.clicked.connect(self.game.exchange_clicked)
             self.game_window.buttonEndTurn.clicked.connect(self.game.make_move)
             widget.addWidget(self.game_window)
@@ -169,9 +169,9 @@ class WindowManager(QMainWindow):
 
     def start_game(self):
         from src.game_classes.Game import Game
-        del self.game
         self.game = Game(self)  # mamy użytkowników i ekrany, więc git
         self.show_game_window()  # tutaj też tworzymy gameWindow
+        self.game_window.reset()
         self.game.start_game()  # start
         self.game_window.draw_letters()
         self.qTimer = QTimer()

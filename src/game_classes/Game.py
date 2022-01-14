@@ -18,8 +18,12 @@ class Game:
 
     def start_game(self):
         from src.game_classes.Data import Data
-        del self.data
         self.data = Data.instance()
+        self.data.board_pools = [[''] * 15 for i in range(15)]
+        self.data.pools_score = [[1] * 15 for i in range(15)]
+        from src.game_classes.GamePlayers import GamePlayers
+        self.data.players = GamePlayers.get_instances()
+        self.data.letters_you_can_add_to = []
         for player in self.data.players:
             player.player_pool = self.data.draw(7)
         self.start_time = time.time()
@@ -118,7 +122,7 @@ class Game:
             y.append(ele[1])
         x.sort()
         y.sort()
-        if self.data.board_pools[7][7] == '' and 7 not in x or 7 not in y:
+        if 7 not in x or 7 not in y and self.data.board_pools[7][7] == '':
             self.can_be_placed = False
             return
 
@@ -132,6 +136,19 @@ class Game:
                     is_vertical_or_horizontal = 'bad'
         if len(x) <= 1:
             is_vertical_or_horizontal = 'bad'
+        if len(x) == 1:
+            if min(y) - 1 >= 0:
+                if self.data.board_pools[x[0]][min(y) - 1] != '':
+                    is_vertical_or_horizontal = 'vertical'
+            if max(y) + 1 < 15:
+                if self.data.board_pools[x[0]][max(y) + 1] != '':
+                    is_vertical_or_horizontal = 'vertical'
+            if min(x) - 1 >= 0:
+                if self.data.board_pools[min(x) - 1][y[0]] != '':
+                    is_vertical_or_horizontal = 'horizontal'
+            if max(x) + 1 < 15:
+                if self.data.board_pools[max(x) + 1][y[0]] != '':
+                    is_vertical_or_horizontal = 'horizontal'
         word = ''
         if is_vertical_or_horizontal == 'bad':
             self.can_be_placed = False
@@ -140,9 +157,9 @@ class Game:
         elif is_vertical_or_horizontal == 'vertical':
             y_start = min(y)
             y_end = max(y)
-            if min(y)-1 >= 0:
-                if self.data.board_pools[x[0]][min(y)-1] != '':
-                    y_start = min(y)-1
+            if min(y) - 1 >= 0:
+                if self.data.board_pools[x[0]][min(y) - 1] != '':
+                    y_start = min(y) - 1
             if max(y) + 1 < 15:
                 if self.data.board_pools[x[0]][max(y) + 1] != '':
                     y_end = max(y) + 1
@@ -164,7 +181,7 @@ class Game:
             x_end = max(x)
             if min(x) - 1 >= 0:
                 if self.data.board_pools[min(x) - 1][y[0]] != '':
-                    x_start = min(x)-1
+                    x_start = min(x) - 1
             if max(x) + 1 < 15:
                 if self.data.board_pools[max(x) + 1][y[0]] != '':
                     x_end = max(x) + 1
