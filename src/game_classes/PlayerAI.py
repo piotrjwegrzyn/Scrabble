@@ -51,32 +51,51 @@ class PlayerAI(PlayerAbstract):
             self.player_pool.extend(self.data.draw(7))
             self.how_many_times_in_row_exchanged += 1
             return 0, 0, 0, 0, ''
-        else:
+        if self.level == "Hard":
+            possible_words_copy = self.possible_words.copy()
+            self.possible_words.clear()
+            positions_copy = self.positions.copy()
+            self.positions.clear()
             for i in range(no_possible_words):
-                word = self.possible_words[i]
-                x, y = self.positions[i][0], self.positions[i][1]
-                if self.data.board_pools[x - 1][y] != '' or self.data.board_pools[x + 1][y] != '':
-                    x_start = x
-                    x_end = x
-                    letter = self.data.board_pools[x][y]
-                    self.letters_that_were_on_board.append(letter)
-                    ind = word.find(letter)
-                    y_start = y - ind
-                    y_end = y - ind + len(word) - 1
-                    if y_start >= 0 and y_end < 15:
-                        self.how_many_times_in_row_exchanged = 0
-                        return x_start, y_start, x_end, y_end, word
-                elif self.data.board_pools[x][y - 1] != '' or self.data.board_pools[x][y + 1] != '':
-                    y_start = y
-                    y_end = y
-                    letter = self.data.board_pools[x][y]
-                    self.letters_that_were_on_board.append(letter)
-                    ind = word.find(letter)
-                    x_start = x - ind
-                    x_end = x - ind + len(word) - 1
-                    if x_start >= 0 and x_end < 15:
-                        self.how_many_times_in_row_exchanged = 0
-                        return x_start, y_start, x_end, y_end, word
+                temp_min = min(self.possible_words_position_in_dictionary)
+                index = self.possible_words_position_in_dictionary.index(temp_min)
+                self.possible_words.append(possible_words_copy[index])
+                self.positions.append(positions_copy[index])
+        elif self.level == "Medium":
+            possible_words_copy = self.possible_words.copy()
+            self.possible_words.clear()
+            positions_copy = self.positions.copy()
+            self.positions.clear()
+            for i in range(no_possible_words):
+                temp_min = max(self.possible_words_position_in_dictionary)
+                index = self.possible_words_position_in_dictionary.index(temp_min)
+                self.possible_words.append(possible_words_copy[index])
+                self.positions.append(positions_copy[index])
+        for i in range(no_possible_words):
+            word = self.possible_words[i]
+            x, y = self.positions[i][0], self.positions[i][1]
+            if self.data.board_pools[x - 1][y] != '' or self.data.board_pools[x + 1][y] != '':
+                x_start = x
+                x_end = x
+                letter = self.data.board_pools[x][y]
+                self.letters_that_were_on_board.append(letter)
+                ind = word.find(letter)
+                y_start = y - ind
+                y_end = y - ind + len(word) - 1
+                if y_start >= 0 and y_end < 15:
+                    self.how_many_times_in_row_exchanged = 0
+                    return x_start, y_start, x_end, y_end, word
+            elif self.data.board_pools[x][y - 1] != '' or self.data.board_pools[x][y + 1] != '':
+                y_start = y
+                y_end = y
+                letter = self.data.board_pools[x][y]
+                self.letters_that_were_on_board.append(letter)
+                ind = word.find(letter)
+                x_start = x - ind
+                x_end = x - ind + len(word) - 1
+                if x_start >= 0 and x_end < 15:
+                    self.how_many_times_in_row_exchanged = 0
+                    return x_start, y_start, x_end, y_end, word
 
     def check_if_word_can_be_placed(self, x, y, word):
         check = True
@@ -134,6 +153,7 @@ class PlayerAI(PlayerAbstract):
                 if found and self.check_if_word_can_be_placed(x, y, line):
                     self.possible_words.append(line)
                     self.possible_words_position_in_dictionary.append(i)
+                    self.words_found += 1
                     break
 
     def not_the_best_word_AI(self, letter, x, y):
