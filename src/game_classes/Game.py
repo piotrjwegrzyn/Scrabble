@@ -2,14 +2,12 @@
 package game_classes
 
 """
-import time
 
 
 class Game:
 
     def __init__(self, windowManager):
         from src.game_classes.Data import Data
-        self.start_time = None
         self.data = Data.instance()
         self.data.players = Data.players
         self.windowManager = windowManager
@@ -26,7 +24,6 @@ class Game:
         self.data.letters_you_can_add_to = []
         for player in self.data.players:
             player.player_pool = self.data.draw(7)
-        self.start_time = time.time()
         self.windowManager.game_window.reset()
 
     def end_game(self):
@@ -69,16 +66,16 @@ class Game:
         self.data.board_pools[position_x][position_y] = letter
 
     def exchange_clicked(self):
-        self.exchange()
-        if not self.data.players[0].is_human:
-            self.make_move()
-        else:
-            self.windowManager.game_window.reset()
-            self.windowManager.show_blackscreen_window()
+        if self.exchange():
+            if not self.data.players[0].is_human:
+                self.make_move()
+            else:
+                self.windowManager.game_window.reset()
+                self.windowManager.show_blackscreen_window()
 
     def exchange(self):
         if len(self.windowManager.game_window.get_tiles_to_exchange()) == 0:
-            return
+            return False
         letters_to_throw_away = []
         for ele in self.windowManager.game_window.get_tiles_to_exchange():
             letters_to_throw_away.append(self.data.players[0].player_pool[ele])
@@ -90,6 +87,7 @@ class Game:
             self.end_game()
         self.windowManager.game_window.reset()
         self.data.players.append(self.data.players.pop(0))
+        return True
 
     def automatic_move_if_computer(self):
         if not self.data.players[0].is_human:
@@ -157,6 +155,12 @@ class Game:
             y.append(ele[1])
         x.sort()
         y.sort()
+
+        for i in range(1, len(x)):
+            if x[i] == x[i-1] and y[i] == y[i-1]:
+                self.can_be_placed = False
+                return
+
         if self.data.board_pools[7][7] == '':
             if 7 not in x or 7 not in y:
                 self.can_be_placed = False

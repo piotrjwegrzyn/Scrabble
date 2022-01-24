@@ -8,6 +8,7 @@ from PyQt5.uic import loadUi
 
 from src.game_classes.Data import Data
 from src.game_classes.GamePlayers import GamePlayers
+from src.game_classes.PlayerHuman import PlayerHuman
 from ...accounts.statistics.mini_statistics_window.MiniStatisticsWindow import MiniStatisticsWindow
 
 
@@ -68,6 +69,7 @@ class GameWindow(QMainWindow):
         self.draw_board()
         self.draw_letters()
         self.draw_labels()
+        self.draw_buttons()
 
     def draw_board(self):
         board = Data.instance().board_pools
@@ -183,6 +185,18 @@ class GameWindow(QMainWindow):
             self.labelLeftPlayer.setHidden(False)
             self.labelRightPlayer.setHidden(False)
 
+    def draw_buttons(self):
+        if isinstance(self.players[0], PlayerHuman):
+            self.buttonResign.setEnabled(True)
+            self.buttonResetTurn.setEnabled(True)
+            self.buttonExchange.setEnabled(True)
+            self.buttonEndTurn.setEnabled(True)
+        else:
+            self.buttonResign.setEnabled(False)
+            self.buttonResetTurn.setEnabled(False)
+            self.buttonExchange.setEnabled(False)
+            self.buttonEndTurn.setEnabled(False)
+
     def add_to_exchange(self):
         index = self.tableTilesArea.currentColumn()
         if index in self.allTilesToExchange:
@@ -212,6 +226,7 @@ class GameWindow(QMainWindow):
 
     # po zakończeniu gry
     def display_statistics(self):
+        self.buttonResign.setEnabled(True)
         self.miniStatistics = MiniStatisticsWindow(self.players)
         self.miniStatistics.show()
         self.miniStatistics.buttonBack.clicked.connect(self.buttonResign.click)
