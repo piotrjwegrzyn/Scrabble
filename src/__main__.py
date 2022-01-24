@@ -175,7 +175,7 @@ class WindowManager(QMainWindow):
         self.game.start_game()  # start
         self.game_window.draw_letters()
         self.qTimer = QTimer()
-        self.qTimer.setInterval(2000)
+        self.qTimer.setInterval(1000)
         self.qTimer.timeout.connect(self.game.automatic_move_if_computer)
         self.qTimer.start()
 
